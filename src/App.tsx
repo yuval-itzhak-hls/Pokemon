@@ -7,7 +7,7 @@ function App() {
   return (
     <>
       <div className="card">
-        <GenericButton text= "Button" type="primary" size="medium" onClick={() => console.log('y')}/>
+        <GenericButton text= "Button" type="secondary" size="medium" onClick={() => console.log('y')}/>
       </div>
     </>
   )

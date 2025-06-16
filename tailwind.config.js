@@ -24,13 +24,21 @@ export default {
   				foreground: 'hsl(var(--popover-foreground))'
   			},
   			primary: {
-  				DEFAULT: 'hsl(var(--primary))',
-  				foreground: 'hsl(var(--primary-foreground))'
-  			},
-  			secondary: {
-  				DEFAULT: 'hsl(var(--secondary))',
-  				foreground: 'hsl(var(--secondary-foreground))'
-  			},
+        DEFAULT: "#3B5AA6",    
+        hover: "#293F74",      
+        active: "#182442",      
+        disabled: "#E3E6E9",    
+        foreground: '#FFFFFF', 
+      },
+      secondary: {
+        DEFAULT: "#FFFFFF00", 
+        hover: "#EBEFF6",
+        active: "#B1BDDB",
+        disabled: "#C7CDD3",
+        border: "#3B5AA6",       
+        foreground: '#3B5AA6'
+      },
+
   			muted: {
   				DEFAULT: 'hsl(var(--muted))',
   				foreground: 'hsl(var(--muted-foreground))'
