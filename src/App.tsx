@@ -2,8 +2,10 @@ import { useState } from 'react'
 import './App.css'
 import { GenericButton } from './design-system/generic-componenets/GenericButton'
 import { GenericTab } from './design-system/generic-componenets/GenericTab'
+import { SearchBar } from './design-system/generic-componenets/SearchBar'
 
 function App() {
+    const [q, setQ] = useState("");
 
   return (
     <>
@@ -37,6 +39,13 @@ function App() {
               },
             ]}
           />
+
+          <SearchBar
+            value={q}
+            onChange={setQ}
+            onSearch={(v) => console.log("Search:", v)}
+          />
+          <p className="text-sm text-gray-600">Current query: {q}</p>
       </div>
     </>
   )
