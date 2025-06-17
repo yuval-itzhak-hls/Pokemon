@@ -1,9 +1,5 @@
 import { cva } from "class-variance-authority"
 
-
-export type ButtonType = "primary" | "secondary"
-export type ButtonSize = "small" | "medium" | "large"
-
 export const buttonVariants = cva(
   "rounded-[4px] font-normal text-sm leading-[22px] text-center align-middle font-mulish",
   {

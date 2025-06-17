@@ -24,21 +24,37 @@ export default {
   				foreground: 'hsl(var(--popover-foreground))'
   			},
   			primary: {
-        DEFAULT: "#3B5AA6",    
-        hover: "#293F74",      
-        active: "#182442",      
-        disabled: "#E3E6E9",    
-        foreground: '#FFFFFF', 
-      },
-      secondary: {
-        DEFAULT: "#FFFFFF00", 
-        hover: "#EBEFF6",
-        active: "#B1BDDB",
-        disabled: "#C7CDD3",
-        border: "#3B5AA6",       
-        foreground: '#3B5AA6'
-      },
-
+          DEFAULT: "#3B5AA6",    
+          hover: "#293F74",      
+          active: "#182442",      
+          disabled: "#E3E6E9",    
+          foreground: '#FFFFFF', 
+        },
+        secondary: {
+          DEFAULT: "#FFFFFF00", 
+          hover: "#EBEFF6",
+          active: "#B1BDDB",
+          disabled: "#C7CDD3",
+          border: "#3B5AA6",       
+          foreground: '#3B5AA6'
+        },
+        primaryTab:{
+          DEFAULT: "#EBEFF6",    
+          hover: "#EBEFF6",  
+          active: "#EBEFF6",
+          disabled: "#E3E6E9",    
+          foreground: '#3B5AA6',
+        },
+        secondaryTab:{
+          DEFAULT: "#FFFFFF00", 
+          hover: "#EBEFF6",
+          active: "#EBEFF6",
+          disabled: "#C7CDD3",
+          foreground: '#3B5AA6'
+        },
+        fontWeight: {
+          bold: "700",
+        },
   			muted: {
   				DEFAULT: 'hsl(var(--muted))',
   				foreground: 'hsl(var(--muted-foreground))'
