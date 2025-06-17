@@ -1,7 +1,8 @@
+// design-system/variants/tabVariants.ts
 import { cva } from "class-variance-authority"
 
 export const tabVariants = cva(
-  "px-4 py-2 text-sm font-medium",
+  "px-4 py-2 text-sm font-medium text-center align-middle font-mulish transition-colors",
   {
     variants: {
       variant: {
@@ -10,26 +11,29 @@ export const tabVariants = cva(
           text-primaryTab-foreground 
           hover:bg-primaryTab-hover
           focus:outline-none 
-          focus:ring-0 
           border-none
+          data-[state=active]:bg-primaryTab-active 
+          data-[state=active]:text-primaryTab-foreground
+          data-[state=active]:font-bold 
+          data-[state=active]:decoration-2 
         `,
         secondaryTab: `
           bg-transparent 
-          text-gray-600 
-          hover:bg-gray-100
+          text-secondaryTab-foreground 
+          hover:bg-secondaryTab-hover
           focus:outline-none 
-          focus:ring-0 
           border-none
+          data-[state=active]:bg-secondaryTab-active 
+          data-[state=active]:text-secondaryTab-foreground
+          data-[state=active]:font-bold 
+          data-[state=active]:underline 
+          data-[state=active]:decoration-2 
+          data-[state=active]:underline-offset-[6px]
         `,
-      },
-      active: {
-        true: "bg-primaryTab-active font-bold",
-        false: "",
-      },
+      }
     },
     defaultVariants: {
       variant: "primaryTab",
-      active: false,
     },
   }
 )

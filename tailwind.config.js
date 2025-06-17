@@ -52,9 +52,6 @@ export default {
           disabled: "#C7CDD3",
           foreground: '#3B5AA6'
         },
-        fontWeight: {
-          bold: "700",
-        },
   			muted: {
   				DEFAULT: 'hsl(var(--muted))',
   				foreground: 'hsl(var(--muted-foreground))'

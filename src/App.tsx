@@ -9,7 +9,34 @@ function App() {
     <>
       <div className="card">
         <GenericButton text= "Button" type="secondary" size="medium" onClick={() => console.log('y')}/>
-        <GenericTab text="All Pokemons" variant="primaryTab" />
+        <GenericTab
+            variant="secondaryTab"
+            tabs={[
+              {
+                label: "List",
+                value: "list",
+                icon: "list",
+              },
+              {
+                label: "Cards",
+                value: "card",
+                icon: "cards",
+              },
+            ]}
+          />
+           <GenericTab
+            variant="primaryTab"
+            tabs={[
+              {
+                label: "All Pokemons",
+                value: "all pokemons",
+              },
+              {
+                label: "My Pokemons",
+                value: "my pokemons",
+              },
+            ]}
+          />
       </div>
     </>
   )
