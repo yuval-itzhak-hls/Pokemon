@@ -5,6 +5,7 @@ import { GenericTab } from './design-system/generic-componenets/GenericTab'
 import { SearchBar } from './design-system/generic-componenets/SearchBar'
 import { GenericDropDown} from './design-system/generic-componenets/GenericDropDown'
 import type { Options  } from './design-system/generic-componenets/GenericDropDown'
+import { LifeBar } from './design-system/generic-componenets/LifeBar'
 
 
 const pokemons: Options[] = [
@@ -65,6 +66,13 @@ function App() {
             onValueChange={setPoke}
             disabled={false}
           />
+
+          <div className="space-y-2 max-w-xs">
+          <LifeBar percent={100} />   
+          <LifeBar percent={55} /> 
+          <LifeBar percent={15} /> 
+          <LifeBar percent={0} />    
+        </div>
       </div>
     </>
   )
