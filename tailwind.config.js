@@ -16,6 +16,7 @@ export default {
         "success-green": "#A8F86F",
         "warning-yellow": "#FFE55C",
         "error-red": "#FF4D4F",
+        "sub-title-gray": "#44484C",
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {
@@ -55,9 +56,6 @@ export default {
           disabled: "#C7CDD3",
           foreground: '#3B5AA6'
         },
-        fontFamily: {
-          mulish: ["Mulish", "sans-serif"],
-        },
   			muted: {
   				DEFAULT: 'hsl(var(--muted))',
   				foreground: 'hsl(var(--muted-foreground))'
@@ -80,7 +78,10 @@ export default {
   				'4': 'hsl(var(--chart-4))',
   				'5': 'hsl(var(--chart-5))'
   			}
-  		}
+  		},
+      fontFamily: {
+          mulish: ["Mulish", "sans-serif"],
+      }
   	}
   },
   plugins: [require("tailwindcss-animate")],
