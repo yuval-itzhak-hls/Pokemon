@@ -55,6 +55,9 @@ export default {
           disabled: "#C7CDD3",
           foreground: '#3B5AA6'
         },
+        fontFamily: {
+          mulish: ["Mulish", "sans-serif"],
+        },
   			muted: {
   				DEFAULT: 'hsl(var(--muted))',
   				foreground: 'hsl(var(--muted-foreground))'

@@ -1,0 +1,47 @@
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  /* ────────────── HEADINGS ────────────── */
+  .text-heading-xl-bold    { @apply font-mulish font-bold   text-[28px] leading-[37px]; }
+  .text-heading-xl-medium  { @apply font-mulish font-medium text-[28px] leading-[37px]; }
+
+  .text-heading-lg-bold    { @apply font-mulish font-bold   text-[24px] leading-[34px]; }
+  .text-heading-lg-medium  { @apply font-mulish font-medium text-[24px] leading-[34px]; }
+  .text-heading-lg-regular { @apply font-mulish font-normal text-[24px] leading-[34px]; }
+
+  .text-heading-md-bold    { @apply font-mulish font-bold   text-[18px] leading-[27px]; }
+  .text-heading-md-medium  { @apply font-mulish font-medium text-[18px] leading-[27px]; }
+  .text-heading-md-regular { @apply font-mulish font-normal text-[18px] leading-[27px]; }
+
+  /* ───────────── SUBHEADINGS ───────────── */
+  .text-subheading-bold    { @apply font-mulish font-bold   text-[16px] leading-[24px]; }
+  .text-subheading-medium  { @apply font-mulish font-medium text-[16px] leading-[24px]; }
+  .text-subheading-regular { @apply font-mulish font-normal text-[16px] leading-[24px]; }
+
+  /* ─────────────── BODY ────────────────── */
+  .text-body-bold          { @apply font-mulish font-bold   text-[14px] leading-[22px]; }
+  .text-body-medium        { @apply font-mulish font-medium text-[14px] leading-[22px]; }
+  .text-body-regular       { @apply font-mulish font-normal text-[14px] leading-[22px]; }
+
+  /* ───────────── CAPTION ───────────────── */
+  .text-caption-bold       { @apply font-mulish font-bold   text-[12px] leading-[19px]; }
+  .text-caption-medium     { @apply font-mulish font-medium text-[12px] leading-[19px]; }
+  .text-caption-regular    { @apply font-mulish font-normal text-[12px] leading-[19px]; }
+
+  /* ──────────── X-SMALL ────────────────── */
+  .text-xs-bold            { @apply font-mulish font-bold   text-[11px] leading-[16px]; }
+  .text-xs-medium          { @apply font-mulish font-medium text-[11px] leading-[16px]; }
+  .text-xs-regular         { @apply font-mulish font-normal text-[11px] leading-[16px]; }
+
+  /* ───────────── BUTTONS ───────────────── */
+
+  /*  “Medium & Big” button labels  = 16 / 20  */
+  .text-button-lg          { @apply font-mulish font-normal text-[16px] leading-[20px]; }
+
+  /*  Small button labels = 14 / 14  */
+  .text-button-sm          { @apply font-mulish font-normal text-[14px] leading-[14px]; }
+}

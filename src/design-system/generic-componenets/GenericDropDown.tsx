@@ -58,7 +58,7 @@ export function GenericDropDown({
   return (
     <TooltipProvider delayDuration={0}>
       <Tooltip
-        open={disabled ? openTooltip : false}    
+        open={disabled ? openTooltip : false}
         onOpenChange={handleOpenChange}
       >
         <TooltipTrigger asChild>
@@ -71,18 +71,16 @@ export function GenericDropDown({
             >
               <SelectTrigger
                 className={clsx(
-                "flex items-center justify-between gap-4",  
-                "w-[109px] h-[38px]",                         
-                "px-3 py-2",                          
-                "border border-gray-300 rounded-lg",       
-                "bg-transparent hover:border-gray-400 focus:border-primary-tab-foreground focus:outline-none",
-                "font-mulish font-normal text-[12px] leading-[22px] tracking-[0] text-center",
-                className
+                  "relative flex items-center justify-center gap-4",
+                  "w-[109px] h-[38px] px-3",
+                  "border border-gray-300 rounded-lg",
+                  "bg-transparent hover:border-gray-400 focus:border-primary-tab-foreground focus:outline-none",
+                  "text-caption-regular",
+                  className
                 )}
-            >
+              >
                 <SelectValue placeholder={placeholder} />
-            </SelectTrigger>
-
+              </SelectTrigger>
 
               <SelectContent>
                 {options.map((opt) => (
@@ -90,11 +88,16 @@ export function GenericDropDown({
                     key={opt.value}
                     value={opt.value}
                     disabled={opt.disabled}
-                    className="flex gap-2 items-center py-2 pr-8 pl-3 cursor-pointer"
+                    className={clsx(
+                      "flex w-full items-center gap-2 h-10 px-3 cursor-pointer",
+                      "text-caption-regular"
+                    )}
                   >
-                    <Avatar className="h-6 w-6">
-                      <AvatarImage src={opt.img} />
-                    </Avatar>
+                    {opt.img && (
+                      <Avatar className="h-5 w-5">
+                        <AvatarImage src={opt.img} />
+                      </Avatar>
+                    )}
                     {opt.label}
                   </SelectItem>
                 ))}
@@ -106,7 +109,10 @@ export function GenericDropDown({
         <TooltipContent
           side="right"
           align="center"
-          className="bg-gray-800 text-white text-sm rounded px-3 py-2 max-w-xs shadow-md"
+          className={clsx(
+            "bg-gray-800 text-white rounded shadow-md px-3 py-2 max-w-xs",
+            "text-body-regular"
+          )}
         >
           {disabledMessage}
         </TooltipContent>
