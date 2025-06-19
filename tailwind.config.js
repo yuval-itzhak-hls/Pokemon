@@ -17,6 +17,7 @@ export default {
         "warning-yellow": "#FFE55C",
         "error-red": "#FF4D4F",
         "sub-title-gray": "#44484C",
+        "bg-login": "#3B5CA8",
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {

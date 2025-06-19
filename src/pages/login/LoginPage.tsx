@@ -8,7 +8,6 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
 import { GenericButton } from "@/design-system/generic-componenets/GenericButton";
 
 interface LoginPayload {
@@ -23,7 +22,7 @@ const LoginPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Make sure the users array exists so JSON.parse never fails
+ 
   useEffect(() => {
     if (!localStorage.getItem(LOCAL_STORAGE_KEY)) {
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify([]));
@@ -53,15 +52,15 @@ const LoginPage: React.FC = () => {
       return;
     }
 
-    // Persist the session (very naive – just email)
+
     localStorage.setItem("currentUser", existingUser.email);
 
-    // Redirect to a protected route or dashboard
-    // window.location.href = "/";
+
+    window.location.href = "/home-page";
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-500 p-80">
+    <div className="min-h-screen flex items-center justify-center">
         <Card className="shadow-lg rounded-[12px] border p-6 h-[453px] w-[424px]">
           <CardHeader className="text-left">
             <CardTitle className="text-heading-xl-bold">Login</CardTitle>
@@ -74,7 +73,6 @@ const LoginPage: React.FC = () => {
                 <Input
                   id="email"
                   name="email"
-                  type="email"
                   placeholder="you@example.com"
                   value={form.email}
                   onChange={handleChange}
@@ -87,7 +85,6 @@ const LoginPage: React.FC = () => {
                 <Input
                   id="password"
                   name="password"
-                  type="password"
                   placeholder="••••••••"
                   value={form.password}
                   onChange={handleChange}
@@ -96,7 +93,7 @@ const LoginPage: React.FC = () => {
               </div>
 
               {error && (
-                <p className="text-red-600 text-sm text-center mt-2">{error}</p>
+                <p className="text-error-red text-sm text-center mt-2">{error}</p>
               )}
             </CardContent>
 
@@ -108,7 +105,7 @@ const LoginPage: React.FC = () => {
                 onClick={() => null}
               />
               <p className="text-sm text-center text-muted-foreground">
-                Don’t have an account? <a href="/sign-up" className="text-primary underline">Sign up</a>
+                Don’t have an account? <a href="/sign-up" className="text-primary">Sign up</a>
               </p>
             </CardFooter>
           </form>

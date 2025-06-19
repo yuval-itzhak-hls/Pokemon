@@ -1,13 +1,14 @@
 import './App.css'
 import LoginPage from './pages/login/LoginPage'
+import LoginLayout from './pages/login/LoginLayout'
 
 function App() {
     
   return (
     <>
-      <div >
-        <LoginPage/>
-      </div>
+        <LoginLayout>
+          <LoginPage/>
+        </LoginLayout>
     </>
   )
 }
