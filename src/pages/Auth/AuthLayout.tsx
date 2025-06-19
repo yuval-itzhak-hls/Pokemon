@@ -1,9 +1,11 @@
 import React from "react";
+import { Outlet } from "react-router-dom";
+
 
 const bgPattern = 'src/assets/login-bg.jpg';
 const logo = 'src/assets/logo.png';
 
-const LoginLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
+const AuthLayout: React.FC = () => {
   return (
     <div className="fixed inset-0 flex">
       {/* Left */}
@@ -24,11 +26,11 @@ const LoginLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
         />
 
         <div className="relative flex items-center justify-center min-h-full p-4">
-          {children}
+           <Outlet />
         </div>
       </div>
     </div>
   );
 };
 
-export default LoginLayout;
+export default AuthLayout;
