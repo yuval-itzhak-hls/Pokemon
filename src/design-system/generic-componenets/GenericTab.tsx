@@ -9,7 +9,7 @@ import type { VariantProps } from "class-variance-authority"
 import clsx from "clsx"
 import { List, CreditCard } from "lucide-react"
 
-interface TabItem {
+export interface TabItem {
   label: string
   value: string
   icon?: "list" | "cards"

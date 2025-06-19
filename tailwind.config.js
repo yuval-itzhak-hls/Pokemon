@@ -18,6 +18,8 @@ export default {
         "error-red": "#FF4D4F",
         "sub-title-gray": "#44484C",
         "bg-login": "#3B5CA8",
+        "bg-system":"#F2F5F7",
+        "neutrals-200":"#A8AEB5",
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {
