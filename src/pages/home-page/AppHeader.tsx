@@ -11,7 +11,7 @@ const headerTabs: TabItem[] = [
 
 export const AppHeader: React.FC = () => {
   return (
-    <header className="fixed inset-x-0 top-0 h-20 bg-white">
+    <header className="fixed inset-x-0 top-0 h-20 z-20 bg-white">
       <div className="flex w-full items-center justify-between gap-1 py-4 px-4 sm:px-6 lg:px-8">
         <div className="flex items-center gap-10">
           <img
