@@ -46,11 +46,14 @@ export interface Pokemon {
 export interface PokemonsListProps {
   rowsPerPage?: number;
   showMyPokemons: boolean;
+  searchTerm?: string;
 }
+
 
 export const PokemonsList: React.FC<PokemonsListProps> = ({
   rowsPerPage = 10,
   showMyPokemons,
+  searchTerm,
 }) => {
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(rowsPerPage);
@@ -94,9 +97,16 @@ export const PokemonsList: React.FC<PokemonsListProps> = ({
   }, [myPokemonIds]);
 
 
-  const filteredPokemons = showMyPokemons
+  let filteredPokemons = showMyPokemons
     ? pokemons.filter((p) => p.isMyPokemon)
     : pokemons;
+
+
+   if (searchTerm?.trim()) {
+        const term = searchTerm.trim().toLowerCase();
+        filteredPokemons = filteredPokemons.filter(
+            (p) => p.name.toLowerCase().includes(term));
+   }
 
   //pagination setup
   const pageCount = Math.ceil(filteredPokemons.length / perPage);
@@ -105,6 +115,7 @@ export const PokemonsList: React.FC<PokemonsListProps> = ({
     return filteredPokemons.slice(start, start + perPage);
   }, [filteredPokemons, page, perPage]);
   
+
   return (
     <div className="w-full max-w-[1376px] mx-auto overflow-y-auto rounded-1xl bg-card">
       <Table className="table-fixed text-body-regular [&_thead_tr>th]:text-body-bold [&_thead_tr>th]:text-black [&_thead_tr>th]:font-bold">
