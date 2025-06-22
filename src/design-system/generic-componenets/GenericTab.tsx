@@ -1,38 +1,47 @@
-import React from "react"
+import React from "react";
 import {
   Tabs,
   TabsList,
   TabsTrigger,
-} from "@/components/ui/tabs"
-import { tabVariants } from "@/design-system/variants/tabVariants"
-import type { VariantProps } from "class-variance-authority"
-import clsx from "clsx"
-import { List, CreditCard } from "lucide-react"
+} from "@/components/ui/tabs";
+import { tabVariants } from "@/design-system/variants/tabVariants";
+import type { VariantProps } from "class-variance-authority";
+import clsx from "clsx";
+import { List, CreditCard } from "lucide-react";
 
 export interface TabItem {
-  label: string
-  value: string
-  icon?: "list" | "cards"
+  label: string;
+  value: string;
+  icon?: "list" | "cards";
 }
 
 interface GenericTabProps extends VariantProps<typeof tabVariants> {
-  tabs: TabItem[]
-  defaultValue?: string
+  tabs: TabItem[];
+  value?: string;
+  defaultValue?: string;
+  onValueChange?: (val: string) => void;
 }
 
 export const GenericTab: React.FC<GenericTabProps> = ({
   tabs,
+  value,
   defaultValue,
+  onValueChange,
   variant = "primaryTab",
 }) => {
   const renderIcon = (type?: string) => {
-    if (type === "list") return <List className="w-4 h-4 mr-1" />
-    if (type === "cards") return <CreditCard className="w-4 h-4 mr-1" />
-    return null
-  }
+    if (type === "list") return <List className="w-4 h-4 mr-1" />;
+    if (type === "cards") return <CreditCard className="w-4 h-4 mr-1" />;
+    return null;
+  };
 
   return (
-    <Tabs defaultValue={defaultValue ?? tabs[0]?.value} className="w-full">
+    <Tabs
+      value={value}
+      defaultValue={defaultValue ?? tabs[0]?.value}
+      onValueChange={onValueChange}
+      className="w-full"
+    >
       <TabsList className="flex gap-2 p-1 bg-transparent">
         {tabs.map((tab) => (
           <TabsTrigger
@@ -45,7 +54,8 @@ export const GenericTab: React.FC<GenericTabProps> = ({
           </TabsTrigger>
         ))}
       </TabsList>
-
     </Tabs>
-  )
-}
+  );
+};
+
+export default GenericTab;

@@ -9,7 +9,12 @@ const headerTabs: TabItem[] = [
   { label: "My Pokemons", value: "my pokemons" },
 ];
 
-export const AppHeader: React.FC = () => {
+export interface AppHeaderProps {
+  activeTab: string;
+  onTabChange: (val: string) => void;
+}
+
+export const AppHeader: React.FC<AppHeaderProps> = ({ activeTab, onTabChange }) => {
   return (
     <header className="fixed inset-x-0 top-0 h-20 z-20 bg-white">
       <div className="flex w-full items-center justify-between gap-1 py-4 px-4 sm:px-6 lg:px-8">
@@ -24,7 +29,8 @@ export const AppHeader: React.FC = () => {
           <GenericTab
             variant="primaryTab"
             tabs={headerTabs}
-            defaultValue="all pokemons"
+            value={activeTab}
+            onValueChange={onTabChange}
           />
         </div>
 
