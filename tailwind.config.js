@@ -19,6 +19,7 @@ export default {
         "sub-title-gray": "#44484C",
         "bg-login": "#3B5CA8",
         "bg-system":"#F2F5F7",
+        "neutrals-100":"#F2F5F7",
         "neutrals-200":"#A8AEB5",
         "neutrals-600":"#71787F",
         "primary-50":"#EBEFF6",
