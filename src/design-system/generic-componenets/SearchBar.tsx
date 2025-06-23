@@ -48,6 +48,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
         onChange={(e) => update(e.target.value)}
         className="
           pl-10 pr-10 py-2 text-sm
+          w-full
           bg-transparent border border-gray-300
           hover:border-gray-400
           focus:border-primary-tab-foreground
