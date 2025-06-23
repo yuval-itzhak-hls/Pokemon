@@ -47,7 +47,7 @@ export const GenericTab: React.FC<GenericTabProps> = ({
           <TabsTrigger
             key={tab.value}
             value={tab.value}
-            className={clsx(tabVariants({ variant }), "inline-flex items-center")}
+            className={clsx(tabVariants({ variant }), "inline-flex items-center rounded-sm")}
           >
             {renderIcon(tab.icon)}
             {tab.label}
