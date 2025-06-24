@@ -3,7 +3,7 @@ import logo from "@/assets/logo.png";
 import { GenericButton } from "@/design-system/generic-componenets/GenericButton";
 import { GenericTab, type TabItem } from "@/design-system/generic-componenets/GenericTab";
 import { usePokemonsData } from "@/hooks/usePokemonsData";
-import { ChoosePokemonBattlePanel } from "./ChoosePokemonBattlePanel";
+import { ChoosePokemonBattlePanel } from "./home-page/ChoosePokemonBattlePanel";
 
 const headerTabs: TabItem[] = [
   { label: "All Pokemons", value: "all pokemons" },

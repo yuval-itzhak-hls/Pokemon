@@ -3,7 +3,7 @@ import AuthPage from './pages/auth/AuthPage'
 import AuthLayout from './pages/auth/AuthLayout'
 import {Route, BrowserRouter, Routes} from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
-import { AppLayout } from './pages/home-page/AppLayout';
+import { AppLayout } from './pages/AppLayout';
 import { HomePage } from './pages/home-page/HomePage';
  
 function App() {
@@ -23,7 +23,7 @@ function App() {
         </Route>
 
         <Route path="/" element={<Navigate to="/login" replace />} />
-        
+
       </Routes>
     </BrowserRouter>
 
