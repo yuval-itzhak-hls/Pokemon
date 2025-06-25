@@ -17,8 +17,17 @@ export interface AppHeaderProps {
 
 export const AppHeader: React.FC<AppHeaderProps> = ({ activeTab, onTabChange }) => {
   const [isBattleOpen, setBattleOpen] = useState(false);
+
+  
   const { pokemons: myPokemons } = usePokemonsData({
     showMyPokemons: true,
+    searchTerm: "",
+    sortOption: "alpha-asc",
+    rowsPerPage: 1000,
+  });
+
+  const { pokemons: allPokemons } = usePokemonsData({
+    showMyPokemons: false,
     searchTerm: "",
     sortOption: "alpha-asc",
     rowsPerPage: 1000,
@@ -47,11 +56,10 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ activeTab, onTabChange }) 
       </header>
 
       <ChoosePokemonBattlePanel
-        pokemons={myPokemons}
+        myPokemons={myPokemons}
+        allPokemons={allPokemons}
         isOpen={isBattleOpen}
         onClose={() => setBattleOpen(false)}
-        onStartBattle={() => {setBattleOpen(false);
-        }}
       />
     </>
   );
