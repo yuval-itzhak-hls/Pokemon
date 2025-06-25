@@ -4,6 +4,7 @@ import { GenericButton } from "@/design-system/generic-componenets/GenericButton
 import { GenericTab, type TabItem } from "@/design-system/generic-componenets/GenericTab";
 import { usePokemonsData } from "@/hooks/usePokemonsData";
 import { ChoosePokemonBattlePanel } from "./home-page/ChoosePokemonBattlePanel";
+import { useNavigate } from "react-router-dom";
 
 const headerTabs: TabItem[] = [
   { label: "All Pokemons", value: "all pokemons" },
@@ -13,11 +14,12 @@ const headerTabs: TabItem[] = [
 export interface AppHeaderProps {
   activeTab: string;
   onTabChange: (val: string) => void;
+  isFightArena: boolean;
 }
 
-export const AppHeader: React.FC<AppHeaderProps> = ({ activeTab, onTabChange }) => {
+export const AppHeader: React.FC<AppHeaderProps> = ({ activeTab, onTabChange, isFightArena }) => {
   const [isBattleOpen, setBattleOpen] = useState(false);
-
+  const navigate = useNavigate();
   
   const { pokemons: myPokemons } = usePokemonsData({
     showMyPokemons: true,
@@ -33,6 +35,13 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ activeTab, onTabChange }) 
     rowsPerPage: 1000,
   });
 
+  const handleTabChange = (val: string) => {
+    if (isFightArena) {
+      navigate("/home-page");
+    }
+    onTabChange(val);
+  };
+
   return (
     <>
       <header className="fixed inset-x-0 top-0 h-20 z-20 bg-white">
@@ -43,7 +52,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ activeTab, onTabChange }) 
               variant="primaryTab"
               tabs={headerTabs}
               value={activeTab}
-              onValueChange={onTabChange}
+              onValueChange={handleTabChange}
             />
           </div>
           <GenericButton
@@ -51,6 +60,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ activeTab, onTabChange }) 
             size="small"
             text="Start a Fight"
             onClick={() => setBattleOpen(true)}
+            disabled={isFightArena}
           />
         </div>
       </header>
