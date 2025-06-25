@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Dialog, DialogOverlay, DialogContent, DialogTitle, DialogClose } from "@/components/ui/dialog";
+import { Dialog, DialogOverlay, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { useNavigate } from "react-router-dom";
 import { useBattle } from "@/context/BattleContext";
 import type { Pokemon } from "@/hooks/usePokemonsData";
