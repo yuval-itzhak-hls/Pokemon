@@ -12,7 +12,7 @@ interface RawPokemon {
     weight: string;
     ability: string[][];
   };
-  image: { thumbnail?: string; sprite: string };
+  image: { hires?: string; sprite: string };
   base: { HP: number; Attack: number };
 }
 
@@ -80,7 +80,7 @@ export function usePokemonsData(opts: {
       description: p.description,
       powerLevel: p.base?.Attack,
       hpLevel: p.base?.HP,
-      image: p.image.thumbnail ?? p.image.sprite,
+      image: p.image.hires ?? p.image.sprite,
       isMyPokemon: myIds.includes(id),
       height: p.profile?.height,
       weight: p.profile?.weight,
