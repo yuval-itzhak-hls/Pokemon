@@ -1,12 +1,19 @@
 import React from "react";
 import type { ChosenPokemonDisplayProps } from "./ChosenPokemonsDisplay";
 import fightArena from "@/assets/fight-arena.png";
+import { AttackButton } from "./AttackButton";
 
 
 export const LiveFightScreen: React.FC<ChosenPokemonDisplayProps> = ({
   userPokemon,
   opponentPokemon,
 }) => {
+
+  const handleAttack = () => {
+    // todo - add attck action
+    console.log(userPokemon.name, "attack ->", opponentPokemon.name);
+  };
+
   return (
     <div
       className="
@@ -51,6 +58,10 @@ export const LiveFightScreen: React.FC<ChosenPokemonDisplayProps> = ({
           transform -translate-y-3/4
         "
       />
+
+      <div className="absolute bottom-4 right-1/4">
+        <AttackButton onClick={handleAttack} />
+      </div>
     </div>
   );
 };
