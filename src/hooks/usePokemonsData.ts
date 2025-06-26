@@ -91,10 +91,10 @@ export function usePokemonsData(opts: {
       weight: p.profile?.weight,
       category: p.species,
       abilities: p.profile?.ability.map((a) => a[0]),
-      defensePower: p.base.Defense,
-      spAttack: p.base["Sp. Attack"],
-      spDefense: p.base["Sp. Defense"],
-      speed: p.base.Speed,
+      defensePower: p.base?.Defense,
+      spAttack: p.base?.["Sp. Attack"],
+      spDefense: p.base?.["Sp. Defense"],
+      speed: p.base?.Speed,
 
     };
   });
