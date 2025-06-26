@@ -13,7 +13,8 @@ interface RawPokemon {
     ability: string[][];
   };
   image: { hires?: string; sprite: string };
-  base: { HP: number; Attack: number };
+  base: { HP: number; Attack: number; Defense:number; "Sp. Attack": number; "Sp. Defense": number; Speed:number};
+ 
 }
 
 export interface Pokemon {
@@ -28,6 +29,10 @@ export interface Pokemon {
   weight: string;
   category: string;
   abilities: string[];
+  defensePower: number;
+  spAttack:number;
+  spDefense: number;
+  speed: number;
 }
 
 export type SortOption =
@@ -86,6 +91,11 @@ export function usePokemonsData(opts: {
       weight: p.profile?.weight,
       category: p.species,
       abilities: p.profile?.ability.map((a) => a[0]),
+      defensePower: p.base.Defense,
+      spAttack: p.base["Sp. Attack"],
+      spDefense: p.base["Sp. Defense"],
+      speed: p.base.Speed,
+
     };
   });
   }, [myIds]);

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import type { ChosenPokemonDisplayProps } from "./ChosenPokemonsDisplay";
 import fightArena from "@/assets/fight-arena.png";
 import { AttackButton } from "./AttackButton";
@@ -9,6 +9,7 @@ export const LiveFightScreen: React.FC<ChosenPokemonDisplayProps> = ({
   opponentPokemon,
 }) => {
 
+  const [isUserTurn, stIsUserTurn] = useState(userPokemon.speed > opponentPokemon.speed);
   const handleAttack = () => {
     // todo - add attck action
     console.log(userPokemon.name, "attack ->", opponentPokemon.name);
