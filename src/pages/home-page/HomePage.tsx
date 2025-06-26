@@ -2,11 +2,14 @@ import React, { useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import { PokemonsList } from "./PokemonsList";
 import { SearchBar } from "@/design-system/generic-componenets/SearchBar";
+import { useDebounce } from "use-debounce";
 
 export const HomePage: React.FC = () => {
   const { showMyPokemons } = useOutletContext<{ showMyPokemons: boolean }>();
-  const [searchTerm, setSearchTerm] = useState("");
   const title = showMyPokemons ? "My Pokemons" : "All Pokemons";
+  
+  const [searchTerm, setSearchTerm] = useState("");
+  const [debouncedTerm] = useDebounce(searchTerm, 300);
 
   return (
     <div className="space-y-6">
@@ -27,7 +30,7 @@ export const HomePage: React.FC = () => {
       <PokemonsList
         rowsPerPage={10}
         showMyPokemons={showMyPokemons}
-        searchTerm={searchTerm}
+        searchTerm={debouncedTerm}
       />
     </div>
   );

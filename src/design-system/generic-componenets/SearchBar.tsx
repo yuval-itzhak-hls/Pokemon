@@ -1,15 +1,13 @@
 import React, { useState } from "react";
 import { Input } from "@/components/ui/input";    
 import { Search, X } from "lucide-react";
-import { useDebouncedCallback } from "use-debounce";
+
 
 
 interface SearchBarProps {
   placeholder?: string;
   value?: string;                        
-  onChange?: (v: string) => void;        
-  onSearch?: (v: string) => void;         
-  debounceDelay?: number;                 
+  onChange?: (v: string) => void;                        
   className?: string;                     
 }
 
@@ -17,22 +15,14 @@ export const SearchBar: React.FC<SearchBarProps> = ({
   placeholder = "Search",
   value,
   onChange,
-  onSearch,
-  debounceDelay = 300,
   className,
 }) => {
    const [internal, setInternal] = useState("");
    const val = value ?? internal;
 
-   const triggerSearchDebounced = useDebouncedCallback(
-        (v: string) => onSearch?.(v),
-        debounceDelay
-    );
-
    const update = (v: string) => {
      if (value === undefined) setInternal(v);
      onChange?.(v);
-     triggerSearchDebounced(v.trim());  
    };
 
    const clear = () => update("");
