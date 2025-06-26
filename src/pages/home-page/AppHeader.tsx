@@ -2,14 +2,21 @@ import React from "react";
 import logo from "@/assets/logo.png";
 import { GenericButton } from "@/design-system/generic-componenets/GenericButton";
 import { GenericTab, type TabItem } from "@/design-system/generic-componenets/GenericTab";
+import { pokemonTabs } from "./AppLayout";
 
 
-const headerTabs: TabItem[] = [
-  { label: "All Pokemons", value: "all pokemons" },
-  { label: "My Pokemons", value: "my pokemons" },
+export interface AppHeaderProps {
+  activeTab: string;
+  onTabChange: (val: string) => void;
+}
+
+export const AppHeader: React.FC<AppHeaderProps> = ({ activeTab, onTabChange }) => {
+
+  const headerTabs: TabItem[] = [
+  { label: "All Pokemons", value: pokemonTabs.all.value },
+  { label: "My Pokemons", value: pokemonTabs.mine.value},
 ];
 
-export const AppHeader: React.FC = () => {
   return (
     <header className="fixed inset-x-0 top-0 h-20 z-20 bg-white">
       <div className="flex w-full items-center justify-between gap-1 py-4 px-4 sm:px-6 lg:px-8">
@@ -24,7 +31,8 @@ export const AppHeader: React.FC = () => {
           <GenericTab
             variant="primaryTab"
             tabs={headerTabs}
-            defaultValue="all pokemons"
+            value={activeTab}
+            onValueChange={onTabChange}
           />
         </div>
 
