@@ -1,8 +1,10 @@
 import './App.css'
-import AuthPage from './pages/Auth/AuthPage'
-import AuthLayout from './pages/Auth/AuthLayout'
+import AuthPage from './pages/Auth/AuthPage';
+import AuthLayout from './pages/Auth/AuthLayout';
 import {Route, BrowserRouter, Routes} from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
+import { AppLayout } from './pages/home-page/AppLayout';
+import { HomePage } from './pages/home-page/HomePage';
  
 function App() {
     
@@ -10,11 +12,18 @@ function App() {
     <>
      <BrowserRouter>
       <Routes>
+      
         <Route element={<AuthLayout />}>
-          <Route path="/login" element={<AuthPage mode='login'/>} />
-          <Route path="/signup" element={<AuthPage mode='signup'/>} />
+          <Route path="/login"  element={<AuthPage mode="login" />} />
+          <Route path="/signup" element={<AuthPage mode="signup" />} />
         </Route>
-        <Route path="*" element={<Navigate to="/login" replace />} />
+
+        <Route element={<AppLayout />}>
+          <Route path="/home-page" element={<HomePage />} />
+        </Route>
+
+        <Route path="/" element={<Navigate to="/login" replace />} />
+        
       </Routes>
     </BrowserRouter>
 
@@ -23,3 +32,4 @@ function App() {
 }
 
 export default App
+          
