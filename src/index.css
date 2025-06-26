@@ -49,9 +49,12 @@ button {
   transition: border-color 0.25s;
 }
 
-button:hover {
-  border-color: #090c40;
+@layer components {
+  button:hover {
+    @apply border-primary-hover;
+  }
 }
+
 
 button:focus,
 button:focus-visible {
