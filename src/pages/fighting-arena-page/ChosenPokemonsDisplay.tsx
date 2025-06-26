@@ -2,7 +2,7 @@ import React from "react";
 import baseBg from "@/assets/chosen-pokemons.png";
 import type { Pokemon } from "@/hooks/usePokemonsData";
 
-interface ChosenPokemonDisplayProps {
+export interface ChosenPokemonDisplayProps {
   userPokemon: Pokemon;
   opponentPokemon: Pokemon;
 }
