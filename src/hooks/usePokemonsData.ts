@@ -21,7 +21,7 @@ export interface Pokemon {
   id: string;
   name: string;
   description: string;
-  powerLevel: number; 
+  powerLevel: number; //attackPower
   hpLevel: number;    
   image: string;
   isMyPokemon: boolean;
