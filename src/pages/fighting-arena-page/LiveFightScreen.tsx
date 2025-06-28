@@ -4,7 +4,7 @@ import fightArena from "@/assets/fight-arena.png";
 import { AttackButton } from "./AttackButton";
 import { LifeBarCard } from "./LifeBarCard";
 import { useLifePoints } from "@/hooks/useLifePoints";
-import { LostPanel } from "./LostPanel";
+import { LostWonPanel } from "./LostWonPanel";
 import { usePokemonsData, type Pokemon } from "@/hooks/usePokemonsData";
 import { ChoosePokemonBattlePanel } from "../home-page/ChoosePokemonBattlePanel";
 import { useNavigate } from "react-router-dom";
@@ -13,13 +13,15 @@ export const LiveFightScreen: React.FC<ChosenPokemonDisplayProps> = ({
   userPokemon,
   opponentPokemon,
 }) => {
-  let navigate = useNavigate();
+  const navigate = useNavigate();
   const { userLife, opponentLife, applyAttack } = useLifePoints();
   const [isUserTurn, setIsUserTurn] = useState(
     userPokemon.speed > opponentPokemon.speed
   );
   const [showChoose, setShowChoose] = useState(false);
-  const [showLost, setShowLost] = useState(false);
+
+  //single flag for display win or loss dialog
+  const [showResult, setShowResult] = useState(false);
 
   const { pokemons: allPokemons } = usePokemonsData({
     showMyPokemons: false,
@@ -39,18 +41,22 @@ export const LiveFightScreen: React.FC<ChosenPokemonDisplayProps> = ({
     setIsUserTurn((t) => !t);
   };
 
+  //opponent automatic attack
   useEffect(() => {
-    if (!isUserTurn) {
+    if (!isUserTurn && userLife > 0 && opponentLife > 0) {
       const timer = setTimeout(handleAttack, 3000);
       return () => clearTimeout(timer);
     }
-  }, [isUserTurn]);
+  }, [isUserTurn, userLife, opponentLife]);
 
+  //show result when someone hits 0
+  const isLost = userLife <= 0;
+  const isWon = opponentLife <= 0;
   useEffect(() => {
-    if (userLife <= 0) {
-      setShowLost(true);
+    if (isLost || isWon) {
+      setShowResult(true);
     }
-  }, [userLife]);
+  }, [isLost, isWon]);
 
   const onEndMatch = () => {
     navigate("/home-page");
@@ -58,7 +64,12 @@ export const LiveFightScreen: React.FC<ChosenPokemonDisplayProps> = ({
 
   const onSwitchPokemon = () => {
     setShowChoose(true);
-    setShowLost(false);
+    setShowResult(false);
+  };
+
+  const onRematch = () => {
+    // resetLife();
+    setShowResult(false);
   };
 
   if (showChoose) {
@@ -76,7 +87,7 @@ export const LiveFightScreen: React.FC<ChosenPokemonDisplayProps> = ({
 
   return (
     <div
-      className="relative mx-auto w-[90%] h-[400px] md:w-[90%] md:h-[400px] lg:w-[90%] lg:h-[650px] bg-cover bg-center"
+      className="relative mx-auto w-[90%] h-[400px] md:h-[400px] lg:h-[650px] bg-cover bg-center"
       style={{ backgroundImage: `url(${fightArena})` }}
     >
       {/* Opponent life bar */}
@@ -99,27 +110,34 @@ export const LiveFightScreen: React.FC<ChosenPokemonDisplayProps> = ({
         className="absolute bottom-4 left-4"
       />
 
-      {/* Sprites & button */}
+      {/* pokemons and attack button */}
       <img
         src={userPokemon.image}
-        alt="YourPokemon"
+        alt="Your Pokemon"
         className="absolute left-[20%] top-[60%] w-1/3 md:w-1/4 lg:w-[20%] h-[30%] object-contain transform -translate-y-1/4"
       />
       <img
         src={opponentPokemon.image}
-        alt="OpponentPokemon"
+        alt="Opponent Pokemon"
         className="absolute right-[25%] top-[30%] w-1/3 md:w-1/4 lg:w-[20%] h-[30%] object-contain transform -translate-y-3/4"
       />
-      <div className={`absolute bottom-4 right-1/4 ${!isUserTurn ? "pointer-events-none opacity-50" : ""}`}>
+      <div
+        className={`absolute bottom-4 right-1/4 ${
+          !isUserTurn ? "pointer-events-none opacity-50" : ""
+        }`}
+      >
         <AttackButton onClick={handleAttack} hover={isUserTurn} visible />
       </div>
 
-      <LostPanel
-        open={showLost}
-        onOpenChange={setShowLost}
-        name={userLife === 0 ? userPokemon.name : opponentPokemon.name}
-        sprite={userLife === 0 ? userPokemon.image : opponentPokemon.image}
-        onSwitch={onSwitchPokemon}
+      {/* Win/Loss panel */}
+      <LostWonPanel
+        open={showResult}
+        onOpenChange={setShowResult}
+        name={isLost ? userPokemon.name : opponentPokemon.name}
+        sprite={isLost ? userPokemon.image : opponentPokemon.image}
+        result={isLost ? "lost" : "won"}         
+        onSwitch={onSwitchPokemon}               
+        onRematch={onRematch}             
         onEnd={onEndMatch}
       />
     </div>
