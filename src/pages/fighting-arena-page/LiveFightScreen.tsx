@@ -14,7 +14,7 @@ export const LiveFightScreen: React.FC<ChosenPokemonDisplayProps> = ({
   opponentPokemon,
 }) => {
   const navigate = useNavigate();
-  const { userLife, opponentLife, applyAttack } = useLifePoints();
+  const { userLife, opponentLife, applyAttack, rematch } = useLifePoints();
   const [isUserTurn, setIsUserTurn] = useState(
     userPokemon.speed > opponentPokemon.speed
   );
@@ -68,7 +68,7 @@ export const LiveFightScreen: React.FC<ChosenPokemonDisplayProps> = ({
   };
 
   const onRematch = () => {
-    // resetLife();
+    rematch();
     setShowResult(false);
   };
 
