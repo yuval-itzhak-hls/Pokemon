@@ -23,6 +23,7 @@ export default {
         "neutrals-200":"#A8AEB5",
         "neutrals-600":"#71787F",
         "primary-50":"#EBEFF6",
+        "catch-button" :"#F2F5F7",
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {
