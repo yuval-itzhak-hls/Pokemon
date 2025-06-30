@@ -43,7 +43,7 @@ export const PokemonsList: React.FC<PokemonsListProps> = ({
 
   return (
     <>
-      <div className="w-full max-w-[1376px] mx-auto overflow-y-auto rounded-1xl bg-card">
+      <div className="w-full max-w-[1450px]  mx-auto overflow-y-auto rounded-1xl bg-card">
         <Table className="table-fixed text-body-regular [&_thead_tr>th]:text-body-bold [&_thead_tr>th]:text-black [&_thead_tr>th]:font-bold">
           <TableHeader className="bg-primary-50">
             <TableRow>
@@ -94,7 +94,7 @@ export const PokemonsList: React.FC<PokemonsListProps> = ({
                   {p.description}
                 </TableCell>
                 <TableCell>{`Power level ${p.powerLevel}`}</TableCell>
-                <TableCell>{`${p.hpLevel} HP`}</TableCell>
+                <TableCell className="capitalize">{`${p.hpLevel} HP`}</TableCell>
               </TableRow>
             ))}
           </TableBody>
