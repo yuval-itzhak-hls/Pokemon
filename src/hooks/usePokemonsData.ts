@@ -21,6 +21,7 @@ interface RawPokemon {
     "Sp. Defense": number;
     Speed: number;
   };
+  type: string[];
 }
 
 export interface Pokemon {
@@ -39,6 +40,7 @@ export interface Pokemon {
   spAttack:number;
   spDefense: number;
   speed: number;
+  type: string[];
 }
 
 export type SortOption =
@@ -113,6 +115,7 @@ export function usePokemonsData(opts: {
         spAttack: p.base?.["Sp. Attack"],
         spDefense: p.base?.["Sp. Defense"],
         speed: p.base?.Speed,
+        type: p.type,
 
       };
     });

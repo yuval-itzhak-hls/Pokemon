@@ -10,6 +10,9 @@ import { usePokemonsData, type Pokemon } from "@/hooks/usePokemonsData";
 import { ChoosePokemonBattlePanel } from "../home-page/ChoosePokemonBattlePanel";
 import { useNavigate } from "react-router-dom";
 import { CatchButton } from "./CatchButton";
+import CatchPanel from "./CatchPanel";
+import closePokemon from "@/assets/close-pokemon.png"
+
 
 const STORAGE_KEY = "myPokemons";
 
@@ -33,21 +36,18 @@ export const LiveFightScreen: React.FC<ChosenPokemonDisplayProps> = ({
   const maxCatchTries = 3;
   const lowHpThreshold = opponentPokemon.hpLevel * 0.2;
 
-  // Win/Loss derived
-  const isWon = caught || opponentLife <= 0;
+  const isWon = opponentLife <= 0;
   const isLost =
-    userLife <= 0 ||
-    (!isAbleCatch && catchTries >= maxCatchTries);
+    userLife <= 0 || (!isAbleCatch && catchTries >= maxCatchTries);
 
   useEffect(() => {
     if (isUserTurn) {
       const rate = opponentLife <= lowHpThreshold ? 0.2 : 0.1;
-      const canCatch = Math.random() < rate;
+      const canCatch = Math.random() < rate + 0.4;
       setIsAbleCatch(canCatch);
     }
   }, [isUserTurn, opponentLife, lowHpThreshold]);
 
-  // Show result panel when game ends
   useEffect(() => {
     if (isWon || isLost) {
       setShowResult(true);
@@ -78,7 +78,7 @@ export const LiveFightScreen: React.FC<ChosenPokemonDisplayProps> = ({
       const newList = [...stored, opponentPokemon.id];
       localStorage.setItem(STORAGE_KEY, JSON.stringify(newList));
 
-      // tell all hooks/components to reload
+      //tell all hooks/components to reload
       window.dispatchEvent(new Event("myPokemonsUpdated"));
     }
   };
@@ -94,6 +94,14 @@ export const LiveFightScreen: React.FC<ChosenPokemonDisplayProps> = ({
   const onRematch = () => {
     rematch();
     setShowResult(false);
+    setCatchTries(0);
+    setIsAbleCatch(false);
+    setCaught(false);
+  };
+
+
+  const onContinueBattle = () => {
+    rematch();
     setCatchTries(0);
     setIsAbleCatch(false);
     setCaught(false);
@@ -156,7 +164,7 @@ export const LiveFightScreen: React.FC<ChosenPokemonDisplayProps> = ({
         className="absolute left-[20%] top-[60%] w-1/3 md:w-1/4 lg:w-[20%] h-[30%] object-contain transform -translate-y-1/4"
       />
       <img
-        src={opponentPokemon.image}
+        src={!caught ? opponentPokemon.image : closePokemon}
         alt="Opponent Pokémon"
         className="absolute right-[25%] top-[30%] w-1/3 md:w-1/4 lg:w-[20%] h-[30%] object-contain transform -translate-y-3/4"
       />
@@ -175,8 +183,7 @@ export const LiveFightScreen: React.FC<ChosenPokemonDisplayProps> = ({
         <div className="absolute bottom-4 right-[3%]">
           <CatchButton
             onClick={catchPokemon}
-            shakeCount={isAbleCatch === false ? catchTries : 0}
-            vibrate={isAbleCatch}
+            isAbleCatch={isAbleCatch}
           />
         </div>
       )}
@@ -192,6 +199,26 @@ export const LiveFightScreen: React.FC<ChosenPokemonDisplayProps> = ({
         onRematch={onRematch}
         onEnd={onEndMatch}
       />
+
+      { caught && (
+          <CatchPanel
+        isOpen={caught}
+        onClose={() => setCaught(false)}
+        onContinue={onContinueBattle}
+        onEnd={onEndMatch}
+        name={opponentPokemon.name}
+        imageSrc={opponentPokemon.image}
+        rewards={{
+          speed: opponentPokemon.speed,
+          category: Array.isArray(opponentPokemon.type)
+          ? opponentPokemon.type.join(", ")
+          : opponentPokemon.type || "Unknown",
+          abilities: opponentPokemon.abilities.join(", "),
+        }}
+      />
+
+      )}
+      
     </div>
   );
 };
