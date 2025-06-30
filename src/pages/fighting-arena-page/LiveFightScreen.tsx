@@ -1,4 +1,3 @@
-// LiveFightScreen.tsx
 import React, { useState, useEffect } from "react";
 import type { ChosenPokemonDisplayProps } from "./ChosenPokemonsDisplay";
 import fightArena from "@/assets/fight-arena.png";
@@ -12,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { CatchButton } from "./CatchButton";
 import CatchPanel from "./CatchPanel";
 import closePokemon from "@/assets/close-pokemon.png"
+import { Status, FightMessage } from "./messages/FightMessage";
 
 
 const STORAGE_KEY = "myPokemons";
@@ -32,6 +32,7 @@ export const LiveFightScreen: React.FC<ChosenPokemonDisplayProps> = ({
   const [catchTries, setCatchTries] = useState(0);
   const [isAbleCatch, setIsAbleCatch] = useState<boolean>(false);
   const [caught, setCaught] = useState<boolean>(false);
+  const [status, setStatus] = useState<Status>(Status.start);
 
   const maxCatchTries = 3;
   const lowHpThreshold = opponentPokemon.hpLevel * 0.2;
@@ -40,21 +41,35 @@ export const LiveFightScreen: React.FC<ChosenPokemonDisplayProps> = ({
   const isLost =
     userLife <= 0 || (!isAbleCatch && catchTries >= maxCatchTries);
 
-  useEffect(() => {
+  useEffect(()=>{
+      setStatus(Status.start);
+      if (caught){
+        setStatus(Status.switch);
+      }
+  }, []);
+
+  useEffect(() => { 
     if (isUserTurn) {
       const rate = opponentLife <= lowHpThreshold ? 0.2 : 0.1;
       const canCatch = Math.random() < rate + 0.4;
       setIsAbleCatch(canCatch);
+      if (status !== Status.start && status !== Status.switch ){
+        setStatus(Status.yourTurn)
+      }
     }
   }, [isUserTurn, opponentLife, lowHpThreshold]);
 
   useEffect(() => {
     if (isWon || isLost) {
       setShowResult(true);
+      if (isLost){
+        setStatus(Status.critical)
+      }
     }
   }, [isWon, isLost]);
 
   const handleAttack = () => {
+    setStatus(Status.attack);
     applyAttack(isUserTurn);
     setIsUserTurn((t) => !t);
   };
@@ -72,6 +87,7 @@ export const LiveFightScreen: React.FC<ChosenPokemonDisplayProps> = ({
 
     if (isAbleCatch) {
       setCaught(true);
+      setStatus(Status.caught);
 
       const stored: string[] =
         JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
@@ -80,6 +96,8 @@ export const LiveFightScreen: React.FC<ChosenPokemonDisplayProps> = ({
 
       //tell all hooks/components to reload
       window.dispatchEvent(new Event("myPokemonsUpdated"));
+    }else{
+      setStatus(Status.disCatchable);
     }
   };
 
@@ -97,6 +115,7 @@ export const LiveFightScreen: React.FC<ChosenPokemonDisplayProps> = ({
     setCatchTries(0);
     setIsAbleCatch(false);
     setCaught(false);
+    setStatus("SWITCH");
   };
 
 
@@ -105,6 +124,7 @@ export const LiveFightScreen: React.FC<ChosenPokemonDisplayProps> = ({
     setCatchTries(0);
     setIsAbleCatch(false);
     setCaught(false);
+    setStatus("SWITCH");
   };
 
   const { pokemons: allPokemons } = usePokemonsData({
@@ -216,8 +236,19 @@ export const LiveFightScreen: React.FC<ChosenPokemonDisplayProps> = ({
           abilities: opponentPokemon.abilities.join(", "),
         }}
       />
-
       )}
+
+      <div className="absolute top-1/4 left-1/5 transform ">
+      <FightMessage
+        status={status}
+        attackerName={
+          isUserTurn ? userPokemon.name : opponentPokemon.name
+        }
+        defenderName={
+          isUserTurn ? opponentPokemon.name : userPokemon.name
+        }
+      />
+    </div>
       
     </div>
   );
