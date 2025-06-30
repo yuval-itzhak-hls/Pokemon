@@ -13,9 +13,9 @@ export default {
   			sm: 'calc(var(--radius) - 4px)'
   		},
   		colors: {
-        "success-green": "#A8F86F",
-        "warning-yellow": "#FFE55C",
-        "error-red": "#FF4D4F",
+        "success-green": "#51FF4E",
+        "warning-yellow": "#FFF94E",
+        "error-red": "#FF3131",
         "sub-title-gray": "#44484C",
         "bg-login": "#3B5CA8",
         "bg-system":"#F2F5F7",

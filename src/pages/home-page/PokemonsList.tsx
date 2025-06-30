@@ -77,7 +77,7 @@ export const PokemonsList: React.FC<PokemonsListProps> = ({
                     <img
                       src={p.image}
                       alt={p.name}
-                      className="h-10 w-10 rounded-md border object-contain"
+                      className="h-11 w-11 rounded-full object-contain bg-slate-100"
                     />
                     <span>{p.name}</span>
                     {p.isMyPokemon && (
