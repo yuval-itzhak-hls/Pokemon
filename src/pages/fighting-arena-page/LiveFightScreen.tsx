@@ -12,6 +12,7 @@ import { CatchButton } from "./CatchButton";
 import CatchPanel from "./CatchPanel";
 import closePokemon from "@/assets/close-pokemon.png"
 import { Status, FightMessage } from "./messages/FightMessage";
+import { MessageCard } from "./messages/MessageCard";
 
 
 const STORAGE_KEY = "myPokemons";
@@ -238,16 +239,19 @@ export const LiveFightScreen: React.FC<ChosenPokemonDisplayProps> = ({
       />
       )}
 
-      <div className="absolute top-1/4 left-1/5 transform ">
-      <FightMessage
-        status={status}
-        attackerName={
-          isUserTurn ? userPokemon.name : opponentPokemon.name
-        }
-        defenderName={
-          isUserTurn ? opponentPokemon.name : userPokemon.name
-        }
-      />
+      <div className="absolute top-[9%] left-1/5 transform ">
+      <MessageCard>
+        <FightMessage
+          status={status}
+          attackerName={
+            isUserTurn ? userPokemon.name : opponentPokemon.name
+          }
+          defenderName={
+            isUserTurn ? opponentPokemon.name : userPokemon.name
+          }
+        />
+      </MessageCard>
+      
     </div>
       
     </div>

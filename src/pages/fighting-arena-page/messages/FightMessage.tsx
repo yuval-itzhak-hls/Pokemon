@@ -40,7 +40,7 @@ export const FightMessage: React.FC<FightMessageProps> = ({
   }, [status, attackerName, defenderName]);
 
   return (
-    <div className="p-4  bg-gray-100 ">
+    <div className="pb-10 text-heading-lg-bold text-neutral-800">
       {msg}
     </div>
   );
