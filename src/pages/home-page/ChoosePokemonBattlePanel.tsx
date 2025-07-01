@@ -38,8 +38,9 @@ export const ChoosePokemonBattlePanel: React.FC<ChoosePokemonBattlePanelProps> =
 
   return (
     <Dialog open={isOpen} onOpenChange={open => !open && onClose()}>
-      <DialogOverlay className="fixed inset-0 bg-opacity-50" />
-      <DialogContent className="fixed top-1/2 left-1/2 w-[500px] max-w-[90vw] -translate-x-1/2 -translate-y-1/2 bg-white p-6">
+      <DialogOverlay className="fixed inset-0 bg-opacity-50 " />
+      <DialogContent className="fixed top-1/2 left-1/2 w-[500px] max-w-[600px] h-[600px] max-h-[500px overflow-y-auto bg-white">
+
         <div className="flex justify-between items-center mb-4">
           <DialogTitle className="text-heading-lg-regular">Choose the Pokemon to battle with</DialogTitle>
         </div>

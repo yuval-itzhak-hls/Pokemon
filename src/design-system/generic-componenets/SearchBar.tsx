@@ -49,6 +49,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
         className="
           pl-10 pr-10 py-2 text-sm
           w-full
+          rounded-lg
           bg-transparent border border-gray-300
           hover:border-gray-400
           focus:border-primary-tab-foreground
