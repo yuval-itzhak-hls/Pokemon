@@ -47,7 +47,7 @@ export const PokemonsList: React.FC<PokemonsListProps> = ({
         <Table className="table-fixed text-body-regular [&_thead_tr>th]:text-body-bold [&_thead_tr>th]:text-black [&_thead_tr>th]:font-bold">
           <TableHeader className="bg-primary-50">
             <TableRow>
-              <TableHead className="w-[300px]">Pokemon name</TableHead>
+              <TableHead className="pl-[60px] w-[300px]">Pokemon name</TableHead>
               <TableHead className="w-[150px]">ID</TableHead>
               <TableHead className="w-[500px]">Description</TableHead>
               <TableHead className="w-[127px]">Power level</TableHead>
@@ -90,11 +90,19 @@ export const PokemonsList: React.FC<PokemonsListProps> = ({
                   </div>
                 </TableCell>
                 <TableCell>{`#${p.id}`}</TableCell>
-                <TableCell className="max-w-[420px] truncate">
+                <TableCell className="max-w-[300px] pr-10 truncate">
                   {p.description}
                 </TableCell>
+                {p.powerLevel ? (
                 <TableCell>{`Power level ${p.powerLevel}`}</TableCell>
+                ) : (
+                  <TableCell >{`-`}</TableCell>
+                )}
+                {p.hpLevel ? (
                 <TableCell className="capitalize">{`${p.hpLevel} HP`}</TableCell>
+                ) : (
+                  <TableCell  >{`-`}</TableCell>
+                )}
               </TableRow>
             ))}
           </TableBody>
