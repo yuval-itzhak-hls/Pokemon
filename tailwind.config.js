@@ -98,7 +98,17 @@ export default {
   		},
       fontFamily: {
           mulish: ["Mulish", "sans-serif"],
-      }
+      },
+      keyframes: {
+        shake: {
+          '0%, 100%': { '--tw-translate-x': '0px' },
+          '10%, 30%, 50%, 70%, 90%': { '--tw-translate-x': '-5px' },
+          '20%, 40%, 60%, 80%': { '--tw-translate-x': '5px' },
+        },
+      },
+      animation: {
+        shake: 'shake 1s ease-in-out',
+      },
   	}
   },
   plugins: [require("tailwindcss-animate")],
