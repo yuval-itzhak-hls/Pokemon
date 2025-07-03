@@ -46,8 +46,6 @@ export const LiveFightScreen: React.FC<ChosenPokemonDisplayProps> = ({
   const [userAttacked, setUserAttacked] = useState<boolean>(false);
   const [opponentAtacked, setOpponentAtacked] = useState<boolean>(false);
 
-
-
   const maxCatchTries = 3;
   const lowHpThreshold = opponentPokemon.hpLevel * 0.2;
 
@@ -62,10 +60,11 @@ export const LiveFightScreen: React.FC<ChosenPokemonDisplayProps> = ({
       }
   }, []);
 
+
   useEffect(() => { 
     if (isUserTurn) {
       const rate = opponentLife <= lowHpThreshold ? 0.2 : 0.1;
-      const canCatch = Math.random() < rate + 0.4;
+      const canCatch = Math.random() < rate + 0.2;
       setIsAbleCatch(canCatch);
       if (status !== Status.start && status !== Status.switch ){
         setStatus(Status.yourTurn)
@@ -75,20 +74,21 @@ export const LiveFightScreen: React.FC<ChosenPokemonDisplayProps> = ({
 
   useEffect(() => {
     if (isWon || isLost) {
-      setShowResult(true);
-      if (isLost){
-        setStatus(Status.critical)
-      }
+      // delay showing the panel
+      const timer = setTimeout(() => {
+        setShowResult(true);
+        if (isLost) {
+          setStatus(Status.critical);
+        }
+      }, 1500);
+      return () => clearTimeout(timer);
+    
+    } else {
+      setShowResult(false);
     }
+    
   }, [isWon, isLost]);
 
-  const handleAttack = () => {
-    setStatus(Status.attack);
-    setUserAttacked(!isUserTurn);
-    setOpponentAtacked(isUserTurn);
-    applyAttack(isUserTurn);
-    setIsUserTurn((t) => !t);
-  };
 
   // Opponent auto-attack
   useEffect(() => {
@@ -97,6 +97,8 @@ export const LiveFightScreen: React.FC<ChosenPokemonDisplayProps> = ({
       return () => clearTimeout(timer);
     }
   }, [isUserTurn, userLife, opponentLife]);
+
+
 
   const catchPokemon = () => {
     setCatchTries((t) => t + 1);
@@ -115,6 +117,14 @@ export const LiveFightScreen: React.FC<ChosenPokemonDisplayProps> = ({
     }else{
       setStatus(Status.disCatchable);
     }
+  };
+
+  const handleAttack = () => {
+  setStatus(Status.attack);
+  setUserAttacked(!isUserTurn);
+  setOpponentAtacked(isUserTurn);
+  applyAttack(isUserTurn);
+  setIsUserTurn((t) => !t);
   };
 
   const onEndMatch = () => navigate("/home-page");

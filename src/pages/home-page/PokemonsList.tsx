@@ -89,7 +89,7 @@ export const PokemonsList: React.FC<PokemonsListProps> = ({
                     )}
                   </div>
                 </TableCell>
-                <TableCell>{`#${p.id}`}</TableCell>
+                <TableCell className="text-gray-600">{`#${p.id}`}</TableCell>
                 <TableCell className="max-w-[300px] pr-10 truncate">
                   {p.description}
                 </TableCell>
