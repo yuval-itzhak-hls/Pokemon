@@ -60,7 +60,6 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ activeTab, onTabChange, is
             size="small"
             text="Start a Fight"
             onClick={() => setBattleOpen(true)}
-            disabled={isFightArena}
           />
         </div>
       </header>

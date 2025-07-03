@@ -13,17 +13,27 @@ export const MessageCard: React.FC<MessageCardProps> = ({
 }) => {
   return (     
     <div
+    className="
+      rounded-tr-lg rounded-br-lg          
+      bg-gradient-to-r                     
+      from-[#50fefc]/40                       
+      to-[#62E345]/40                        
+      p-[5px]   
+      bg-white/30                           
+      inline-block                        
+    "
+  >
+    <div
       className="
         w-[560px] h-[100px]
-        bg-white/50
-        border-t-[5px] border-r-[5px] border-b-[5px] border-l-0
-      border-[rgba(242,245,247,0.5)]         
-        rounded-tr-lg rounded-br-lg
+        bg-white/70                      
+        rounded-tr-lg rounded-br-lg         
         flex items-center
         px-[25px] py-[24px]
       "
     >
       {children}
+     </div>
     </div>
 );}
 
