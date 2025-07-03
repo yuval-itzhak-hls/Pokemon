@@ -1,5 +1,3 @@
-// src/components/LifeBarCard.tsx
-import React from "react";
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import clsx from "clsx";
