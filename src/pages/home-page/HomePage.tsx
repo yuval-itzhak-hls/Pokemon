@@ -10,8 +10,8 @@ import type { TabItem } from "@/design-system/generic-componenets/GenericTab";
 import { usePokemonsData } from "@/hooks/usePokemonsData";
 import type { SortOption } from "@/hooks/usePokemonsData";
 
-import { PokemonsList } from "./PokemonsList";
-import { PokemonCards } from "./PokemonCards";
+import { PokemonsList } from "./pokemons-list/PokemonsList";
+import { PokemonCards } from "./pokemons-card/PokemonCards";
 
 const headerTabs: TabItem[] = [
   { label: "List", value: "list", icon: "list" },

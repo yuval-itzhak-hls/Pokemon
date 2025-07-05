@@ -1,22 +1,22 @@
 import React, { useState, useEffect } from "react";
-import type { ChosenPokemonDisplayProps } from "./ChosenPokemonsDisplay";
+import type { ChosenPokemonDisplayProps } from "../chosen-pokemon-display/ChosenPokemonsDisplay";
 import fightArena from "@/assets/fight-arena.png";
-import { AttackButton } from "./AttackButton";
-import { LifeBarCard } from "./LifeBarCard";
+import { AttackButton } from "../attack-button/AttackButton";
+import { LifeBarCard } from "../life-bar/LifeBarCard";
 import { useLifePoints } from "@/hooks/useLifePoints";
-import { LostWonPanel } from "./LostWonPanel";
+import { LostWonPanel } from "../lost-won-panel/LostWonPanel";
 import { usePokemonsData, type Pokemon } from "@/hooks/usePokemonsData";
-import { ChoosePokemonBattlePanel } from "../home-page/ChoosePokemonBattlePanel";
+import { ChoosePokemonBattlePanel } from "../../home-page/choose-pokemon-panel/ChoosePokemonBattlePanel";
 import { useNavigate } from "react-router-dom";
-import { CatchButton } from "./CatchButton";
-import CatchPanel from "./CatchPanel";
+import { CatchButton } from "../catch-button/CatchButton";
+import CatchPanel from "../catch-panel/CatchPanel";
 import closePokemon from "@/assets/close-pokemon.png"
-import { Status, FightMessage } from "./messages/FightMessage";
-import { MessageCard } from "./messages/MessageCard";
+import { Status, FightMessage } from "../messages/FightMessage";
+import { MessageCard } from "../messages/MessageCard";
 import { GenericDropDown } from "@/design-system/generic-componenets/GenericDropDown";
 import type { Options } from "@/design-system/generic-componenets/GenericDropDown";
 import { useBattle } from "@/context/BattleContext";
-import { ShakyImage } from "../ShakyImage";
+import { ShakyImage } from "../../utils/ShakyImage";
 
 
 const STORAGE_KEY = "myPokemons";

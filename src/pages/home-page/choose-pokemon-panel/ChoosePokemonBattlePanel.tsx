@@ -39,26 +39,28 @@ export const ChoosePokemonBattlePanel: React.FC<ChoosePokemonBattlePanelProps> =
   return (
     <Dialog open={isOpen} onOpenChange={open => !open && onClose()}>
       <DialogOverlay className="fixed inset-0 bg-opacity-50 " />
-      <DialogContent className="fixed top-1/2 left-1/2 w-[500px] max-w-[600px] h-[600px] max-h-[500px overflow-y-auto bg-white">
+      <DialogContent className="fixed top-1/2 left-1/2 w-[500px] max-w-[600px] h-[500px] max-h-[500px] overflow-y-auto bg-white pb-0">
 
-        <div className="flex justify-between items-center mb-4">
+        <div className="flex justify-between items-center mb-1">
           <DialogTitle className="text-heading-lg-regular">Choose the Pokemon to battle with</DialogTitle>
         </div>
 
-        <div className="grid grid-cols-3 border-b border-gray-200 pb-10 gap-8 justify-items-center mb-6">
+        <div className="grid grid-cols-3 border-b border-gray-200 pb-2 gap-8 justify-items-center mb-2">
           {myPokemons.map(p => (
             <div
               key={p.id}
               onClick={() => handleSelect(p)}
-              className={
-                `rounded-full p-1 cursor-pointer transition ring-2 ` +
-                (selectedId === p.id ? "ring-blue-500" : "ring-transparent hover:ring-gray-300")
-              }
+              className="rounded-full cursor-pointer transition"
             >
               <img
                 src={p.image}
                 alt={p.name}
-                className="rounded-full object-contain w-[100px] h-[100px] bg-gray-100"
+                className={
+                  `rounded-full w-[100px] h-[100px] object-cover ring-2 transition ` +
+                  (selectedId === p.id
+                    ? "ring-blue-500"
+                    : "ring-transparent hover:ring-gray-300")
+                  }
               />
             </div>
           ))}

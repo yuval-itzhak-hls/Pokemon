@@ -22,9 +22,9 @@ import {
 } from "@/components/ui/tooltip";
 import closePokemonIcon from "@/assets/close-pokemon.png";
 import type { Pokemon } from "@/hooks/usePokemonsData";
-import rawPokemons from "../../data/pokemon.json";
-import { PokemonDetailsPanel } from "./PokemonDetailsPanel";
-import type {PokemonDetails} from "./PokemonDetailsPanel";
+import rawPokemons from "../../../data/pokemon.json";
+import { PokemonDetailsPanel } from "../pokemon-details-panel/PokemonDetailsPanel";
+import type {PokemonDetails} from "../pokemon-details-panel/PokemonDetailsPanel";
 
 interface PokemonsListProps {
   pokemons: Pokemon[];

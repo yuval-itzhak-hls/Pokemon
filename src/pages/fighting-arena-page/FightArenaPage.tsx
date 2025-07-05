@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { ChosenPokemonDisplay } from "./ChosenPokemonsDisplay";
+import { ChosenPokemonDisplay } from "./chosen-pokemon-display/ChosenPokemonsDisplay";
 import { useBattle } from "@/context/BattleContext";
-import { LiveFightScreen } from "./LiveFightScreen";
+import { LiveFightScreen } from "./live-fight/LiveFightScreen";
 import { AnimatePresence, motion } from "framer-motion";
 
 export const FightArenaPage: React.FC = () => {
