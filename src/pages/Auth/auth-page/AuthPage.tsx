@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { GenericButton } from "@/design-system/generic-componenets/GenericButton";
+import { GenericButton } from "@/design-system/generic-componenets/button/GenericButton";
 
 export type AuthMode = "login" | "signup";
 

@@ -13,8 +13,8 @@ import CatchPanel from "../catch-panel/CatchPanel";
 import closePokemon from "@/assets/close-pokemon.png"
 import { Status, FightMessage } from "../messages/FightMessage";
 import { MessageCard } from "../messages/MessageCard";
-import { GenericDropDown } from "@/design-system/generic-componenets/GenericDropDown";
-import type { Options } from "@/design-system/generic-componenets/GenericDropDown";
+import { GenericDropDown } from "@/design-system/generic-componenets/drop-down/GenericDropDown";
+import type { Options } from "@/design-system/generic-componenets/drop-down/GenericDropDown";
 import { useBattle } from "@/context/BattleContext";
 import { ShakyImage } from "../../utils/ShakyImage";
 

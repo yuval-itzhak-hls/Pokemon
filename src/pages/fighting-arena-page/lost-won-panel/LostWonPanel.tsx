@@ -1,5 +1,5 @@
 import React from "react";
-import { GenericButton } from "@/design-system/generic-componenets/GenericButton";
+import { GenericButton } from "@/design-system/generic-componenets/button/GenericButton";
 import { Dialog, DialogContent, DialogOverlay, DialogTitle } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
 

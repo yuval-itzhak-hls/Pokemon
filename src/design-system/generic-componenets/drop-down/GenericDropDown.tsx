@@ -13,7 +13,7 @@ import {
   TooltipContent,
 } from "@/components/ui/tooltip";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
-import { SearchBar } from "./SearchBar";
+import { SearchBar } from "../search/SearchBar";
 import clsx from "clsx";
 
 export type Options = {

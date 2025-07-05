@@ -3,7 +3,7 @@ import { Dialog, DialogOverlay, DialogContent, DialogTitle } from "@/components/
 import { useNavigate } from "react-router-dom";
 import { useBattle } from "@/context/BattleContext";
 import type { Pokemon } from "@/hooks/usePokemonsData";
-import { GenericButton } from "@/design-system/generic-componenets/GenericButton";
+import { GenericButton } from "@/design-system/generic-componenets/button/GenericButton";
 
 interface ChoosePokemonBattlePanelProps {
   myPokemons: Pokemon[];

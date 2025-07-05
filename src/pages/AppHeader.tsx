@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import logo from "@/assets/logo.png";
-import { GenericButton } from "@/design-system/generic-componenets/GenericButton";
-import { GenericTab, type TabItem } from "@/design-system/generic-componenets/GenericTab";
+import { GenericButton } from "@/design-system/generic-componenets/button/GenericButton";
+import { GenericTab, type TabItem } from "@/design-system/generic-componenets/tab/GenericTab";
 import { usePokemonsData } from "@/hooks/usePokemonsData";
 import { ChoosePokemonBattlePanel } from "./home-page/choose-pokemon-panel/ChoosePokemonBattlePanel";
 import { useNavigate } from "react-router-dom";
