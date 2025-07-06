@@ -42,14 +42,14 @@ export const PokemonCards: React.FC<PokemonCardsProps> = ({
       <div
         ref={containerRef}
         onScroll={onScroll}
-        className="max-w-[1360px] mx-auto overflow-y-auto"
+        className="flex justify-center max-w-[1600px] mx-auto overflow-y-auto"
         style={{ maxHeight: '80vh' }}
       >
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-12 ">
           {pokemons.slice(0, visibleCount).map((p: Pokemon) => (
             <div
               key={p.id}
-              className="bg-white p-4 flex flex-col text-left h-[308px] w-[322px] cursor-pointer"
+              className="bg-white p-4 flex flex-col text-left h-[308px] w-[322px] rounded-md cursor-pointer"
               onClick={() =>
                   setSelected({
                     id: p.id,
