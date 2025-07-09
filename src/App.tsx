@@ -1,45 +1,38 @@
-import './App.css'
+import './App.css';
 import AuthPage from './pages/Auth/auth-page/AuthPage';
 import AuthLayout from './pages/Auth/auth-layout/AuthLayout';
-import {Route, BrowserRouter, Routes} from 'react-router-dom';
-import { Navigate } from 'react-router-dom';
+import { Route, BrowserRouter, Routes, Navigate } from 'react-router-dom'; // Keep BrowserRouter and Routes
 import { AppLayout } from './pages/AppLayout';
 import { HomePage } from './pages/home-page/HomePage';
 import { FightArenaPage } from './pages/fighting-arena-page/FightArenaPage';
 import { BattleProvider } from "@/context/BattleContext";
 
- 
 function App() {
-    
+
   return (
     <>
-     <BrowserRouter>
-      <BattleProvider>
+      <BrowserRouter>
+        <BattleProvider>
+          <Routes>
 
-      <Routes>
-      
-        <Route element={<AuthLayout />}>
-          <Route path="/login"  element={<AuthPage mode="login" />} />
-          <Route path="/signup" element={<AuthPage mode="signup" />} />
-        </Route>
+            <Route element={<AuthLayout />}>
+              <Route path="/login" element={<AuthPage mode="login" />} />
+              <Route path="/signup" element={<AuthPage mode="signup" />} />
+            </Route>
 
-        <Route element={<AppLayout />}>
-          <Route path="/home-page" element={<HomePage />} />
-        </Route>
+            <Route element={<AppLayout />}>
+              <Route path="/all-pokemons" element={<HomePage mode="all" />} />
+              <Route path="/my-pokemons" element={<HomePage mode="my" />} />
+              <Route path="/fighting-arena-page" element={<FightArenaPage />} />
+            </Route>
 
-        <Route element={<AppLayout />}>
-          <Route path="/fighting-arena-page" element={<FightArenaPage />} />
-        </Route>
+            <Route path="/" element={<Navigate to="/login" replace />} />
 
-        <Route path="/" element={<Navigate to="/login" replace />} />
-
-      </Routes>
-    </BattleProvider>
-    </BrowserRouter>
-
+          </Routes>
+        </BattleProvider>
+      </BrowserRouter>
     </>
-  )
+  );
 }
 
-export default App
-          
+export default App;

@@ -22,10 +22,10 @@ import { ShakyImage } from "../../utils/ShakyImage";
 const STORAGE_KEY = "myPokemons";
 
 
-export const LiveFightScreen: React.FC<ChosenPokemonDisplayProps> = ({
+export const LiveFightScreen = ({
   userPokemon,
   opponentPokemon,
-}) => {
+}:ChosenPokemonDisplayProps) => {
   const { setBattle } = useBattle();
   const navigate = useNavigate();
   const { userLife, opponentLife, applyAttack, rematch } = useLifePoints();
@@ -127,7 +127,7 @@ export const LiveFightScreen: React.FC<ChosenPokemonDisplayProps> = ({
   setIsUserTurn((t) => !t);
   };
 
-  const onEndMatch = () => navigate("/home-page");
+  const onEndMatch = () => navigate("/my-pokemons");
   const onSwitchPokemon = () => {
     setShowChoose(true);
     setShowResult(false);

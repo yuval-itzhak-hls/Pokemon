@@ -1,6 +1,4 @@
-// src/pages/HomePage.tsx
-import React, { useState } from "react";
-import { useOutletContext } from "react-router-dom";
+import  { useState } from "react";
 import { SearchBar } from "@/design-system/generic-componenets/search/SearchBar";
 import { GenericDropDown } from "@/design-system/generic-componenets/drop-down/GenericDropDown";
 import type { Options } from "@/design-system/generic-componenets/drop-down/types";
@@ -18,11 +16,18 @@ const headerTabs: TabItem[] = [
   { label: "Card", value: "card", icon: "cards" },
 ];
 
-export const HomePage: React.FC = () => {
-  const { showMyPokemons } = useOutletContext<{ showMyPokemons: boolean }>();
+type HomePageMode = "all" | "my";
+
+type HomePageProps =  {
+  mode: HomePageMode;
+}
+
+export const HomePage= ({ mode }: HomePageProps) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOption, setSortOption] = useState<SortOption>("alpha-asc");
   const [activeTab, setActiveTab] = useState<"list" | "card">("list");
+
+  const showMyPokemons = mode === "my";
 
   const title = showMyPokemons ? "My Pokemons" : "All Pokemons";
 
@@ -56,35 +61,33 @@ export const HomePage: React.FC = () => {
         <h2 className="text-heading-xl-medium text-gray-800">{title}</h2>
       </div>
 
-
-    <div className="px-4 py-1 flex items-center gap-4 ">
+      <div className="px-4 py-1 flex items-center gap-4 ">
         <div className="w-[294px]">
-            <SearchBar
+          <SearchBar
             value={searchTerm}
             onChange={setSearchTerm}
             placeholder="Search Pokemon"
             className="w-full rounded-lg"
-            />
+          />
         </div>
 
         <GenericTab
-        variant="secondaryTab"
-        tabs={headerTabs}
-        value={activeTab}
-        onValueChange={(v) => setActiveTab(v as "list" | "card")}
+          variant="secondaryTab"
+          tabs={headerTabs}
+          value={activeTab}
+          onValueChange={(v) => setActiveTab(v as "list" | "card")}
         />
 
         <div className="ml-auto">
-            <GenericDropDown
+          <GenericDropDown
             placeholder="Sort by"
             options={sortOptions}
             value={sortOption}
             onValueChange={(v) => setSortOption(v as SortOption)}
             className="w-full"
-            />
+          />
         </div>
-    </div>
-
+      </div>
 
       {/* Main content */}
       {activeTab === "list" ? (
