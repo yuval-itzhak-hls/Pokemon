@@ -14,7 +14,7 @@ import closePokemon from "@/assets/close-pokemon.png"
 import { Status, FightMessage } from "../messages/FightMessage";
 import { MessageCard } from "../messages/MessageCard";
 import { GenericDropDown } from "@/design-system/generic-componenets/drop-down/GenericDropDown";
-import type { Options } from "@/design-system/generic-componenets/drop-down/GenericDropDown";
+import type { Options } from "@/design-system/generic-componenets/drop-down/types";
 import { useBattle } from "@/context/BattleContext";
 import { ShakyImage } from "../../utils/ShakyImage";
 
@@ -201,7 +201,7 @@ export const LiveFightScreen: React.FC<ChosenPokemonDisplayProps> = ({
 
   return (
     <div>
-      <div className="m-2 pl-3">
+      <div className="mx-2 mb-2 mt-0 pl-3">
         <GenericDropDown
           placeholder={newUserPokemon.name}
           options={pokemonOptions}

@@ -21,7 +21,7 @@ export const FightArenaPage: React.FC = () => {
   }
 
   return (
-    <div className="space-y-6 text-center">
+    <div className="space-y-0 text-center">
       <div className="px-4">
         <h2 className="text-heading-xl-bold text-gray-700">
           Fighting arena

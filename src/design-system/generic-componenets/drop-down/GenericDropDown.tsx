@@ -15,16 +15,10 @@ import {
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { SearchBar } from "../search/SearchBar";
 import clsx from "clsx";
+import type { Options } from "./types";
 
-export type Options = {
-  value: string;
-  label: string;
-  subLabel?: number;
-  img?: string;
-  disabled?: boolean;
-};
 
-interface GenericDropDownProps {
+export type GenericDropDownProps = {
   placeholder?: string;
   options: Options[];
   value?: string;

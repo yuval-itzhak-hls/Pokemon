@@ -24,7 +24,7 @@ interface RawPokemon {
   type: string[];
 }
 
-export interface Pokemon {
+export type Pokemon = {
   id: string;
   name: string;
   description: string;

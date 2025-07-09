@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import { SearchBar } from "@/design-system/generic-componenets/search/SearchBar";
 import { GenericDropDown } from "@/design-system/generic-componenets/drop-down/GenericDropDown";
-import type { Options } from "@/design-system/generic-componenets/drop-down/GenericDropDown";
+import type { Options } from "@/design-system/generic-componenets/drop-down/types";
 import GenericTab from "@/design-system/generic-componenets/tab/GenericTab";
 import type { TabItem } from "@/design-system/generic-componenets/tab/GenericTab";
 
