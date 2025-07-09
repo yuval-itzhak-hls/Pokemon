@@ -25,6 +25,7 @@ import type { Pokemon } from "@/hooks/usePokemonsData";
 import rawPokemons from "../../../data/pokemon.json";
 import { PokemonDetailsPanel } from "../pokemon-details-panel/PokemonDetailsPanel";
 import type {PokemonDetails} from "../pokemon-details-panel/PokemonDetailsPanel";
+import { SearchX } from 'lucide-react';
 
 interface PokemonsListProps {
   pokemons: Pokemon[];
@@ -62,65 +63,78 @@ export const PokemonsList: React.FC<PokemonsListProps> = ({
           </TableHeader>
           <TooltipProvider delayDuration={0}>
           <TableBody>
-            {pokemons.map(p => (
-              <Tooltip key={p.id}>
-                <TooltipTrigger asChild>
-                  <TableRow
-                    className="hover:bg-neutrals-100 cursor-pointer"
-                    onClick={() =>
-                      setSelected({
-                        id: p.id,
-                        name: p.name,
-                        image: p.image,
-                        description: p.description,
-                        height: p.height,
-                        weight: p.weight,
-                        category: p.category,
-                        abilities: p.abilities,
-                      })
-                    }
-                  >
-                    <TableCell>
-                      <div className="flex items-center gap-2 truncate">
-                        <img
-                          src={p.image}
-                          alt={p.name}
-                          className="h-11 w-11 rounded-full object-contain bg-slate-100"
-                        />
-                        <span>{p.name}</span>
-                        {p.isMyPokemon && (
+            {pokemons.length === 0 ? (
+              <TableRow>
+                <TableCell colSpan={5} className="text-center py-[120px]">
+                  <div className="flex flex-col items-center justify-center space-y-4">
+                    <div className="flex items-center justify-center w-[150px] h-[150px] rounded-full bg-primary-50 text-gray-500">
+                      <SearchX size={80} strokeWidth={1.5} color="#3B5AA6" className="text-current transform scale-x-[-1]" /> 
+                    </div>
+                    <p className="text-gray-600 text-lg">No Pokemons were found</p>
+                  </div>
+                </TableCell>
+              </TableRow>
+            ) : (
+              pokemons.map(p => (
+                <Tooltip key={p.id}>
+                  <TooltipTrigger asChild>
+                    <TableRow
+                      className="hover:bg-neutrals-100 cursor-pointer"
+                      onClick={() =>
+                        setSelected({
+                          id: p.id,
+                          name: p.name,
+                          image: p.image,
+                          description: p.description,
+                          height: p.height,
+                          weight: p.weight,
+                          category: p.category,
+                          abilities: p.abilities,
+                        })
+                      }
+                    >
+                      <TableCell>
+                        <div className="flex items-center gap-2 truncate">
                           <img
-                            src={closePokemonIcon}
-                            alt="My Pokemon"
-                            className="h-4 w-4 ml-2"
+                            src={p.image}
+                            alt={p.name}
+                            className="h-11 w-11 rounded-full object-contain bg-slate-100"
                           />
-                        )}
-                      </div>
-                    </TableCell>
-                    <TableCell className="text-gray-600">{`#${p.id}`}</TableCell>
-                    <TableCell className="max-w-[300px] pr-10 truncate">
-                      {p.description}
-                    </TableCell>
-                    {p.powerLevel ? (
-                    <TableCell>{`Power level ${p.powerLevel}`}</TableCell>
-                    ) : (
-                      <TableCell >{`-`}</TableCell>
-                    )}
-                    {p.hpLevel ? (
-                    <TableCell className="capitalize">{`${p.hpLevel} HP`}</TableCell>
-                    ) : (
-                      <TableCell  >{`-`}</TableCell>
-                    )}
-                  </TableRow>
-             </TooltipTrigger>
-            
-              <TooltipContent side="top" align="center" className="bg-gray-700 text-body-regular text-white rounded px-3 py-2 max-w-xs">
-                <p>
-                  {p.description ?? "No description"}
-                </p>
-              </TooltipContent>
-            </Tooltip>
-            ))}
+                          <span>{p.name}</span>
+                          {p.isMyPokemon && (
+                            <img
+                              src={closePokemonIcon} 
+                              alt="My Pokemon"
+                              className="h-4 w-4 ml-2"
+                            />
+                          )}
+                        </div>
+                      </TableCell>
+                      <TableCell className="text-gray-600">{`#${p.id}`}</TableCell>
+                      <TableCell className="max-w-[300px] pr-10 truncate">
+                        {p.description}
+                      </TableCell>
+                      {p.powerLevel ? (
+                        <TableCell>{`Power level ${p.powerLevel}`}</TableCell>
+                      ) : (
+                        <TableCell>-</TableCell>
+                      )}
+                      {p.hpLevel ? (
+                        <TableCell className="capitalize">{`${p.hpLevel} HP`}</TableCell>
+                      ) : (
+                        <TableCell>-</TableCell>
+                      )}
+                    </TableRow>
+                  </TooltipTrigger>
+
+                  <TooltipContent side="top" align="center" className="bg-gray-700 text-body-regular text-white rounded px-3 py-2 max-w-xs">
+                    <p>
+                      {p.description ?? "No description"}
+                    </p>
+                  </TooltipContent>
+                </Tooltip>
+              ))
+            )}
           </TableBody>
         </TooltipProvider>
         </Table>
@@ -145,9 +159,11 @@ export const PokemonsList: React.FC<PokemonsListProps> = ({
           </div>
           <div className="flex items-center gap-8">
             <span className="text-caption-regular text-neutrals-600 whitespace-nowrap">
-              {(page - 1) * perPage + 1}-
-              {Math.min(page * perPage, pokemons.length)} of {rawPokemons.length}{" "}
-              items
+           {pokemons.length === 0 ? (
+             `0-0 of 0 items` 
+            ) : (
+              `${(page - 1) * perPage + 1}-${Math.min(page * perPage, pokemons.length)} of ${rawPokemons.length} items`
+              )}
             </span>
             <Pagination>
               <PaginationContent className="gap-1">
@@ -188,4 +204,8 @@ export const PokemonsList: React.FC<PokemonsListProps> = ({
       )}
     </>
   );
+
 };
+
+
+
