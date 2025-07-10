@@ -1,4 +1,3 @@
-import React from "react";
 import baseBg from "@/assets/chosen-pokemons.png";
 import type { Pokemon } from "@/hooks/usePokemonsData";
 
@@ -7,14 +6,15 @@ export interface ChosenPokemonDisplayProps {
   opponentPokemon: Pokemon;
 }
 
-export const ChosenPokemonDisplay: React.FC<ChosenPokemonDisplayProps> = ({
+export const ChosenPokemonDisplay = ({
   userPokemon,
   opponentPokemon,
-}) => {
+}:ChosenPokemonDisplayProps) => {
   return (
     <div
       className="
         relative
+        my-6
         mx-auto
         w-[90%] h-[400px]          /* default: small screens */
         md:w-[90%] md:h-[400px]  
