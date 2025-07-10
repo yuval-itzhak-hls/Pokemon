@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import logo from "@/assets/logo.png";
 import { GenericButton } from "@/design-system/generic-componenets/button/GenericButton";
 import { GenericTab, type TabItem } from "@/design-system/generic-componenets/tab/GenericTab";

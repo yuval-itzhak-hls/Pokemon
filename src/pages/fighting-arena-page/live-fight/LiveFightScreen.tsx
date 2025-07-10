@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import type { ChosenPokemonDisplayProps } from "../chosen-pokemon-display/ChosenPokemonsDisplay";
 import fightArena from "@/assets/fight-arena.png";
 import { AttackButton } from "../attack-button/AttackButton";
@@ -63,8 +63,8 @@ export const LiveFightScreen = ({
 
   useEffect(() => { 
     if (isUserTurn) {
-      const rate = opponentLife <= lowHpThreshold ? 0.2 : 0.1;
-      const canCatch = Math.random() < rate + 0.2;
+      const rate = opponentLife <= lowHpThreshold ? 0.4 : 0.1;
+      const canCatch = Math.random() < rate;
       setIsAbleCatch(canCatch);
       if (status !== Status.start && status !== Status.switch ){
         setStatus(Status.yourTurn)
@@ -185,7 +185,8 @@ export const LiveFightScreen = ({
     subLabel: p.speed,
     img: p.image,
     disabled: false,
-  }));
+  })).filter(p => p.value !== userPokemon.id.toString());
+
 
   if (showChoose) {
     return (
