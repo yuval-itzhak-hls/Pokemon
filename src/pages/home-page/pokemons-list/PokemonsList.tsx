@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Table,
   TableBody,
@@ -27,7 +27,7 @@ import { PokemonDetailsPanel } from "../pokemon-details-panel/PokemonDetailsPane
 import type {PokemonDetails} from "../pokemon-details-panel/PokemonDetailsPanel";
 import { SearchX } from 'lucide-react';
 
-interface PokemonsListProps {
+type PokemonsListProps = {
   pokemons: Pokemon[];
   page: number;
   pageCount: number;
@@ -36,29 +36,29 @@ interface PokemonsListProps {
   onPerPageChange: (n: number) => void;
 }
 
-export const PokemonsList: React.FC<PokemonsListProps> = ({
+export const PokemonsList = ({
   pokemons,
   page,
   pageCount,
   perPage,
   onPageChange,
   onPerPageChange,
-}) => {
+}:PokemonsListProps) => {
   const [selected, setSelected] = useState<PokemonDetails | null>(null);
 
   const closePanel = () => setSelected(null);
 
   return (
     <>
-      <div className="w-full max-w-[1450px]  mx-auto overflow-y-auto rounded-1xl bg-card">
+      <div className="w-full max-w-auto  mx-auto overflow-y-auto rounded-1xl bg-card ">
         <Table className="table-fixed text-body-regular [&_thead_tr>th]:text-body-bold [&_thead_tr>th]:text-black [&_thead_tr>th]:font-bold">
           <TableHeader className="bg-primary-50">
             <TableRow>
               <TableHead className="pl-[60px] w-[300px]">Pokemon name</TableHead>
               <TableHead className="w-[150px]">ID</TableHead>
               <TableHead className="w-[500px]">Description</TableHead>
-              <TableHead className="w-[127px]">Power level</TableHead>
-              <TableHead className="w-[127px]">HP level</TableHead>
+              <TableHead className="w-[120px]">Power level</TableHead>
+              <TableHead className="w-[120px]">HP level</TableHead>
             </TableRow>
           </TableHeader>
           <TooltipProvider delayDuration={0}>
@@ -94,7 +94,7 @@ export const PokemonsList: React.FC<PokemonsListProps> = ({
                       }
                     >
                       <TableCell>
-                        <div className="flex items-center gap-2 truncate">
+                        <div className="flex items-center gap-1 truncate">
                           <img
                             src={p.image}
                             alt={p.name}
@@ -111,7 +111,7 @@ export const PokemonsList: React.FC<PokemonsListProps> = ({
                         </div>
                       </TableCell>
                       <TableCell className="text-gray-600">{`#${p.id}`}</TableCell>
-                      <TableCell className="max-w-[300px] pr-10 truncate">
+                      <TableCell className="pr-10 truncate">
                         {p.description}
                       </TableCell>
                       {p.powerLevel ? (

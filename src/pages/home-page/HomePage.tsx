@@ -23,7 +23,7 @@ type HomePageProps =  {
 }
 
 export const HomePage= ({ mode }: HomePageProps) => {
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState<string>("");
   const [sortOption, setSortOption] = useState<SortOption>("alpha-asc");
   const [activeTab, setActiveTab] = useState<"list" | "card">("list");
 
@@ -90,22 +90,24 @@ export const HomePage= ({ mode }: HomePageProps) => {
       </div>
 
       {/* Main content */}
-      {activeTab === "list" ? (
-        <PokemonsList
-          pokemons={pokemons}
-          page={page}
-          pageCount={pageCount}
-          perPage={perPage}
-          onPageChange={setPage}
-          onPerPageChange={setPerPage}
-        />
-      ) : (
-        <PokemonCards
-          showMyPokemons={showMyPokemons}
-          searchTerm={searchTerm}
-          sortOption={sortOption}
-        />
-      )}
+      <div className="px-4">
+        {activeTab === "list" ? (
+          <PokemonsList
+            pokemons={pokemons}
+            page={page}
+            pageCount={pageCount}
+            perPage={perPage}
+            onPageChange={setPage}
+            onPerPageChange={setPerPage}
+          />
+        ) : (
+          <PokemonCards
+            showMyPokemons={showMyPokemons}
+            searchTerm={searchTerm}
+            sortOption={sortOption}
+          />
+        )}
+      </div>
     </div>
   );
 };
