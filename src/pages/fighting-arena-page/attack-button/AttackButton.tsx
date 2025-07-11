@@ -7,12 +7,12 @@ export interface AttackButtonProps {
   label?: string;
 }
 
-export function AttackButton({
+export const AttackButton = ({
   onClick,
   hover = true,
   visible = true,
   label = "ATTACK",
-}: AttackButtonProps) {
+}: AttackButtonProps) =>  {
   const hoverScale = hover ? "hover:scale-105 transition-transform" : "";
   const borderClasses = "border-2 border-black hover:border-blue-500 transition-colors focus:outline-none focus:ring-0 active:border-transparent"
   const visibilityClass = visible ? "visible" : "invisible";
@@ -35,9 +35,9 @@ export function AttackButton({
         <img
           src="src/assets/attack-button-element.png"
           alt="Attack icon"
-          className="w-12 h-12"
+          className="w-[55px] h-[55px]"
         />
-        <span className="mt-2 text-xl font-bold text-white uppercase drop-shadow-md">
+        <span className="text-stroke mt-1 text-xl font-bold font-mulish">
           {label}
         </span>
       </div>

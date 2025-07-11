@@ -54,3 +54,10 @@
 .read-the-docs {
   color: #888;
 }
+
+.text-stroke {
+    color: white;
+    paint-order: stroke fill;
+    -webkit-text-stroke: 0.12em black;
+    text-transform: uppercase;
+}
