@@ -42,7 +42,7 @@ export function useLifePoints() {
       const setDefenderLife = isUserTurn ? setOpponentLife : setUserLife;
 
       const damage = Math.abs(attacker.powerLevel - defender.defensePower);
-      const randomDamage = Math.round(damage * (Math.random() * (0.7 - 0.2) + 0.2));
+      const randomDamage = Math.round(damage * (Math.random() * (1.2 - 0.7) + 0.7));
       setDefenderLife((prev) => Math.max(prev - randomDamage, 0));
     },
     [userPokemon, opponentPokemon]
