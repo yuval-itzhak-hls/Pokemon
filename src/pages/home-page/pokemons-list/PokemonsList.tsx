@@ -77,7 +77,6 @@ export const PokemonsList = ({
             ) : (
               pokemons.map(p => (
                 <Tooltip key={p.id}>
-                  <TooltipTrigger asChild>
                     <TableRow
                       className="hover:bg-neutrals-100 cursor-pointer"
                       onClick={() =>
@@ -111,9 +110,11 @@ export const PokemonsList = ({
                         </div>
                       </TableCell>
                       <TableCell className="text-gray-600">{`#${p.id}`}</TableCell>
-                      <TableCell className="pr-10 truncate">
-                        {p.description}
-                      </TableCell>
+                      <TooltipTrigger asChild>
+                        <TableCell className="pr-10 truncate">
+                          {p.description}
+                        </TableCell>
+                      </TooltipTrigger>
                       {p.powerLevel ? (
                         <TableCell>{`Power level ${p.powerLevel}`}</TableCell>
                       ) : (
@@ -125,7 +126,6 @@ export const PokemonsList = ({
                         <TableCell>-</TableCell>
                       )}
                     </TableRow>
-                  </TooltipTrigger>
 
                   <TooltipContent side="top" align="center" className="bg-gray-700 text-body-regular text-white rounded px-3 py-2 max-w-xs">
                     <p>
