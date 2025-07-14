@@ -19,11 +19,11 @@ interface FightMessageProps {
   defenderName?: string;
 }
 
-export const FightMessage: React.FC<FightMessageProps> = ({
+export const FightMessage = ({
   status,
   attackerName = "",
   defenderName = "",
-}) => {
+}: FightMessageProps) => {
   const [msg, setMsg] = useState<string>("");
 
   useEffect(() => {
@@ -31,7 +31,7 @@ export const FightMessage: React.FC<FightMessageProps> = ({
       [Status.start]:        `${attackerName} starts the fight!`,
       [Status.attack]:       `${attackerName} attacks!`,
       [Status.yourTurn]:     `Your turn.`,
-      [Status.critical]:     `Critical hit! ${defenderName} faint!`,
+      [Status.critical]:     `Critical hit! ${attackerName} faint!`,
       [Status.disCatchable]: `You can’t catch ${defenderName} yet.`,
       [Status.caught]:       `You caught ${defenderName}!`,
       [Status.switch]:        `${defenderName} entered the battle!`,

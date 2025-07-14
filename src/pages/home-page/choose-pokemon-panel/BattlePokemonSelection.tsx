@@ -17,13 +17,13 @@ export const BattlePokemonSelection = ({
         <div
           key={p.id}
           onClick={() => onSelect(p)}
-          className="rounded-full cursor-pointer transition bg-gray-100"
+          className="rounded-full cursor-pointer transition bg-gray-100 w-[100px] h-[100px]"
         >
           <img
             src={p.image}
             alt={p.name}
             className={
-              `rounded-full w-[100px] h-[100px] object-cover ring-2 transition ` +
+              `rounded-full object-cover ring-2 transition ` +
               (selectedId === p.id
                 ? "ring-blue-600"
                 : "ring-transparent hover:ring-gray-300")

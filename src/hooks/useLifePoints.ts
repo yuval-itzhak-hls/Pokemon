@@ -58,10 +58,8 @@ export function useLifePoints() {
       candidates[Math.floor(Math.random() * candidates.length)];
 
     setBattle(userPokemon, newOpponent);
-
-    // reset life bars to full HP
-    setUserLife(userPokemon.hpLevel);
     setOpponentLife(newOpponent.hpLevel);
+    
   }, [allPokemons, setBattle, userPokemon]);
 
   return {

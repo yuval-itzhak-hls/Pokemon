@@ -2,7 +2,7 @@
 import { useState, useEffect, useMemo } from "react";
 import rawPokemons from "../data/pokemon.json";
 
-interface RawPokemon {
+type RawPokemon = {
   id: number;
   name: { english: string };
   description: string;
@@ -53,12 +53,12 @@ export type SortOption =
 
 const STORAGE_KEY = 'myPokemons';
 
-export function usePokemonsData(opts: {
+export const usePokemonsData = (opts: {
   showMyPokemons: boolean;
   searchTerm: string;
   sortOption: SortOption;
   rowsPerPage: number;
-}) {
+}) => {
   const { showMyPokemons, searchTerm, sortOption, rowsPerPage } = opts;
   const [myIds, setMyIds] = useState<string[]>([]);
   const [page, setPage] = useState(1);
@@ -76,7 +76,6 @@ export function usePokemonsData(opts: {
           setMyIds([]);
         }
       } else {
-        // first-time seed: pick 5 random IDs
         const all = (rawPokemons as RawPokemon[]).map((p) =>
           p.id.toString().padStart(4, "0")
         );
@@ -121,7 +120,6 @@ export function usePokemonsData(opts: {
     });
   }, [myIds]);
 
-  // filter
   let filtered = showMyPokemons
     ? baseList.filter(p => p.isMyPokemon)
     : baseList;
@@ -133,7 +131,6 @@ export function usePokemonsData(opts: {
     );
   }
 
-  // sort
   const sorted = useMemo(() => {
     const out = [...filtered];
     switch (sortOption) {
@@ -153,7 +150,6 @@ export function usePokemonsData(opts: {
     }
   }, [filtered, sortOption]);
 
-  // pagination
   const pageCount = Math.ceil(sorted.length / perPage);
   const slice = useMemo(() => {
     const start = (page - 1) * perPage;

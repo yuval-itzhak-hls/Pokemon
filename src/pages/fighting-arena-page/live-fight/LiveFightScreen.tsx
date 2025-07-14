@@ -62,6 +62,10 @@ export const LiveFightScreen = ({
 
 
   useEffect(() => { 
+    if (!opponentLife){
+      setShowResult(true);
+      setStatus(Status.critical);
+    }
     if (isUserTurn) {
       const rate = opponentLife <= lowHpThreshold ? 0.4 : 0.1;
       const canCatch = Math.random() < rate;
@@ -70,7 +74,7 @@ export const LiveFightScreen = ({
         setStatus(Status.yourTurn)
       }
     }
-  }, [isUserTurn, opponentLife, lowHpThreshold]);
+  }, [isUserTurn, opponentLife]);
 
   useEffect(() => {
     if (isWon || isLost) {
@@ -185,7 +189,8 @@ export const LiveFightScreen = ({
     subLabel: p.speed,
     img: p.image,
     disabled: false,
-  })).filter(p => p.value !== userPokemon.id.toString());
+    hpLevel : p.hpLevel,
+  })).filter(p => p.value !== userPokemon.id.toString()).filter(p => p.hpLevel != null);
 
 
   if (showChoose) {
