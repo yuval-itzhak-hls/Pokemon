@@ -2,7 +2,10 @@ import { useState, useEffect, useCallback } from "react";
 import { useBattle } from "@/context/BattleContext";
 import { usePokemonsData, type Pokemon } from "@/hooks/usePokemonsData";
 
-export function useLifePoints() {
+const DAMAGE_MULTIPLIER_MIN = 0.7;
+const DAMAGE_MULTIPLIER_MAX = 1.2;
+
+export const useLifePoints = () => {
   const { userPokemon, opponentPokemon, setBattle } = useBattle();
 
   // grab the full roster to pick a new random opponent later
@@ -22,16 +25,10 @@ export function useLifePoints() {
 
   // whenever userPokemon/opponentPokemon change, reset their life bars
   useEffect(() => {
-    if (userPokemon) {
-      setUserLife(userPokemon.hpLevel);
-    }
-  }, [userPokemon]);
+    setUserLife(userPokemon?.hpLevel ?? 0);
+    setOpponentLife(opponentPokemon?.hpLevel ?? 0);
+  }, [userPokemon, opponentPokemon]); 
 
-  useEffect(() => {
-    if (opponentPokemon) {
-      setOpponentLife(opponentPokemon.hpLevel);
-    }
-  }, [opponentPokemon]);
 
   const applyAttack = useCallback(
     (isUserTurn: boolean) => {
@@ -41,9 +38,13 @@ export function useLifePoints() {
       const defender: Pokemon = isUserTurn ? opponentPokemon : userPokemon;
       const setDefenderLife = isUserTurn ? setOpponentLife : setUserLife;
 
-      const damage = Math.abs(attacker.powerLevel - defender.defensePower);
-      const randomDamage = Math.round(damage * (Math.random() * (1.2 - 0.7) + 0.7));
-      setDefenderLife((prev) => Math.max(prev - randomDamage, 0));
+      const baseDamage = Math.abs(attacker.powerLevel - defender.defensePower);
+      const randomMultiplier =
+        Math.random() * (DAMAGE_MULTIPLIER_MAX - DAMAGE_MULTIPLIER_MIN) +
+        DAMAGE_MULTIPLIER_MIN;
+      const finalDamage = Math.round(baseDamage * randomMultiplier);
+
+      setDefenderLife((prevLife) => Math.max(prevLife - finalDamage, 0));
     },
     [userPokemon, opponentPokemon]
   );
@@ -51,11 +52,11 @@ export function useLifePoints() {
   const rematch = useCallback(() => {
     if (!userPokemon) return;
 
-    const candidates = allPokemons.filter(
-      (p) => p.id !== userPokemon.id
+    const potentialOpponents = allPokemons.filter(
+      (pokemon) => pokemon.id !== userPokemon.id
     );
     const newOpponent =
-      candidates[Math.floor(Math.random() * candidates.length)];
+      potentialOpponents[Math.floor(Math.random() * potentialOpponents.length)];
 
     setBattle(userPokemon, newOpponent);
     setOpponentLife(newOpponent.hpLevel);
