@@ -25,6 +25,9 @@ export const HomePage: React.FC = () => {
   const [activeTab, setActiveTab] = useState<"list" | "card">("list");
 
   const title = showMyPokemons ? "My Pokemons" : "All Pokemons";
+  
+  const [searchTerm, setSearchTerm] = useState("");
+  const [debouncedTerm] = useDebounce(searchTerm, 300);
 
   const {
     pokemons,

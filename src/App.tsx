@@ -1,6 +1,6 @@
 import './App.css'
-import AuthPage from './pages/auth/AuthPage'
-import AuthLayout from './pages/auth/AuthLayout'
+import AuthPage from './pages/Auth/AuthPage';
+import AuthLayout from './pages/Auth/AuthLayout';
 import {Route, BrowserRouter, Routes} from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
 import { AppLayout } from './pages/AppLayout';
