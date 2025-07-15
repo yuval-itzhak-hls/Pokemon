@@ -58,7 +58,7 @@ export const ChoosePokemonBattlePanel: React.FC<ChoosePokemonBattlePanelProps> =
               <img
                 src={p.image}
                 alt={p.name}
-                className="rounded-full object-contain bg-gray-100"
+                className="rounded-full object-contain w-[100px] h-[100px] bg-gray-100"
               />
             </div>
           ))}

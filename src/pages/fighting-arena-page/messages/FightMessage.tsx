@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import clsx from "clsx";
 
 export const Status = {
   start:        "START",
@@ -40,7 +41,9 @@ export const FightMessage: React.FC<FightMessageProps> = ({
   }, [status, attackerName, defenderName]);
 
   return (
-    <div className="pb-10 text-heading-lg-bold text-neutral-800">
+    <div className={clsx("pb-10 text-heading-lg-bold ",
+      status === Status.critical ? "text-red-500" : "text-neutral-800" 
+    )}>
       {msg}
     </div>
   );

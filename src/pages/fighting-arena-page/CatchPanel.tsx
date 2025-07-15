@@ -46,7 +46,7 @@ const CatchPanel: React.FC<CatchPanelProps> = ({
             <h3 className="text-heading-md-bold text-gray-700 m-4">
               Rewards Earned
             </h3>
-            <div className="grid grid-cols-3 text-leftv pl-4">
+            <div className="grid grid-cols-3 text-left px-4 ">
               <div>
                 <p className="text-body-regular text-gray-600">Speed</p>
                 <p className="text-gray-700 text-heading-md-regular">{rewards.speed}</p>

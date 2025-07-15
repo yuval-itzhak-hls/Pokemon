@@ -37,7 +37,7 @@ export const PokemonDetailsPanel: React.FC<PokemonDetailsPanelProps> = ({
           <img
             src={pokemon.image}
             alt={pokemon.name}
-            className="mx-auto h-35 w-auto object-contain"
+            className="mx-auto h-[160px] w-[470px] object-contain"
           />
         </div>
 
@@ -46,22 +46,22 @@ export const PokemonDetailsPanel: React.FC<PokemonDetailsPanelProps> = ({
           <p className="text-gray-700 mb-6">
             {pokemon.description}
           </p>
-          <div className="border-t border-gray-400 pt-6 grid grid-cols-2 md:grid-cols-4 gap-y-4">
+          <div className="border-t border-gray-400 pt-4 grid grid-cols-2 md:grid-cols-4 gap-y-4">
             <div className="text-center">
               <div className="text-body-regular text-gray-500">Height</div>
-              <div className="mt-1 tetx-heading-md-regular text-gray-800">{pokemon.height}</div>
+              <div className="mt-1 text-subheading-regular text-gray-800">{pokemon.height}</div>
             </div>
             <div className="text-center">
               <div className="text-body-regular text-gray-500">Weight</div>
-                <div className="mt-1 tetx-heading-md-regular text-gray-800">{pokemon.weight}</div>
+                <div className="mt-1 text-subheading-regular text-gray-800">{pokemon.weight}</div>
             </div>
             <div className="text-center">
               <div className="text-body-regular text-gray-500 ">Category</div>
-              <div className="mt-1 tetx-heading-md-regular text-gray-800">{pokemon.category}</div>
+              <div className="mt-1 text-subheading-regular text-gray-800">{pokemon.category}</div>
             </div>
             <div className="text-center">
               <div className="text-body-regular text-gray-500 ">Abilities</div>
-              <div className="mt-1 tetx-heading-md-regular text-gray-800">
+              <div className="mt-1 text-subheading-regular text-gray-800">
                 {pokemon.abilities.join(", ")}
               </div>
             </div>

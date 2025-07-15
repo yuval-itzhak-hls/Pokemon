@@ -16,6 +16,7 @@ import { MessageCard } from "./messages/MessageCard";
 import { GenericDropDown } from "@/design-system/generic-componenets/GenericDropDown";
 import type { Options } from "@/design-system/generic-componenets/GenericDropDown";
 import { useBattle } from "@/context/BattleContext";
+import { ShakyImage } from "../ShakyImage";
 
 
 const STORAGE_KEY = "myPokemons";
@@ -42,6 +43,8 @@ export const LiveFightScreen: React.FC<ChosenPokemonDisplayProps> = ({
   const [selectedId, setSelectedId] = useState<string | undefined>(undefined);
   const [isSwitch, setIsSwitch] = useState<boolean>(false);
   const [newUserPokemon, setNewUserPokemon] = useState<Pokemon>(userPokemon);
+  const [userAttacked, setUserAttacked] = useState<boolean>(false);
+  const [opponentAtacked, setOpponentAtacked] = useState<boolean>(false);
 
   const maxCatchTries = 3;
   const lowHpThreshold = opponentPokemon.hpLevel * 0.2;
@@ -57,10 +60,11 @@ export const LiveFightScreen: React.FC<ChosenPokemonDisplayProps> = ({
       }
   }, []);
 
+
   useEffect(() => { 
     if (isUserTurn) {
       const rate = opponentLife <= lowHpThreshold ? 0.2 : 0.1;
-      const canCatch = Math.random() < rate + 0.4;
+      const canCatch = Math.random() < rate + 0.2;
       setIsAbleCatch(canCatch);
       if (status !== Status.start && status !== Status.switch ){
         setStatus(Status.yourTurn)
@@ -70,18 +74,21 @@ export const LiveFightScreen: React.FC<ChosenPokemonDisplayProps> = ({
 
   useEffect(() => {
     if (isWon || isLost) {
-      setShowResult(true);
-      if (isLost){
-        setStatus(Status.critical)
-      }
+      // delay showing the panel
+      const timer = setTimeout(() => {
+        setShowResult(true);
+        if (isLost) {
+          setStatus(Status.critical);
+        }
+      }, 1500);
+      return () => clearTimeout(timer);
+    
+    } else {
+      setShowResult(false);
     }
+    
   }, [isWon, isLost]);
 
-  const handleAttack = () => {
-    setStatus(Status.attack);
-    applyAttack(isUserTurn);
-    setIsUserTurn((t) => !t);
-  };
 
   // Opponent auto-attack
   useEffect(() => {
@@ -90,6 +97,8 @@ export const LiveFightScreen: React.FC<ChosenPokemonDisplayProps> = ({
       return () => clearTimeout(timer);
     }
   }, [isUserTurn, userLife, opponentLife]);
+
+
 
   const catchPokemon = () => {
     setCatchTries((t) => t + 1);
@@ -108,6 +117,14 @@ export const LiveFightScreen: React.FC<ChosenPokemonDisplayProps> = ({
     }else{
       setStatus(Status.disCatchable);
     }
+  };
+
+  const handleAttack = () => {
+  setStatus(Status.attack);
+  setUserAttacked(!isUserTurn);
+  setOpponentAtacked(isUserTurn);
+  applyAttack(isUserTurn);
+  setIsUserTurn((t) => !t);
   };
 
   const onEndMatch = () => navigate("/home-page");
@@ -220,14 +237,16 @@ export const LiveFightScreen: React.FC<ChosenPokemonDisplayProps> = ({
         />
 
         {/* pokemons and attack button */}
-        <img
+        <ShakyImage
           src={userPokemon.image}
-          alt="Your Pokémon"
+          alt="Your Pokemon"
+          shouldShake={userAttacked}
           className="absolute left-[20%] top-[60%] w-1/3 md:w-1/4 lg:w-[20%] h-[30%] object-contain transform -translate-y-1/4"
         />
-        <img
+        <ShakyImage
           src={!caught ? opponentPokemon.image : closePokemon}
-          alt="Opponent Pokémon"
+          alt="Opponent Pokemon"
+          shouldShake={opponentAtacked}
           className="absolute right-[25%] top-[30%] w-1/3 md:w-1/4 lg:w-[20%] h-[30%] object-contain transform -translate-y-3/4"
         />
 

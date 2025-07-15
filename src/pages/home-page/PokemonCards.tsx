@@ -49,7 +49,7 @@ export const PokemonCards: React.FC<PokemonCardsProps> = ({
           {pokemons.slice(0, visibleCount).map((p: Pokemon) => (
             <div
               key={p.id}
-              className="bg-white p-4 flex flex-col items-left text-left h-[308px] w-[322px] cursor-pointer"
+              className="bg-white p-4 flex flex-col text-left h-[308px] w-[322px] cursor-pointer"
               onClick={() =>
                   setSelected({
                     id: p.id,
@@ -62,11 +62,11 @@ export const PokemonCards: React.FC<PokemonCardsProps> = ({
                     abilities: p.abilities,
                   })}
             >
-              <div className="relative bg-gray-50 overflow-hidden mb-4 items-center w-[274px] h-[188px]">
+              <div className="relative bg-gray-50 overflow-hidden mb-4 items-center w-full h-[195px]">
                 <img
                   src={p.image}
                   alt={p.name}
-                  className="w-[240px] h-[200px] object-contain"
+                  className="w-full h-[200px] object-contain items-center"
                 />
               </div>
               <span className="text-subheading-regular text-neutrals-200 mb-1">#{p.id}</span>

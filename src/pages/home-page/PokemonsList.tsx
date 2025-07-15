@@ -14,6 +14,12 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+  TooltipProvider,
+} from "@/components/ui/tooltip";
 import closePokemonIcon from "@/assets/close-pokemon.png";
 import type { Pokemon } from "@/hooks/usePokemonsData";
 import rawPokemons from "../../data/pokemon.json";
@@ -47,57 +53,76 @@ export const PokemonsList: React.FC<PokemonsListProps> = ({
         <Table className="table-fixed text-body-regular [&_thead_tr>th]:text-body-bold [&_thead_tr>th]:text-black [&_thead_tr>th]:font-bold">
           <TableHeader className="bg-primary-50">
             <TableRow>
-              <TableHead className="w-[300px]">Pokemon name</TableHead>
+              <TableHead className="pl-[60px] w-[300px]">Pokemon name</TableHead>
               <TableHead className="w-[150px]">ID</TableHead>
               <TableHead className="w-[500px]">Description</TableHead>
               <TableHead className="w-[127px]">Power level</TableHead>
               <TableHead className="w-[127px]">HP level</TableHead>
             </TableRow>
           </TableHeader>
+          <TooltipProvider delayDuration={0}>
           <TableBody>
             {pokemons.map(p => (
-              <TableRow
-                key={p.id}
-                className="hover:bg-neutrals-100 cursor-pointer"
-                onClick={() =>
-                  setSelected({
-                    id: p.id,
-                    name: p.name,
-                    image: p.image,
-                    description: p.description,
-                    height: p.height,
-                    weight: p.weight,
-                    category: p.category,
-                    abilities: p.abilities,
-                  })
-                }
-               >
-                <TableCell>
-                  <div className="flex items-center gap-2 truncate">
-                    <img
-                      src={p.image}
-                      alt={p.name}
-                      className="h-11 w-11 rounded-full object-contain bg-slate-100"
-                    />
-                    <span>{p.name}</span>
-                    {p.isMyPokemon && (
-                      <img
-                        src={closePokemonIcon}
-                        alt="My Pokemon"
-                        className="h-4 w-4 ml-2"
-                      />
+              <Tooltip key={p.id}>
+                <TooltipTrigger asChild>
+                  <TableRow
+                    className="hover:bg-neutrals-100 cursor-pointer"
+                    onClick={() =>
+                      setSelected({
+                        id: p.id,
+                        name: p.name,
+                        image: p.image,
+                        description: p.description,
+                        height: p.height,
+                        weight: p.weight,
+                        category: p.category,
+                        abilities: p.abilities,
+                      })
+                    }
+                  >
+                    <TableCell>
+                      <div className="flex items-center gap-2 truncate">
+                        <img
+                          src={p.image}
+                          alt={p.name}
+                          className="h-11 w-11 rounded-full object-contain bg-slate-100"
+                        />
+                        <span>{p.name}</span>
+                        {p.isMyPokemon && (
+                          <img
+                            src={closePokemonIcon}
+                            alt="My Pokemon"
+                            className="h-4 w-4 ml-2"
+                          />
+                        )}
+                      </div>
+                    </TableCell>
+                    <TableCell className="text-gray-600">{`#${p.id}`}</TableCell>
+                    <TableCell className="max-w-[300px] pr-10 truncate">
+                      {p.description}
+                    </TableCell>
+                    {p.powerLevel ? (
+                    <TableCell>{`Power level ${p.powerLevel}`}</TableCell>
+                    ) : (
+                      <TableCell >{`-`}</TableCell>
                     )}
-                  </div>
-                </TableCell>
-                <TableCell>{`#${p.id}`}</TableCell>
-                <TableCell className="max-w-[420px] truncate">
-                  {p.description}
-                </TableCell>
-                <TableCell>{`Power level ${p.powerLevel}`}</TableCell>
-                <TableCell className="capitalize">{`${p.hpLevel} HP`}</TableCell>
-              </TableRow>
+                    {p.hpLevel ? (
+                    <TableCell className="capitalize">{`${p.hpLevel} HP`}</TableCell>
+                    ) : (
+                      <TableCell  >{`-`}</TableCell>
+                    )}
+                  </TableRow>
+             </TooltipTrigger>
+            
+              <TooltipContent side="top" align="center" className="bg-gray-700 text-body-regular text-white rounded px-3 py-2 max-w-xs">
+                <p>
+                  {p.description ?? "No description"}
+                </p>
+              </TooltipContent>
+            </Tooltip>
             ))}
           </TableBody>
+        </TooltipProvider>
         </Table>
 
         <div className="flex items-center justify-between px-4 py-3 text-caption-regular text-neutrals-600 h-11 border-t">

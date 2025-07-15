@@ -7,6 +7,14 @@ export default {
   ],
   theme: {
   	extend: {
+      backgroundImage: {
+        "gradient-default": "linear-gradient(135deg, #ff7e5f, #feb47b)",
+        "card-active": "linear-gradient(180deg, #5BE2F7 0%, #50DDA0 99.99%)",
+        "card-disactive":
+          "linear-gradient(0deg, rgba(168,161,161,0.4), rgba(168,161,161,0.4)), linear-gradient(180deg, #5BE2F7 0%, #50DDA0 99.99%)",
+        "card-faint" : "linear-gradient(180deg, rgba(247, 91, 91, 0.6) 0%, rgba(221, 113, 80, 0.5) 99.99%, rgba(215, 186, 69, 0.2) 100%)",
+
+      },
   		borderRadius: {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
@@ -24,6 +32,8 @@ export default {
         "neutrals-600":"#71787F",
         "primary-50":"#EBEFF6",
         "catch-button" :"#F2F5F7",
+        "linear-gradient-start" : "#5BE2F7", 
+        "linear-gradient-end" : "#50DDA0",
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {
@@ -88,7 +98,17 @@ export default {
   		},
       fontFamily: {
           mulish: ["Mulish", "sans-serif"],
-      }
+      },
+      keyframes: {
+        shake: {
+          '0%, 100%': { '--tw-translate-x': '0px' },
+          '10%, 30%, 50%, 70%, 90%': { '--tw-translate-x': '-5px' },
+          '20%, 40%, 60%, 80%': { '--tw-translate-x': '5px' },
+        },
+      },
+      animation: {
+        shake: 'shake 1s ease-in-out',
+      },
   	}
   },
   plugins: [require("tailwindcss-animate")],
