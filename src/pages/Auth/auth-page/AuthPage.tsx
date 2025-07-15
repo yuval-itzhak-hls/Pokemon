@@ -9,6 +9,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { GenericButton } from "@/design-system/generic-componenets/button/GenericButton";
+import { useNavigate } from "react-router";
 
 export type AuthMode = "login" | "signup";
 
@@ -30,6 +31,7 @@ const AuthPage = ({ mode }:AuthPageProps) => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate()
 
  
   useEffect(() => {
@@ -72,7 +74,7 @@ const AuthPage = ({ mode }:AuthPageProps) => {
       users.push({ email, password });
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(users));
       localStorage.setItem("currentUser", email);
-      window.location.href = "/all-pokemons";
+      navigate("/home-page");
     }
   };
 
