@@ -69,7 +69,7 @@ export function usePokemonsData(opts: {
       const all = (rawPokemons as RawPokemon[]).map(p =>
         p.id.toString().padStart(4, '0')
       );
-      const pick = [...all].sort(() => Math.random() - 0.5).slice(0, 3);
+      const pick = [...all].sort(() => Math.random() - 0.5).slice(0, 5);
       localStorage.setItem(STORAGE_KEY, JSON.stringify(pick));
       setMyIds(pick);
     }

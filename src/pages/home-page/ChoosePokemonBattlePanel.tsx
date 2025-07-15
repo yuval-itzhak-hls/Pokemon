@@ -44,7 +44,7 @@ export const ChoosePokemonBattlePanel: React.FC<ChoosePokemonBattlePanelProps> =
           <DialogTitle className="text-heading-lg-regular">Choose the Pokemon to battle with</DialogTitle>
         </div>
 
-        <div className="grid grid-cols-3 sm:grid-cols-5 gap-4 justify-items-center mb-6">
+        <div className="grid grid-cols-3 border-b border-gray-200 pb-10 gap-8 justify-items-center mb-6">
           {myPokemons.map(p => (
             <div
               key={p.id}
@@ -57,7 +57,7 @@ export const ChoosePokemonBattlePanel: React.FC<ChoosePokemonBattlePanelProps> =
               <img
                 src={p.image}
                 alt={p.name}
-                className="h-20 w-20 rounded-full object-contain bg-gray-100"
+                className="rounded-full object-contain bg-gray-100"
               />
             </div>
           ))}

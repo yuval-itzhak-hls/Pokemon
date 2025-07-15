@@ -1,9 +1,17 @@
 import { useState, useEffect, useCallback } from "react";
 import { useBattle } from "@/context/BattleContext";
-import type { Pokemon } from "@/hooks/usePokemonsData";
+import { usePokemonsData, type Pokemon } from "@/hooks/usePokemonsData";
 
 export function useLifePoints() {
-  const { userPokemon, opponentPokemon } = useBattle();
+  const { userPokemon, opponentPokemon, setBattle } = useBattle();
+
+  // grab the full roster to pick a new random opponent later
+  const { pokemons: allPokemons } = usePokemonsData({
+    showMyPokemons: false,
+    searchTerm: "",
+    sortOption: "alpha-asc",
+    rowsPerPage: 999,
+  });
 
   const [userLife, setUserLife] = useState<number>(
     userPokemon?.hpLevel ?? 0
@@ -12,20 +20,23 @@ export function useLifePoints() {
     opponentPokemon?.hpLevel ?? 0
   );
 
-  //reset if we switch to a new battle
+  // whenever userPokemon/opponentPokemon change, reset their life bars
   useEffect(() => {
-    if (userPokemon) setUserLife(userPokemon.hpLevel);
+    if (userPokemon) {
+      setUserLife(userPokemon.hpLevel);
+    }
   }, [userPokemon]);
 
   useEffect(() => {
-    if (opponentPokemon) setOpponentLife(opponentPokemon.hpLevel);
+    if (opponentPokemon) {
+      setOpponentLife(opponentPokemon.hpLevel);
+    }
   }, [opponentPokemon]);
 
   const applyAttack = useCallback(
     (isUserTurn: boolean) => {
       if (!userPokemon || !opponentPokemon) return;
 
-      //checking how is attacker/defender based on turn
       const attacker: Pokemon = isUserTurn ? userPokemon : opponentPokemon;
       const defender: Pokemon = isUserTurn ? opponentPokemon : userPokemon;
       const setDefenderLife = isUserTurn ? setOpponentLife : setUserLife;
@@ -36,5 +47,28 @@ export function useLifePoints() {
     [userPokemon, opponentPokemon]
   );
 
-  return { userLife, opponentLife, applyAttack };
+  const rematch = useCallback(() => {
+    if (!userPokemon) return;
+
+    // pick a random Pokemon that isn't the current user
+    const candidates = allPokemons.filter(
+      (p) => p.id !== userPokemon.id
+    );
+    const newOpponent =
+      candidates[Math.floor(Math.random() * candidates.length)];
+
+    // update context + localStorage
+    setBattle(userPokemon, newOpponent);
+
+    // reset life bars to full HP
+    setUserLife(userPokemon.hpLevel);
+    setOpponentLife(newOpponent.hpLevel);
+  }, [allPokemons, setBattle, userPokemon]);
+
+  return {
+    userLife,
+    opponentLife,
+    applyAttack,
+    rematch,
+  };
 }
