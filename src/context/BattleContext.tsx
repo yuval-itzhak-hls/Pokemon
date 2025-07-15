@@ -1,7 +1,7 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect, type ReactNode} from "react";
 import type { Pokemon } from "@/hooks/usePokemonsData";
 
-interface BattleContextValue {
+type BattleContextValue = {
   userPokemon: Pokemon | null;
   opponentPokemon: Pokemon | null;
   setBattle: (user: Pokemon, opponent: Pokemon) => void;
@@ -9,20 +9,22 @@ interface BattleContextValue {
 }
 
 const BattleContext = createContext<BattleContextValue | undefined>(undefined);
+const STORAGE_KEY = "battle";
 
-export const BattleProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+
+export const BattleProvider = ({ children }: { children: ReactNode }) => {
   const [userPokemon, setUserPokemon] = useState<Pokemon | null>(null);
   const [opponentPokemon, setOpponentPokemon] = useState<Pokemon | null>(null);
 
   useEffect(() => {
-    const stored = localStorage.getItem("battle");
+    const stored = localStorage.getItem(STORAGE_KEY);
     if (stored) {
       try {
         const { user, opponent } = JSON.parse(stored) as { user: Pokemon; opponent: Pokemon };
         setUserPokemon(user);
         setOpponentPokemon(opponent);
       } catch {
-        localStorage.removeItem("battle");
+        localStorage.removeItem(STORAGE_KEY);
       }
     }
   }, []);
@@ -30,13 +32,13 @@ export const BattleProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   const setBattle = (user: Pokemon, opponent: Pokemon) => {
     setUserPokemon(user);
     setOpponentPokemon(opponent);
-    localStorage.setItem("battle", JSON.stringify({ user, opponent }));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ user, opponent }));
   };
 
   const clearBattle = () => {
     setUserPokemon(null);
     setOpponentPokemon(null);
-    localStorage.removeItem("battle");
+    localStorage.removeItem(STORAGE_KEY);
   };
 
   return (
@@ -46,7 +48,7 @@ export const BattleProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   );
 };
 
-export function useBattle() {
+export const useBattle = (): BattleContextValue => {
   const context = useContext(BattleContext);
   if (!context) throw new Error("useBattle must be used within a BattleProvider");
   return context;
