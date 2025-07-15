@@ -6,8 +6,14 @@ interface RawPokemon {
   id: number;
   name: { english: string };
   description: string;
-  base: { HP: number; Attack: number };
+  species: string;
+  profile: {
+    height: string;
+    weight: string;
+    ability: string[][];
+  };
   image: { thumbnail?: string; sprite: string };
+  base: { HP: number; Attack: number };
 }
 
 export interface Pokemon {
@@ -18,6 +24,10 @@ export interface Pokemon {
   hpLevel: number;    
   image: string;
   isMyPokemon: boolean;
+  height: string;
+  weight: string;
+  category: string;
+  abilities: string[];
 }
 
 export type SortOption =
@@ -60,20 +70,24 @@ export function usePokemonsData(opts: {
     }
   }, []);
 
-  //build base list with numeric levels
+  
   const baseList = useMemo<Pokemon[]>(() => {
     return (rawPokemons as RawPokemon[]).map(p => {
       const id = p.id.toString().padStart(4, '0');
       return {
-        id,
-        name: p.name.english,
-        description: p.description,
-        powerLevel: p.base?.Attack,
-        hpLevel: p.base?.HP,
-        image: p.image.thumbnail ?? p.image.sprite,
-        isMyPokemon: myIds.includes(id),
-      };
-    });
+      id,
+      name: p.name.english,
+      description: p.description,
+      powerLevel: p.base?.Attack,
+      hpLevel: p.base?.HP,
+      image: p.image.thumbnail ?? p.image.sprite,
+      isMyPokemon: myIds.includes(id),
+      height: p.profile?.height,
+      weight: p.profile?.weight,
+      category: p.species,
+      abilities: p.profile?.ability.map((a) => a[0]),
+    };
+  });
   }, [myIds]);
 
   // filter

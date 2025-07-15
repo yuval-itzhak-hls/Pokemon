@@ -1,8 +1,10 @@
 // src/components/PokemonCards.tsx
-import React from "react";
-import { usePokemonsData} from "@/hooks/usePokemonsData";
+import React, { useState, useRef } from "react";
+import { usePokemonsData } from "@/hooks/usePokemonsData";
 import type { SortOption, Pokemon } from "@/hooks/usePokemonsData";
 import rawPokemons from "../../data/pokemon.json";
+import { PokemonDetailsPanel } from "./PokemonDetailsPanel";
+import type { PokemonDetails } from "./PokemonDetailsPanel";
 
 interface PokemonCardsProps {
   showMyPokemons: boolean;
@@ -15,15 +17,14 @@ export const PokemonCards: React.FC<PokemonCardsProps> = ({
   searchTerm,
   sortOption,
 }) => {
- 
   const totalRaw = rawPokemons.length;
   const { pokemons } = usePokemonsData({ showMyPokemons, searchTerm, sortOption, rowsPerPage: totalRaw });
 
   // infinite scroll state
   const BATCH = 20;
   const [visibleCount, setVisibleCount] = React.useState<number>(BATCH);
-
-  const containerRef = React.useRef<HTMLDivElement>(null);
+  const [selected, setSelected] = useState<PokemonDetails | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const onScroll = () => {
     const el = containerRef.current;
@@ -34,32 +35,55 @@ export const PokemonCards: React.FC<PokemonCardsProps> = ({
     }
   };
 
+  const closePanel = () => setSelected(null);
+
   return (
-    <div
-      ref={containerRef}
-      onScroll={onScroll}
-      className="max-w-[1360px] mx-auto overflow-y-auto"
-      style={{ maxHeight: '80vh' }}
-    >
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {pokemons.slice(0, visibleCount).map((p: Pokemon) => (
-          <div
-            key={p.id}
-            className="bg-white p-4 flex flex-col items-left text-left h-[308px] w-[322px]"
-          >
-            <div className="relative bg-gray-50 overflow-hidden mb-4 items-center w-[274px] h-[188px]">
-              <img
-                src={p.image}
-                alt={p.name}
-                className="w-[240px] h-[200px] object-contain"
-              />
+    <>
+      <div
+        ref={containerRef}
+        onScroll={onScroll}
+        className="max-w-[1360px] mx-auto overflow-y-auto"
+        style={{ maxHeight: '80vh' }}
+      >
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {pokemons.slice(0, visibleCount).map((p: Pokemon) => (
+            <div
+              key={p.id}
+              className="bg-white p-4 flex flex-col items-left text-left h-[308px] w-[322px] cursor-pointer"
+              onClick={() =>
+                  setSelected({
+                    id: p.id,
+                    name: p.name,
+                    image: p.image,
+                    description: p.description,
+                    height: p.height,
+                    weight: p.weight,
+                    category: p.category,
+                    abilities: p.abilities,
+                  })}
+            >
+              <div className="relative bg-gray-50 overflow-hidden mb-4 items-center w-[274px] h-[188px]">
+                <img
+                  src={p.image}
+                  alt={p.name}
+                  className="w-[240px] h-[200px] object-contain"
+                />
+              </div>
+              <span className="text-subheading-regular text-neutrals-200 mb-1">#{p.id}</span>
+              <h3 className="text-heading-lg-regular mb-2 truncate">{p.name}</h3>
+              <p className="text-sm text-gray-600">{`${p.hpLevel} HP`}</p>
             </div>
-            <span className="text-subheading-regular text-neutrals-200 mb-1">#{p.id}</span>
-            <h3 className="text-heading-lg-regular mb-2 truncate">{p.name}</h3>
-            <p className="text-sm text-gray-600">{`${p.hpLevel} HP`}</p>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-    </div>
+
+      {selected && (
+        <PokemonDetailsPanel
+          pokemon={selected}
+          isOpen={!!selected}
+          onClose={closePanel}
+        />
+      )}
+    </>
   );
 };
