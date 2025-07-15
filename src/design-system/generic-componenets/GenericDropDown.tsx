@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useState } from "react";
 import {
   Select,
   SelectTrigger,
@@ -13,11 +13,13 @@ import {
   TooltipContent,
 } from "@/components/ui/tooltip";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import { SearchBar } from "./SearchBar";
 import clsx from "clsx";
 
 export type Options = {
   value: string;
   label: string;
+  subLabel?: number;
   img?: string;
   disabled?: boolean;
 };
@@ -31,9 +33,10 @@ interface GenericDropDownProps {
   className?: string;
   disabled?: boolean;
   disabledMessage?: string;
+  isSearch?: boolean;
 }
 
-export function GenericDropDown({
+export const GenericDropDown = ({
   placeholder = "Choose…",
   options,
   value,
@@ -41,9 +44,10 @@ export function GenericDropDown({
   onValueChange,
   className,
   disabled = false,
-  disabledMessage = "You have already switched a Pokémon in this battle.",
-}: GenericDropDownProps) {
-  const [openTooltip, setOpenTooltip] = React.useState(false);
+  isSearch = false,
+  disabledMessage = "You have already switched a Pokemon in this battle.",
+}: GenericDropDownProps) => {
+  const [openTooltip, setOpenTooltip] = useState(false);
 
   const showTooltip = () => {
     if (!disabled) return;
@@ -54,6 +58,11 @@ export function GenericDropDown({
   const handleOpenChange = (open: boolean) => {
     if (disabled) setOpenTooltip(open);
   };
+
+  const [search, setSearch] = useState("")
+  const filtered = options.filter((o) =>
+    o.label.toLowerCase().includes(search.toLowerCase())
+  )
 
   return (
     <TooltipProvider delayDuration={0}>
@@ -72,46 +81,66 @@ export function GenericDropDown({
               <SelectTrigger
                 className={clsx(
                   "relative flex items-center justify-center gap-4",
-                  "w-[109px] h-[38px] px-3",
+                  "w-auto h-[38px] px-2",
                   "border border-gray-300 rounded-lg",
                   "bg-transparent hover:border-gray-400 focus:border-primary-tab-foreground focus:outline-none",
-                  "text-caption-regular",
-                  className
+                  "text-caption-regular"
                 )}
               >
-                <SelectValue placeholder={placeholder} />
-              </SelectTrigger>
+              <SelectValue placeholder={placeholder} />
+            </SelectTrigger>
 
-              <SelectContent>
-                {options.map((opt) => (
-                  <SelectItem
-                    key={opt.value}
-                    value={opt.value}
-                    disabled={opt.disabled}
-                    className={clsx(
-                      "flex w-full items-center gap-2 h-10 px-3 cursor-pointer",
-                      "text-caption-regular"
+            <SelectContent className={className}>
+              { isSearch && (
+                <div className="px-2 py-2">
+                <SearchBar
+                  placeholder={"Search"}
+                  value={search}
+                  onChange={setSearch}
+                  className="w-full"
+                />
+              </div>
+              )}             
+
+              {filtered.map(opt => (
+                <SelectItem
+                  key={opt.value}
+                  value={opt.value}
+                  disabled={opt.disabled}
+                  className={clsx(
+                    "flex items-center justify-between w-full h-10 px-3",
+                    "cursor-pointer text-caption-regular"
+                  )}
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2 min-w-0 w-[160px]">
+                      {opt.img && !disabled && (
+                        <Avatar className="h-7 w-7 bg-slate-100">
+                          <AvatarImage src={opt.img} />
+                        </Avatar>
+                      )}
+                      <span>{opt.label}</span>
+                    </div>
+
+                    {opt.subLabel  && !disabled && (
+                      <span className="ml-2 justify-items-end text-body-bold">
+                        {opt.subLabel}px
+                      </span>
                     )}
-                  >
-                    {opt.img && (
-                      <Avatar className="h-5 w-5">
-                        <AvatarImage src={opt.img} />
-                      </Avatar>
-                    )}
-                    {opt.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
+                  </div>
+                </SelectItem>
+              ))}
+            </SelectContent>
             </Select>
           </div>
         </TooltipTrigger>
 
         <TooltipContent
-          side="right"
-          align="center"
+          side="top"
+          align="start"
+          sideOffset={6}
           className={clsx(
-            "bg-gray-800 text-white rounded shadow-md px-3 py-2 max-w-xs",
-            "text-body-regular"
+            "bg-gray-800 text-body-regular text-white rounded shadow-md px-3 py-2 max-w-xs"
           )}
         >
           {disabledMessage}

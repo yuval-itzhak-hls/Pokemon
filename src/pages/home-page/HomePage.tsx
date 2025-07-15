@@ -50,14 +50,14 @@ export const HomePage: React.FC = () => {
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-3">
 
       <div className="px-4">
         <h2 className="text-heading-xl-medium text-gray-800">{title}</h2>
       </div>
 
 
-    <div className="px-4 py-4 flex items-center gap-4 ">
+    <div className="px-4 py-1 flex items-center gap-4 ">
         <div className="w-[294px]">
             <SearchBar
             value={searchTerm}
