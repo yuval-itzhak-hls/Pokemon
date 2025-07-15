@@ -2,6 +2,10 @@ import { useState, useEffect } from "react";
 import { Outlet, useLocation, matchPath } from "react-router-dom";
 import { AppHeader } from "./AppHeader";
 
+export const pokemonTabs = 
+{ all: { key: "all" , value: "all pokemons" },
+ mine: { key: "mine" , value: "my pokemons" } }
+
 export function AppLayout() {
   const [activeTab, setActiveTab] = useState("all pokemons");
 
