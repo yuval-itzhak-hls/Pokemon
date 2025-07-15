@@ -1,31 +1,31 @@
-import React, { useState, useEffect } from "react";
-import type { ChosenPokemonDisplayProps } from "./ChosenPokemonsDisplay";
+import { useState, useEffect } from "react";
+import type { ChosenPokemonDisplayProps } from "../chosen-pokemon-display/ChosenPokemonsDisplay";
 import fightArena from "@/assets/fight-arena.png";
-import { AttackButton } from "./AttackButton";
-import { LifeBarCard } from "./LifeBarCard";
+import { AttackButton } from "../attack-button/AttackButton";
+import { LifeBarCard } from "../life-bar/LifeBarCard";
 import { useLifePoints } from "@/hooks/useLifePoints";
-import { LostWonPanel } from "./LostWonPanel";
+import { LostWonPanel } from "../lost-won-panel/LostWonPanel";
 import { usePokemonsData, type Pokemon } from "@/hooks/usePokemonsData";
-import { ChoosePokemonBattlePanel } from "../home-page/ChoosePokemonBattlePanel";
+import { ChoosePokemonBattlePanel } from "../../home-page/choose-pokemon-panel/ChoosePokemonBattlePanel";
 import { useNavigate } from "react-router-dom";
-import { CatchButton } from "./CatchButton";
-import CatchPanel from "./CatchPanel";
+import { CatchButton } from "../catch-button/CatchButton";
+import CatchPanel from "../catch-panel/CatchPanel";
 import closePokemon from "@/assets/close-pokemon.png"
-import { Status, FightMessage } from "./messages/FightMessage";
-import { MessageCard } from "./messages/MessageCard";
-import { GenericDropDown } from "@/design-system/generic-componenets/GenericDropDown";
-import type { Options } from "@/design-system/generic-componenets/GenericDropDown";
+import { Status, FightMessage } from "../messages/FightMessage";
+import { MessageCard } from "../messages/MessageCard";
+import { GenericDropDown } from "@/design-system/generic-componenets/drop-down/GenericDropDown";
+import type { Options } from "@/design-system/generic-componenets/drop-down/types";
 import { useBattle } from "@/context/BattleContext";
-import { ShakyImage } from "../ShakyImage";
+import { ShakyImage } from "../../utils/ShakyImage";
 
 
 const STORAGE_KEY = "myPokemons";
 
 
-export const LiveFightScreen: React.FC<ChosenPokemonDisplayProps> = ({
+export const LiveFightScreen = ({
   userPokemon,
   opponentPokemon,
-}) => {
+}:ChosenPokemonDisplayProps) => {
   const { setBattle } = useBattle();
   const navigate = useNavigate();
   const { userLife, opponentLife, applyAttack, rematch } = useLifePoints();
@@ -62,15 +62,19 @@ export const LiveFightScreen: React.FC<ChosenPokemonDisplayProps> = ({
 
 
   useEffect(() => { 
+    if (!opponentLife){
+      setShowResult(true);
+      setStatus(Status.critical);
+    }
     if (isUserTurn) {
-      const rate = opponentLife <= lowHpThreshold ? 0.2 : 0.1;
-      const canCatch = Math.random() < rate + 0.2;
+      const rate = opponentLife <= lowHpThreshold ? 0.4 : 0.1;
+      const canCatch = Math.random() < rate;
       setIsAbleCatch(canCatch);
       if (status !== Status.start && status !== Status.switch ){
         setStatus(Status.yourTurn)
       }
     }
-  }, [isUserTurn, opponentLife, lowHpThreshold]);
+  }, [isUserTurn, opponentLife]);
 
   useEffect(() => {
     if (isWon || isLost) {
@@ -127,7 +131,7 @@ export const LiveFightScreen: React.FC<ChosenPokemonDisplayProps> = ({
   setIsUserTurn((t) => !t);
   };
 
-  const onEndMatch = () => navigate("/home-page");
+  const onEndMatch = () => navigate("/my-pokemons");
   const onSwitchPokemon = () => {
     setShowChoose(true);
     setShowResult(false);
@@ -185,7 +189,9 @@ export const LiveFightScreen: React.FC<ChosenPokemonDisplayProps> = ({
     subLabel: p.speed,
     img: p.image,
     disabled: false,
-  }));
+    hpLevel : p.hpLevel,
+  })).filter(p => p.value !== userPokemon.id.toString()).filter(p => p.hpLevel != null);
+
 
   if (showChoose) {
     return (
@@ -201,7 +207,7 @@ export const LiveFightScreen: React.FC<ChosenPokemonDisplayProps> = ({
 
   return (
     <div>
-      <div className="m-2 pl-3">
+      <div className="mx-2 mb-2 mt-0 pl-3">
         <GenericDropDown
           placeholder={newUserPokemon.name}
           options={pokemonOptions}

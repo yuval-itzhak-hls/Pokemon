@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import logo from "@/assets/logo.png";
-import { GenericButton } from "@/design-system/generic-componenets/GenericButton";
-import { GenericTab, type TabItem } from "@/design-system/generic-componenets/GenericTab";
+import { GenericButton } from "@/design-system/generic-componenets/button/GenericButton";
+import { GenericTab, type TabItem } from "@/design-system/generic-componenets/tab/GenericTab";
 import { usePokemonsData } from "@/hooks/usePokemonsData";
-import { ChoosePokemonBattlePanel } from "./home-page/ChoosePokemonBattlePanel";
-import { useNavigate } from "react-router-dom";
+import { ChoosePokemonBattlePanel } from "./home-page/choose-pokemon-panel/ChoosePokemonBattlePanel";
 
 const headerTabs: TabItem[] = [
   { label: "All Pokemons", value: "all pokemons" },
@@ -14,12 +13,10 @@ const headerTabs: TabItem[] = [
 export interface AppHeaderProps {
   activeTab: string;
   onTabChange: (val: string) => void;
-  isFightArena: boolean;
 }
 
-export const AppHeader: React.FC<AppHeaderProps> = ({ activeTab, onTabChange, isFightArena }) => {
+export const AppHeader = ({ activeTab, onTabChange}:AppHeaderProps) => {
   const [isBattleOpen, setBattleOpen] = useState(false);
-  const navigate = useNavigate();
   
   const { pokemons: myPokemons } = usePokemonsData({
     showMyPokemons: true,
@@ -36,9 +33,6 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ activeTab, onTabChange, is
   });
 
   const handleTabChange = (val: string) => {
-    if (isFightArena) {
-      navigate("/home-page");
-    }
     onTabChange(val);
   };
 

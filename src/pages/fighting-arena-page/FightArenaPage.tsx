@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { ChosenPokemonDisplay } from "./ChosenPokemonsDisplay";
+import { ChosenPokemonDisplay } from "./chosen-pokemon-display/ChosenPokemonsDisplay";
 import { useBattle } from "@/context/BattleContext";
-import { LiveFightScreen } from "./LiveFightScreen";
+import { LiveFightScreen } from "./live-fight/LiveFightScreen";
 import { AnimatePresence, motion } from "framer-motion";
 
 export const FightArenaPage: React.FC = () => {
@@ -21,7 +21,7 @@ export const FightArenaPage: React.FC = () => {
   }
 
   return (
-    <div className="space-y-6 text-center">
+    <div className="text-center">
       <div className="px-4">
         <h2 className="text-heading-xl-bold text-gray-700">
           Fighting arena

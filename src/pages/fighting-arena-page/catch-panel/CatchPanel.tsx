@@ -1,7 +1,7 @@
 import React from "react";
 import { Dialog, DialogContent, DialogOverlay, DialogTitle } from "@/components/ui/dialog";
 import closePokemon from "@/assets/close-pokemon.png"
-import { GenericButton } from "@/design-system/generic-componenets/GenericButton";
+import { GenericButton } from "@/design-system/generic-componenets/button/GenericButton";
 import { Separator } from "@/components/ui/separator";
 
 

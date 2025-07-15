@@ -42,7 +42,7 @@ export function useLifePoints() {
       const setDefenderLife = isUserTurn ? setOpponentLife : setUserLife;
 
       const damage = Math.abs(attacker.powerLevel - defender.defensePower);
-      const randomDamage = Math.round(damage * (Math.random() * (0.7 - 0.2) + 0.2));
+      const randomDamage = Math.round(damage * (Math.random() * (1.2 - 0.7) + 0.7));
       setDefenderLife((prev) => Math.max(prev - randomDamage, 0));
     },
     [userPokemon, opponentPokemon]
@@ -58,10 +58,8 @@ export function useLifePoints() {
       candidates[Math.floor(Math.random() * candidates.length)];
 
     setBattle(userPokemon, newOpponent);
-
-    // reset life bars to full HP
-    setUserLife(userPokemon.hpLevel);
     setOpponentLife(newOpponent.hpLevel);
+    
   }, [allPokemons, setBattle, userPokemon]);
 
   return {

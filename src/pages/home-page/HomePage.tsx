@@ -1,28 +1,33 @@
-// src/pages/HomePage.tsx
-import React, { useState } from "react";
-import { useOutletContext } from "react-router-dom";
-import { SearchBar } from "@/design-system/generic-componenets/SearchBar";
-import { GenericDropDown } from "@/design-system/generic-componenets/GenericDropDown";
-import type { Options } from "@/design-system/generic-componenets/GenericDropDown";
-import GenericTab from "@/design-system/generic-componenets/GenericTab";
-import type { TabItem } from "@/design-system/generic-componenets/GenericTab";
+import  { useState } from "react";
+import { SearchBar } from "@/design-system/generic-componenets/search/SearchBar";
+import { GenericDropDown } from "@/design-system/generic-componenets/drop-down/GenericDropDown";
+import type { Options } from "@/design-system/generic-componenets/drop-down/types";
+import GenericTab from "@/design-system/generic-componenets/tab/GenericTab";
+import type { TabItem } from "@/design-system/generic-componenets/tab/GenericTab";
 
 import { usePokemonsData } from "@/hooks/usePokemonsData";
 import type { SortOption } from "@/hooks/usePokemonsData";
 
-import { PokemonsList } from "./PokemonsList";
-import { PokemonCards } from "./PokemonCards";
+import { PokemonsList } from "./pokemons-list/PokemonsList";
+import { PokemonCards } from "./pokemons-card/PokemonCards";
 
 const headerTabs: TabItem[] = [
   { label: "List", value: "list", icon: "list" },
   { label: "Card", value: "card", icon: "cards" },
 ];
 
-export const HomePage: React.FC = () => {
-  const { showMyPokemons } = useOutletContext<{ showMyPokemons: boolean }>();
-  const [searchTerm, setSearchTerm] = useState("");
+type HomePageMode = "all" | "my";
+
+type HomePageProps =  {
+  mode: HomePageMode;
+}
+
+export const HomePage= ({ mode }: HomePageProps) => {
+  const [searchTerm, setSearchTerm] = useState<string>("");
   const [sortOption, setSortOption] = useState<SortOption>("alpha-asc");
   const [activeTab, setActiveTab] = useState<"list" | "card">("list");
+
+  const showMyPokemons = mode === "my";
 
   const title = showMyPokemons ? "My Pokemons" : "All Pokemons";
 
@@ -56,53 +61,53 @@ export const HomePage: React.FC = () => {
         <h2 className="text-heading-xl-medium text-gray-800">{title}</h2>
       </div>
 
-
-    <div className="px-4 py-1 flex items-center gap-4 ">
+      <div className="px-4 py-1 flex items-center gap-4 ">
         <div className="w-[294px]">
-            <SearchBar
+          <SearchBar
             value={searchTerm}
             onChange={setSearchTerm}
             placeholder="Search Pokemon"
             className="w-full rounded-lg"
-            />
+          />
         </div>
 
         <GenericTab
-        variant="secondaryTab"
-        tabs={headerTabs}
-        value={activeTab}
-        onValueChange={(v) => setActiveTab(v as "list" | "card")}
+          variant="secondaryTab"
+          tabs={headerTabs}
+          value={activeTab}
+          onValueChange={(v) => setActiveTab(v as "list" | "card")}
         />
 
         <div className="ml-auto">
-            <GenericDropDown
+          <GenericDropDown
             placeholder="Sort by"
             options={sortOptions}
             value={sortOption}
             onValueChange={(v) => setSortOption(v as SortOption)}
             className="w-full"
-            />
+          />
         </div>
-    </div>
-
+      </div>
 
       {/* Main content */}
-      {activeTab === "list" ? (
-        <PokemonsList
-          pokemons={pokemons}
-          page={page}
-          pageCount={pageCount}
-          perPage={perPage}
-          onPageChange={setPage}
-          onPerPageChange={setPerPage}
-        />
-      ) : (
-        <PokemonCards
-          showMyPokemons={showMyPokemons}
-          searchTerm={searchTerm}
-          sortOption={sortOption}
-        />
-      )}
+      <div className="px-4">
+        {activeTab === "list" ? (
+          <PokemonsList
+            pokemons={pokemons}
+            page={page}
+            pageCount={pageCount}
+            perPage={perPage}
+            onPageChange={setPage}
+            onPerPageChange={setPerPage}
+          />
+        ) : (
+          <PokemonCards
+            showMyPokemons={showMyPokemons}
+            searchTerm={searchTerm}
+            sortOption={sortOption}
+          />
+        )}
+      </div>
     </div>
   );
 };

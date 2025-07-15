@@ -1,28 +1,27 @@
-// src/components/PokemonCards.tsx
-import React, { useState, useRef } from "react";
+import { useState, useRef } from "react";
 import { usePokemonsData } from "@/hooks/usePokemonsData";
 import type { SortOption, Pokemon } from "@/hooks/usePokemonsData";
-import rawPokemons from "../../data/pokemon.json";
-import { PokemonDetailsPanel } from "./PokemonDetailsPanel";
-import type { PokemonDetails } from "./PokemonDetailsPanel";
+import rawPokemons from "../../../data/pokemon.json";
+import { PokemonDetailsPanel } from "../pokemon-details-panel/PokemonDetailsPanel";
+import type { PokemonDetails } from "../pokemon-details-panel/PokemonDetailsPanel";
 
-interface PokemonCardsProps {
+type PokemonCardsProps = {
   showMyPokemons: boolean;
   searchTerm: string;
   sortOption: SortOption;
 }
 
-export const PokemonCards: React.FC<PokemonCardsProps> = ({
+export const PokemonCards = ({
   showMyPokemons,
   searchTerm,
   sortOption,
-}) => {
+}:PokemonCardsProps) => {
   const totalRaw = rawPokemons.length;
   const { pokemons } = usePokemonsData({ showMyPokemons, searchTerm, sortOption, rowsPerPage: totalRaw });
 
   // infinite scroll state
   const BATCH = 20;
-  const [visibleCount, setVisibleCount] = React.useState<number>(BATCH);
+  const [visibleCount, setVisibleCount] = useState<number>(BATCH);
   const [selected, setSelected] = useState<PokemonDetails | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -42,14 +41,14 @@ export const PokemonCards: React.FC<PokemonCardsProps> = ({
       <div
         ref={containerRef}
         onScroll={onScroll}
-        className="max-w-[1360px] mx-auto overflow-y-auto"
+        className="flex justify-center w-auto mx-auto overflow-y-auto"
         style={{ maxHeight: '80vh' }}
       >
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-12 w-full">
           {pokemons.slice(0, visibleCount).map((p: Pokemon) => (
             <div
               key={p.id}
-              className="bg-white p-4 flex flex-col text-left h-[308px] w-[322px] cursor-pointer"
+              className="bg-white p-4 flex flex-col text-left h-[308px] w-[322px] rounded-md cursor-pointer lg:w-auto"
               onClick={() =>
                   setSelected({
                     id: p.id,

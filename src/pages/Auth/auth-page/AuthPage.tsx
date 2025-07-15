@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { GenericButton } from "@/design-system/generic-componenets/GenericButton";
+import { GenericButton } from "@/design-system/generic-componenets/button/GenericButton";
 import { useNavigate } from "react-router";
 
 export type AuthMode = "login" | "signup";
@@ -24,7 +24,7 @@ interface UserPayload {
 
 const LOCAL_STORAGE_KEY = "users";
 
-const AuthPage: React.FC<AuthPageProps> = ({ mode }) => {
+const AuthPage = ({ mode }:AuthPageProps) => {
   const isLogin = mode === "login";
 
   const [email, setEmail] = useState("");
@@ -61,7 +61,7 @@ const AuthPage: React.FC<AuthPageProps> = ({ mode }) => {
       }
 
       localStorage.setItem("currentUser", existingUser.email);
-      window.location.href = "/home-page";
+      window.location.href = "/all-pokemons";
     } else {
 
       const emailExsist = users.some((u) => u.email === email);

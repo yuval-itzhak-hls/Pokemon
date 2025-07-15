@@ -107,7 +107,7 @@ export default {
         },
       },
       animation: {
-        shake: 'shake 1s ease-in-out',
+        shake: 'shake 0.5s ease-in-out',
       },
   	}
   },

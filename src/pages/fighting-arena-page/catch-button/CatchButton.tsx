@@ -1,5 +1,4 @@
-// CatchButton.tsx
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { motion, useAnimation } from "framer-motion";
 import closePokemon from "@/assets/close-pokemon.png";
 
@@ -8,10 +7,10 @@ interface CatchButtonProps {
   isAbleCatch?: boolean;
 }
 
-export const CatchButton: React.FC<CatchButtonProps> = ({
+export const CatchButton = ({
   onClick,
   isAbleCatch = false,
-}) => {
+}:CatchButtonProps) => {
   const controls = useAnimation();
 
   //auto-vibrate when isAbleCatch===true
@@ -45,8 +44,10 @@ export const CatchButton: React.FC<CatchButtonProps> = ({
       animate={controls}
       className="flex flex-col items-center justify-center w-32 h-32 rounded-full bg-catch-button border-2 border-black  cursor-pointer hover:scale-105 transition-transform hover:border-blue-500"
     >
-      <img src={closePokemon} alt="Poké Ball" className="w-12 h-12" />
-      <span className="text-lg font-bold uppercase mt-1 border-black">Catch</span>
+      <img src={closePokemon} alt="Poké Ball" className="w-[55px] h-[55px]" />
+      <span className="text-stroke mt-1 text-xl font-bold font-mulish">
+        Catch
+      </span>
     </motion.button>
   );
 };
