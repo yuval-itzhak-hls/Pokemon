@@ -5,10 +5,6 @@ import { GenericTab, type TabItem } from "@/design-system/generic-componenets/Ge
 import { usePokemonsData } from "@/hooks/usePokemonsData";
 import { ChoosePokemonBattlePanel } from "./ChoosePokemonBattlePanel";
 
-const headerTabs: TabItem[] = [
-  { label: "All Pokemons", value: "all pokemons" },
-  { label: "My Pokemons", value: "my pokemons" },
-];
 
 export interface AppHeaderProps {
   activeTab: string;
@@ -23,6 +19,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ activeTab, onTabChange }) 
     sortOption: "alpha-asc",
     rowsPerPage: 1000,
   });
+
 
   return (
     <>
