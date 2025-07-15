@@ -1,6 +1,6 @@
 import type { Pokemon } from "@/hooks/usePokemonsData"; 
 
-interface BattlePokemonSelectionProps {
+type BattlePokemonSelectionProps = {
   pokemons: Pokemon[];
   selectedId: string | null;
   onSelect: (pokemon: Pokemon) => void;
