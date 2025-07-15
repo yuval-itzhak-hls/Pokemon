@@ -13,6 +13,9 @@ export const HomePage: React.FC = () => {
   const [sortOption, setSortOption] = useState<SortOption>("alpha-asc");
 
   const title = showMyPokemons ? "My Pokemons" : "All Pokemons";
+  
+  const [searchTerm, setSearchTerm] = useState("");
+  const [debouncedTerm] = useDebounce(searchTerm, 300);
 
   //pull filtered, searched, sorted and paginated data
   const { pokemons, page, pageCount, perPage, setPage, setPerPage } =
