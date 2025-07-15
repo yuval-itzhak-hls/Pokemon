@@ -23,10 +23,10 @@ export const FightArenaPage: React.FC = () => {
   return (
     <div className="space-y-6 text-center">
       <div className="px-4">
-        <h2 className="text-heading-xl-medium text-gray-800">
-          Fighting Arena
+        <h2 className="text-heading-xl-bold text-gray-700">
+          Fighting arena
         </h2>
-        <p className="mt-2 text-base text-gray-600">
+        <p className="mt-1 text-heading-md-regular text-gray-700">
           Start fighting against your opponent to win the battle
         </p>
       </div>
@@ -53,7 +53,10 @@ export const FightArenaPage: React.FC = () => {
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.6 }}
           >
-            <LiveFightScreen />
+            <LiveFightScreen  
+              userPokemon={userPokemon}
+              opponentPokemon={opponentPokemon}
+            />
           </motion.div>
         )}
       </AnimatePresence>
