@@ -1,45 +1,31 @@
-import React from "react";
-import {
-  Tabs,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs";
-import { tabVariants } from "@/design-system/variants/tabVariants";
-import type { VariantProps } from "class-variance-authority";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import clsx from "clsx";
-import { List, Grid } from "lucide-react";
+import { TabIcon } from "./TabIcon"; 
 
-export interface TabItem {
-  label: string;
-  value: string;
-  icon?: "list" | "cards";
-}
+import type { VariantProps } from "class-variance-authority";
+import { tabVariants } from "@/design-system/variants/tabVariants";
+import type { TabItem } from "./types";
 
-interface GenericTabProps extends VariantProps<typeof tabVariants> {
+
+export type GenericTabProps = VariantProps<typeof tabVariants> & {
   tabs: TabItem[];
   value?: string;
   defaultValue?: string;
   onValueChange?: (val: string) => void;
-}
+};
 
-export const GenericTab: React.FC<GenericTabProps> = ({
-  tabs,
-  value,
-  defaultValue,
-  onValueChange,
-  variant = "primaryTab",
-}) => {
-  const renderIcon = (type?: string) => {
-    if (type === "list") return <List className="w-4 h-4 mr-1" />;
-    if (type === "cards") return <Grid className="w-4 h-4 mr-1" />;
-    return null;
-  };
+export const GenericTab = ({
+  tabs, 
+  ...props 
+}: GenericTabProps) => {
+
+  const componentVariant = props.variant ?? "primaryTab";
 
   return (
     <Tabs
-      value={value}
-      defaultValue={defaultValue ?? tabs[0]?.value}
-      onValueChange={onValueChange}
+      value={props.value}
+      defaultValue={props.defaultValue ?? tabs[0]?.value}
+      onValueChange={props.onValueChange}
       className="w-auto"
     >
       <TabsList className="flex gap-2 p-1 bg-transparent">
@@ -47,9 +33,9 @@ export const GenericTab: React.FC<GenericTabProps> = ({
           <TabsTrigger
             key={tab.value}
             value={tab.value}
-            className={clsx(tabVariants({ variant }), "inline-flex items-center rounded-sm")}
+            className={clsx(tabVariants({ variant: componentVariant }), "inline-flex items-center rounded-sm")}
           >
-            {renderIcon(tab.icon)}
+            <TabIcon iconType={tab.icon} />
             {tab.label}
           </TabsTrigger>
         ))}
@@ -57,5 +43,3 @@ export const GenericTab: React.FC<GenericTabProps> = ({
     </Tabs>
   );
 };
-
-export default GenericTab;

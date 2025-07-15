@@ -2,8 +2,8 @@ import  { useState } from "react";
 import { SearchBar } from "@/design-system/generic-componenets/search/SearchBar";
 import { GenericDropDown } from "@/design-system/generic-componenets/drop-down/GenericDropDown";
 import type { Options } from "@/design-system/generic-componenets/drop-down/types";
-import GenericTab from "@/design-system/generic-componenets/tab/GenericTab";
-import type { TabItem } from "@/design-system/generic-componenets/tab/GenericTab";
+import { GenericTab } from "@/design-system/generic-componenets/tab/GenericTab";
+import type { TabItem } from "@/design-system/generic-componenets/tab/types";
 
 import { usePokemonsData } from "@/hooks/usePokemonsData";
 import type { SortOption } from "@/hooks/usePokemonsData";
