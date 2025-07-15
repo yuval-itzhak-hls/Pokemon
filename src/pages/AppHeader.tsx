@@ -3,8 +3,12 @@ import logo from "@/assets/logo.png";
 import { GenericButton } from "@/design-system/generic-componenets/GenericButton";
 import { GenericTab, type TabItem } from "@/design-system/generic-componenets/GenericTab";
 import { usePokemonsData } from "@/hooks/usePokemonsData";
-import { ChoosePokemonBattlePanel } from "./ChoosePokemonBattlePanel";
+import { ChoosePokemonBattlePanel } from "./home-page/ChoosePokemonBattlePanel";
 
+const headerTabs: TabItem[] = [
+  { label: "All Pokemons", value: "all pokemons" },
+  { label: "My Pokemons", value: "my pokemons" },
+];
 
 export interface AppHeaderProps {
   activeTab: string;
@@ -13,6 +17,8 @@ export interface AppHeaderProps {
 
 export const AppHeader: React.FC<AppHeaderProps> = ({ activeTab, onTabChange }) => {
   const [isBattleOpen, setBattleOpen] = useState(false);
+
+  
   const { pokemons: myPokemons } = usePokemonsData({
     showMyPokemons: true,
     searchTerm: "",
@@ -20,6 +26,12 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ activeTab, onTabChange }) 
     rowsPerPage: 1000,
   });
 
+  const { pokemons: allPokemons } = usePokemonsData({
+    showMyPokemons: false,
+    searchTerm: "",
+    sortOption: "alpha-asc",
+    rowsPerPage: 1000,
+  });
 
   return (
     <>
@@ -44,11 +56,10 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ activeTab, onTabChange }) 
       </header>
 
       <ChoosePokemonBattlePanel
-        pokemons={myPokemons}
+        myPokemons={myPokemons}
+        allPokemons={allPokemons}
         isOpen={isBattleOpen}
         onClose={() => setBattleOpen(false)}
-        onStartBattle={() => {setBattleOpen(false);
-        }}
       />
     </>
   );
