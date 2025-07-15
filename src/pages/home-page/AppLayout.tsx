@@ -12,7 +12,7 @@ export function AppLayout() {
   const showMyPokemons = activeTab === pokemonTabs.mine.value;
 
   return (
-    <div className="min-h-screen flex flex-col bg-bg-system px-16 py-16">
+    <div className="min-h-screen flex flex-col bg-bg-system px-12 py-12">
       <AppHeader
         activeTab={activeTab}
         onTabChange={setActiveTab}

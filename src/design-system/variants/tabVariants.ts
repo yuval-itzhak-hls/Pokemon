@@ -20,14 +20,18 @@ export const tabVariants = cva(
         secondaryTab: `
           bg-transparent 
           text-secondaryTab-foreground 
+          text-black
           hover:bg-secondaryTab-hover
           focus:outline-none 
           border-none
-          data-[state=active]:bg-secondaryTab-active 
+          data-[state=active]:bg-transparent
+          data-[state=active]:shadow-none
+          data-[state=active]:ring-0
           data-[state=active]:text-secondaryTab-foreground
+          data-[state=active]:text-black
           data-[state=active]:font-bold 
           data-[state=active]:underline 
-          data-[state=active]:decoration-2 
+          data-[state=active]:decoration-2
           data-[state=active]:underline-offset-[6px]
         `,
       }

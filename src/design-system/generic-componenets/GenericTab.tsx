@@ -7,7 +7,7 @@ import {
 import { tabVariants } from "@/design-system/variants/tabVariants";
 import type { VariantProps } from "class-variance-authority";
 import clsx from "clsx";
-import { List, CreditCard } from "lucide-react";
+import { List, Grid } from "lucide-react";
 
 export interface TabItem {
   label: string;
@@ -31,7 +31,7 @@ export const GenericTab: React.FC<GenericTabProps> = ({
 }) => {
   const renderIcon = (type?: string) => {
     if (type === "list") return <List className="w-4 h-4 mr-1" />;
-    if (type === "cards") return <CreditCard className="w-4 h-4 mr-1" />;
+    if (type === "cards") return <Grid className="w-4 h-4 mr-1" />;
     return null;
   };
 
@@ -40,7 +40,7 @@ export const GenericTab: React.FC<GenericTabProps> = ({
       value={value}
       defaultValue={defaultValue ?? tabs[0]?.value}
       onValueChange={onValueChange}
-      className="w-full"
+      className="w-auto"
     >
       <TabsList className="flex gap-2 p-1 bg-transparent">
         {tabs.map((tab) => (
