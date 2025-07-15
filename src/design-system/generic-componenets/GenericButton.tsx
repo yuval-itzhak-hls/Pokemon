@@ -6,16 +6,22 @@ import type { VariantProps } from "class-variance-authority"
 interface GenericButtonProps extends VariantProps<typeof buttonVariants> {
   text: string
   onClick?: () => void
+  disabled?: boolean;  
 }
 
 export const GenericButton: React.FC<GenericButtonProps> = ({
   type,
   size,
   text,
+  disabled,
   onClick,
 }) => {
   return (
-    <Button onClick={onClick} className={buttonVariants({ type, size })}>
+    <Button 
+    onClick={onClick} 
+    disabled={disabled}
+    className={buttonVariants({ type, size })}
+    >
       {text}
     </Button>
   )
