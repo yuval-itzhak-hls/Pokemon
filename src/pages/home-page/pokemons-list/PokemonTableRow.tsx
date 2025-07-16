@@ -1,7 +1,7 @@
 import { TableCell, TableRow } from "@/components/ui/table";
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 import closePokemonIcon from "@/assets/close-pokemon.png"; 
-import type { PokemonTableRowProps } from "./pokemonListConstants";
+import type { PokemonTableRowProps } from "./types";
 
 
 export const PokemonTableRow = (props: PokemonTableRowProps) => {

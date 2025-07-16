@@ -7,11 +7,8 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import {
-  ItemsPerPageOptions,
-  PaginationTexts,
-  type PokemonTablePaginationProps,
-} from "./pokemonListConstants"; 
+import type { PokemonTablePaginationProps} from "./types"; 
+import { PaginationTexts, ItemsPerPageOptions } from "./consts";
 
 
 export const PokemonTablePagination = (props: PokemonTablePaginationProps) => {

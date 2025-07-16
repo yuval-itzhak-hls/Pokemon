@@ -1,8 +1,8 @@
 import { TableCell, TableRow } from "@/components/ui/table";
 import { SearchX } from "lucide-react";
 
-import { NoPokemonsFound } from "./pokemonListConstants";
-import type { PokemonTableEmptyStateProps } from "./pokemonListConstants";
+import { NoPokemonsFound } from "./consts";
+import type { PokemonTableEmptyStateProps } from "./types";
 
 export const PokemonTableEmptyState = ({colSpan}: PokemonTableEmptyStateProps) => {
   return (

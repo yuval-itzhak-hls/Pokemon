@@ -13,8 +13,8 @@ import { PokemonTableEmptyState } from "./PokemonTableEmptyState";
 import { PokemonTableRow } from "./PokemonTableRow"; 
 import { PokemonTablePagination } from "./PokemonTablePagination"; 
 import type { PokemonDetails } from "../pokemon-details-panel/PokemonDetailsPanel";
-import { PokemonTableHeaders } from "./pokemonListConstants";
-import type { PokemonsListProps } from "./pokemonListConstants";
+import { PokemonTableHeaders } from "./consts";
+import type { PokemonsListProps } from "./types";
 
 import rawPokemons from "../../../data/pokemon.json";
 
