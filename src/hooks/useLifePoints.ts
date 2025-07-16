@@ -1,16 +1,26 @@
 import { useState, useEffect, useCallback } from "react";
 import { useBattle } from "@/context/BattleContext";
 import { usePokemonsData, type Pokemon } from "@/hooks/usePokemonsData";
+import { useNavigate } from "react-router-dom";
+
 
 const DAMAGE_MULTIPLIER_MIN = 0.7;
 const DAMAGE_MULTIPLIER_MAX = 1.2;
 
 export const useLifePoints = () => {
   const { userPokemon, opponentPokemon, setBattle } = useBattle();
+  const navigate = useNavigate();
 
   // grab the full roster to pick a new random opponent later
   const { pokemons: allPokemons } = usePokemonsData({
     showMyPokemons: false,
+    searchTerm: "",
+    sortOption: "alpha-asc",
+    rowsPerPage: 999,
+  });
+
+    const { pokemons: myPokemons } = usePokemonsData({
+    showMyPokemons: true,
     searchTerm: "",
     sortOption: "alpha-asc",
     rowsPerPage: 999,
@@ -49,6 +59,8 @@ export const useLifePoints = () => {
     [userPokemon, opponentPokemon]
   );
 
+
+  
   const rematch = useCallback(() => {
     if (!userPokemon) return;
 
@@ -63,9 +75,36 @@ export const useLifePoints = () => {
     
   }, [allPokemons, setBattle, userPokemon]);
 
+
+
+ const startNewBattle = useCallback(
+    (selectedUserPokemonId: string, onPanelClose: () => void): void => {
+      if (!selectedUserPokemonId) return;
+
+      const user = myPokemons.find((p) => p.id === selectedUserPokemonId);
+      if (!user) {
+        return;
+      }
+
+      const availableOpponents = allPokemons.filter(
+        (p) => p.id !== selectedUserPokemonId && !myPokemons.some((mp) => mp.id === p.id)
+      );
+
+      const opponent =
+        availableOpponents[Math.floor(Math.random() * availableOpponents.length)];
+
+      setBattle(user, opponent);
+      onPanelClose();
+      navigate("/fighting-arena-page"); 
+    },
+    [myPokemons, allPokemons, setBattle, navigate] 
+  );
+
+
   return {
     userLife,
     opponentLife,
+    startNewBattle,
     applyAttack,
     rematch,
   };

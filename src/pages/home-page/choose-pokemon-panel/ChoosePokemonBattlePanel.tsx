@@ -1,10 +1,10 @@
 import  { useState } from "react";
 import { Dialog, DialogOverlay, DialogContent, DialogTitle } from "@/components/ui/dialog";
-import { useNavigate } from "react-router-dom";
-import { useLifePoints } from "@/hooks/useLifePoints";
 import type { Pokemon } from "@/hooks/usePokemonsData"; 
 import { BattlePokemonSelection } from "./BattlePokemonSelection";
 import { BattlePanelFooter } from "./BattlePanelFooter";
+import { useLifePoints } from "@/hooks/useLifePoints"; 
+
 
 type ChoosePokemonBattlePanelProps = {
   myPokemons: Pokemon[];
@@ -13,21 +13,18 @@ type ChoosePokemonBattlePanelProps = {
   onClose: () => void;
 }
 
-export const ChoosePokemonBattlePanel = ({
-  myPokemons,
-  isOpen,
-  onClose,
-}: ChoosePokemonBattlePanelProps) => {
+export const ChoosePokemonBattlePanel = (props: ChoosePokemonBattlePanelProps) => {
+  const { myPokemons, isOpen, onClose } = props;
+
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const navigate = useNavigate();
-  const { rematch } = useLifePoints()
+  const { startNewBattle } = useLifePoints();
 
   const handleSelect = (p: Pokemon) => setSelectedId(p.id);
 
   const handleStart = () => {
-    rematch()
-    onClose();
-    navigate("/fighting-arena-page");
+    if (selectedId) {
+      startNewBattle(selectedId, onClose); 
+    }
   };
 
   return (
