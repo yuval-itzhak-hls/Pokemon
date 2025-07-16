@@ -108,10 +108,16 @@ export const useBattleLogic = (props: UseBattleLogicProps) => {
 
   const handleAttack = useCallback((): void => {
     setCurrentFightStatus(Status.attack);
-    setIsUserAttacked(isUserTurn);
-    setIsOpponentAttacked(!isUserTurn);
-    applyAttack(isUserTurn);
-    setIsUserTurn((prevTurn) => !prevTurn);
+      const isAttackerUser = isUserTurn;
+      if (isAttackerUser) {
+          setIsUserAttacked(false);
+          setIsOpponentAttacked(true);
+      } else {
+          setIsUserAttacked(true); 
+          setIsOpponentAttacked(false);
+      }
+      applyAttack(isUserTurn);
+      setIsUserTurn((prevTurn) => !prevTurn);
   }, [isUserTurn, applyAttack]);
 
 
