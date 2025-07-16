@@ -1,11 +1,10 @@
-import React from "react";
 import { Dialog, DialogContent, DialogOverlay, DialogTitle } from "@/components/ui/dialog";
 import closePokemon from "@/assets/close-pokemon.png"
 import { GenericButton } from "@/design-system/generic-componenets/button/GenericButton";
 import { Separator } from "@/components/ui/separator";
 
 
-interface CatchPanelProps {
+type CatchPanelProps = {
   isOpen: boolean;
   onClose: () => void;
   onContinue: () => void;
@@ -19,15 +18,9 @@ interface CatchPanelProps {
   };
 }
 
-const CatchPanel: React.FC<CatchPanelProps> = ({
-  isOpen,
-  onClose,
-  onContinue,
-  onEnd,
-  name,
-  imageSrc,
-  rewards,
-}) => {
+const CatchPanel  = (props : CatchPanelProps) => {
+  const {isOpen, onClose, onContinue, onEnd, name, imageSrc,rewards} = props;
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
     <DialogOverlay className="fixed inset-0 bg-opacity-50 " />

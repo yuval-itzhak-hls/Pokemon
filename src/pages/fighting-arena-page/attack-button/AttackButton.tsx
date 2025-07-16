@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 
-export interface AttackButtonProps {
+export type AttackButtonProps = {
   onClick: () => void;
   hover?: boolean;
   visible?: boolean;
