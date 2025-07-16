@@ -1,227 +1,93 @@
-import { useState, useEffect } from "react";
-import type { ChosenPokemonDisplayProps } from "../chosen-pokemon-display/ChosenPokemonsDisplay";
-import fightArena from "@/assets/fight-arena.png";
-import { AttackButton } from "../attack-button/AttackButton";
+
 import { LifeBarCard } from "../life-bar/LifeBarCard";
-import { useLifePoints } from "@/hooks/useLifePoints";
-import { LostWonPanel } from "../lost-won-panel/LostWonPanel";
-import { usePokemonsData, type Pokemon } from "@/hooks/usePokemonsData";
-import { ChoosePokemonBattlePanel } from "../../home-page/choose-pokemon-panel/ChoosePokemonBattlePanel";
-import { useNavigate } from "react-router-dom";
+import { AttackButton } from "../attack-button/AttackButton";
 import { CatchButton } from "../catch-button/CatchButton";
-import CatchPanel from "../catch-panel/CatchPanel";
-import closePokemon from "@/assets/close-pokemon.png"
-import { Status, FightMessage } from "../messages/FightMessage";
-import { MessageCard } from "../messages/MessageCard";
-import { GenericDropDown } from "@/design-system/generic-componenets/drop-down/GenericDropDown";
-import type { Options } from "@/design-system/generic-componenets/drop-down/types";
-import { useBattle } from "@/context/BattleContext";
+import CatchPanel from "../catch-panel/CatchPanel"; 
+import { LostWonPanel } from "../lost-won-panel/LostWonPanel";
+import { ChoosePokemonBattlePanel } from "../../home-page/choose-pokemon-panel/ChoosePokemonBattlePanel";
 import { ShakyImage } from "../../utils/ShakyImage";
+import { GenericDropDown } from "@/design-system/generic-componenets/drop-down/GenericDropDown";
+
+import { FightArenaLayout } from "./FightArenaLayout";
+import { FightMessageDisplay } from "./FightMessageDisplay";
+
+import type { LiveFightScreenProps } from "./types";
+import { SwitchPokemonDropdownPlaceholder } from "./consts";
+import closePokemonImage from "@/assets/close-pokemon.png"; 
+
+import { useBattleLogic } from "./useBattleLogic"; 
+
+export const LiveFightScreen = (props: LiveFightScreenProps) => {
+  const { userPokemon, opponentPokemon } = props;
+
+  const {
+    userLife,
+    opponentLife,
+    isUserTurn,
+    currentFightStatus,
+    isUserAttacked,
+    isOpponentAttacked,
+    showChoosePokemonPanel,
+    showBattleResultPanel,
+    showCatchPanel,
+    canAttemptCatch,
+    isPokemonCaught,
+    selectedSwitchPokemonId,
+    isSwitchingPokemon,
+    currentUserPokemon,
+    isBattleLost,
+    allPokemons,
+    myPokemons,
+    pokemonSwitchOptions,
+    currentBattleResult,
+    catchRewards,
+    handleAttack,
+    handleCatchPokemon,
+    handleEndMatch,
+    handleSwitchPokemon,
+    handleRematch,
+    handleContinueBattle,
+    handleSwitchPokemonSelection,
+    setShowChoosePokemonPanel,
+    setShowCatchPanel,
+    setShowBattleResultPanel,
+  } = useBattleLogic({ initialUserPokemon: userPokemon, initialOpponentPokemon: opponentPokemon });
 
 
-const STORAGE_KEY = "myPokemons";
+  if (!userPokemon || !opponentPokemon) {
+    return null;
+  }
 
-
-export const LiveFightScreen = ({
-  userPokemon,
-  opponentPokemon,
-}:ChosenPokemonDisplayProps) => {
-  const { setBattle } = useBattle();
-  const navigate = useNavigate();
-  const { userLife, opponentLife, applyAttack, rematch } = useLifePoints();
-
-  const [isUserTurn, setIsUserTurn] = useState(
-    userPokemon.speed > opponentPokemon.speed
-  );
-  const [showChoose, setShowChoose] = useState(false);
-  const [showResult, setShowResult] = useState(false);
-
-  const [catchTries, setCatchTries] = useState(0);
-  const [isAbleCatch, setIsAbleCatch] = useState<boolean>(false);
-  const [caught, setCaught] = useState<boolean>(false);
-  const [status, setStatus] = useState<Status>(Status.start);
-  const [selectedId, setSelectedId] = useState<string | undefined>(undefined);
-  const [isSwitch, setIsSwitch] = useState<boolean>(false);
-  const [newUserPokemon, setNewUserPokemon] = useState<Pokemon>(userPokemon);
-  const [userAttacked, setUserAttacked] = useState<boolean>(false);
-  const [opponentAtacked, setOpponentAtacked] = useState<boolean>(false);
-
-  const maxCatchTries = 3;
-  const lowHpThreshold = opponentPokemon.hpLevel * 0.2;
-
-  const isWon = opponentLife <= 0;
-  const isLost =
-    userLife <= 0 || (!isAbleCatch && catchTries >= maxCatchTries);
-
-  useEffect(()=>{
-      setStatus(Status.start);
-      if (caught){
-        setStatus(Status.switch);
-      }
-  }, []);
-
-
-  useEffect(() => { 
-    if (!opponentLife){
-      setShowResult(true);
-      setStatus(Status.critical);
-    }
-    if (isUserTurn) {
-      const rate = opponentLife <= lowHpThreshold ? 0.4 : 0.1;
-      const canCatch = Math.random() < rate;
-      setIsAbleCatch(canCatch);
-      if (status !== Status.start && status !== Status.switch ){
-        setStatus(Status.yourTurn)
-      }
-    }
-  }, [isUserTurn, opponentLife]);
-
-  useEffect(() => {
-    if (isWon || isLost) {
-      // delay showing the panel
-      const timer = setTimeout(() => {
-        setShowResult(true);
-        if (isLost) {
-          setStatus(Status.critical);
-        }
-      }, 1500);
-      return () => clearTimeout(timer);
-    
-    } else {
-      setShowResult(false);
-    }
-    
-  }, [isWon, isLost]);
-
-
-  // Opponent auto-attack
-  useEffect(() => {
-    if (!isUserTurn && userLife > 0 && opponentLife > 0) {
-      const timer = setTimeout(handleAttack, 3000);
-      return () => clearTimeout(timer);
-    }
-  }, [isUserTurn, userLife, opponentLife]);
-
-
-
-  const catchPokemon = () => {
-    setCatchTries((t) => t + 1);
-
-    if (isAbleCatch) {
-      setCaught(true);
-      setStatus(Status.caught);
-
-      const stored: string[] =
-        JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
-      const newList = [...stored, opponentPokemon.id];
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(newList));
-
-      //tell all hooks/components to reload
-      window.dispatchEvent(new Event("myPokemonsUpdated"));
-    }else{
-      setStatus(Status.disCatchable);
-    }
-  };
-
-  const handleAttack = () => {
-  setStatus(Status.attack);
-  setUserAttacked(!isUserTurn);
-  setOpponentAtacked(isUserTurn);
-  applyAttack(isUserTurn);
-  setIsUserTurn((t) => !t);
-  };
-
-  const onEndMatch = () => navigate("/my-pokemons");
-  const onSwitchPokemon = () => {
-    setShowChoose(true);
-    setShowResult(false);
-    setCatchTries(0);
-    setIsAbleCatch(false);
-    setCaught(false);
-  };
-  const onRematch = () => {
-    rematch();
-    setShowResult(false);
-    setCatchTries(0);
-    setIsAbleCatch(false);
-    setCaught(false);
-    setStatus(Status.switch);
-  };
-
-
-  const onContinueBattle = () => {
-    rematch();
-    setCatchTries(0);
-    setIsAbleCatch(false);
-    setCaught(false);
-    setStatus(Status.switch);
-  };
-
-  const handleSwitchSelection = (newId: string) => {
-      setSelectedId(newId);
-      const chosen = myPokemons.find((p) => p.id.toString() === newId);
-      if (!chosen) return;
-      setNewUserPokemon(chosen)
-      setCaught(false);
-      setCatchTries(0);
-      setIsAbleCatch(false);
-      setIsSwitch(true);
-      setBattle(chosen ,opponentPokemon);
-      
-    };
-
-  const { pokemons: allPokemons } = usePokemonsData({
-    showMyPokemons: false,
-    searchTerm: "",
-    sortOption: "alpha-asc",
-    rowsPerPage: 999,
-  });
-  const { pokemons: myPokemons } = usePokemonsData({
-    showMyPokemons: true,
-    searchTerm: "",
-    sortOption: "alpha-asc",
-    rowsPerPage: 999,
-  });
-
-   const pokemonOptions: Options[] = myPokemons.map((p) => ({
-    value: p.id.toString(),
-    label: p.name,
-    subLabel: p.speed,
-    img: p.image,
-    disabled: false,
-    hpLevel : p.hpLevel,
-  })).filter(p => p.value !== userPokemon.id.toString()).filter(p => p.hpLevel != null);
-
-
-  if (showChoose) {
+  // Early exit for Choose Pokemon Panel (if triggered)
+  if (showChoosePokemonPanel) {
     return (
       <ChoosePokemonBattlePanel
-        myPokemons={myPokemons as Pokemon[]}
-        allPokemons={allPokemons as Pokemon[]}
+        myPokemons={myPokemons}
+        allPokemons={allPokemons}
         isOpen={true}
-        onClose={() => setShowChoose(false)}
+        onClose={() => setShowChoosePokemonPanel(false)}
       />
     );
   }
-  if (!userPokemon || !opponentPokemon) return null;
 
   return (
     <div>
+      {/* Pokemon Switch Dropdown */}
       <div className="mx-2 mb-2 mt-0 pl-3">
         <GenericDropDown
-          placeholder={newUserPokemon.name}
-          options={pokemonOptions}
-          value={selectedId}
-          onValueChange={handleSwitchSelection}
-          className="w-[258px] "
-          disabled={isSwitch ? true : false}
+          placeholder={currentUserPokemon.name || SwitchPokemonDropdownPlaceholder}
+          options={pokemonSwitchOptions}
+          value={selectedSwitchPokemonId}
+          onValueChange={handleSwitchPokemonSelection}
+          className="w-[258px]"
+          disabled={isSwitchingPokemon}
           isSearch={true}
         />
       </div>
-      <div
-        className="relative mx-auto w-[97%] h-[400px] md:h-[400px] lg:h-[700px] bg-auto bg-repeat-round "
-        style={{ backgroundImage: `url(${fightArena})` }}
-      >
+
+      {/* Main Fight Arena Layout */}
+      <FightArenaLayout>
+
         {/* Opponent life bar */}
         <LifeBarCard
           name={opponentPokemon.name}
@@ -234,92 +100,75 @@ export const LiveFightScreen = ({
 
         {/* User life bar */}
         <LifeBarCard
-          name={userPokemon.name}
-          speed={userPokemon.speed}
+          name={currentUserPokemon.name}
+          speed={currentUserPokemon.speed}
           life={userLife}
-          max={userPokemon.hpLevel}
+          max={currentUserPokemon.hpLevel}
           isActive={isUserTurn}
           className="absolute bottom-4 left-4"
         />
 
-        {/* pokemons and attack button */}
         <ShakyImage
-          src={userPokemon.image}
+          src={currentUserPokemon.image}
           alt="Your Pokemon"
-          shouldShake={userAttacked}
+          shouldShake={isUserAttacked}
           className="absolute left-[20%] top-[60%] w-1/3 md:w-1/4 lg:w-[20%] h-[30%] object-contain transform -translate-y-1/4"
         />
         <ShakyImage
-          src={!caught ? opponentPokemon.image : closePokemon}
+          src={!isPokemonCaught ? opponentPokemon.image : closePokemonImage}
           alt="Opponent Pokemon"
-          shouldShake={opponentAtacked}
+          shouldShake={isOpponentAttacked}
           className="absolute right-[25%] top-[30%] w-1/3 md:w-1/4 lg:w-[20%] h-[30%] object-contain transform -translate-y-3/4"
         />
 
-        {/* Attack button */}
         <div
           className={`absolute bottom-4 right-[14%] ${
             !isUserTurn ? "pointer-events-none opacity-50" : ""
           }`}
         >
-          <AttackButton onClick={handleAttack} hover={isUserTurn} visible={isUserTurn} />
+          <AttackButton
+            onClick={handleAttack}
+            hover={isUserTurn}
+            visible={isUserTurn}
+          />
         </div>
 
-        {/* Catch button (only on user turn) */}
         {isUserTurn && (
           <div className="absolute bottom-4 right-[3%]">
-            <CatchButton
-              onClick={catchPokemon}
-              isAbleCatch={isAbleCatch}
-            />
+            <CatchButton onClick={handleCatchPokemon} isAbleCatch={canAttemptCatch} />
           </div>
         )}
 
-        {/* Win/Loss panel */}
-        <LostWonPanel
-          open={showResult}
-          onOpenChange={setShowResult}
-          name={isLost ? userPokemon.name : opponentPokemon.name}
-          sprite={isLost ? userPokemon.image : opponentPokemon.image}
-          result={isLost ? "lost" : "won"}
-          onSwitch={onSwitchPokemon}
-          onRematch={onRematch}
-          onEnd={onEndMatch}
+        <FightMessageDisplay
+          status={currentFightStatus}
+          attackerName={isUserTurn ? currentUserPokemon.name : opponentPokemon.name}
+          defenderName={isUserTurn ? opponentPokemon.name : currentUserPokemon.name}
         />
+      </FightArenaLayout>
 
-        { caught && (
-            <CatchPanel
-          isOpen={caught}
-          onClose={() => setCaught(false)}
-          onContinue={onContinueBattle}
-          onEnd={onEndMatch}
+      {/* Panels/Modals */}
+      <LostWonPanel
+        open={showBattleResultPanel}
+        onOpenChange={setShowBattleResultPanel}
+        name={isBattleLost ? currentUserPokemon.name : opponentPokemon.name}
+        sprite={isBattleLost ? currentUserPokemon.image : opponentPokemon.image}
+        result={currentBattleResult}
+        onSwitch={handleSwitchPokemon}
+        onRematch={handleRematch}
+        onEnd={handleEndMatch}
+      />
+
+      {isPokemonCaught && (
+        <CatchPanel
+          isOpen={showCatchPanel}
+          onClose={() => setShowCatchPanel(false)}
+          onContinue={handleContinueBattle}
+          onEnd={handleEndMatch}
           name={opponentPokemon.name}
           imageSrc={opponentPokemon.image}
-          rewards={{
-            speed: opponentPokemon.speed,
-            category: Array.isArray(opponentPokemon.type)
-            ? opponentPokemon.type.join(", ")
-            : opponentPokemon.type || "Unknown",
-            abilities: opponentPokemon.abilities.join(", "),
-          }}
+          rewards={catchRewards}
         />
-        )}
-
-        <div className="absolute top-[9%] left-1/5 transform ">
-        <MessageCard>
-          <FightMessage
-            status={status}
-            attackerName={
-              isUserTurn ? userPokemon.name : opponentPokemon.name
-            }
-            defenderName={
-              isUserTurn ? opponentPokemon.name : userPokemon.name
-            }
-          />
-        </MessageCard>
-        
-      </div>
-    </div>    
-  </div>
+      )}
+    </div>
   );
 };
