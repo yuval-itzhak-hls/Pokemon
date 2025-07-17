@@ -4,7 +4,7 @@ import { useBattle } from "@/context/BattleContext";
 import { LiveFightScreen } from "./live-fight/LiveFightScreen";
 import { AnimatePresence, motion } from "framer-motion";
 
-export const FightArenaPage: React.FC = () => {
+export const FightArenaPage = () => {
   const { userPokemon, opponentPokemon } = useBattle();
   const [showChosen, setShowChosen] = useState(true);
 

@@ -13,7 +13,7 @@ export const Status = {
 
 export type Status = typeof Status[keyof typeof Status];
 
-interface FightMessageProps {
+type FightMessageProps = {
   status: Status;
   attackerName?: string;
   defenderName?: string;

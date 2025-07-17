@@ -2,15 +2,15 @@
 import type { ReactNode } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 
-interface MessageCardProps {
+type MessageCardProps = {
   children: ReactNode;
   className?: string;
 }
 
-export const MessageCard: React.FC<MessageCardProps> = ({
+export const MessageCard = ({
   children,
   className = "",
-}) => {
+}:MessageCardProps) => {
   return (     
     <div
     className="
