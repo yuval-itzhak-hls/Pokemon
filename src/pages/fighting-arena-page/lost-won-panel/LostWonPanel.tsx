@@ -1,11 +1,10 @@
-import React from "react";
 import { GenericButton } from "@/design-system/generic-componenets/button/GenericButton";
 import { Dialog, DialogContent, DialogOverlay, DialogTitle } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
 
 type Result = "won" | "lost";
 
-interface BattleResultPanelProps {
+type BattleResultPanelProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   name: string;
@@ -16,16 +15,9 @@ interface BattleResultPanelProps {
   onEnd: () => void;
 }
 
-export const LostWonPanel: React.FC<BattleResultPanelProps> = ({
-  open,
-  onOpenChange,
-  name,
-  sprite,
-  result,
-  onRematch,
-  onSwitch,
-  onEnd,
-}) => {
+export const LostWonPanel  = (props: BattleResultPanelProps) => {
+
+  const { open, onOpenChange, name, sprite, result, onRematch, onSwitch, onEnd } = props;
 
   const titleText =
     result === "won" ? `You won ${name}!` : `${name} lost the match`;

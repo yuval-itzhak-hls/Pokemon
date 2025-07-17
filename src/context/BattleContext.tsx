@@ -9,7 +9,7 @@ type BattleContextValue = {
 }
 
 const BattleContext = createContext<BattleContextValue | undefined>(undefined);
-const STORAGE_KEY = "battle";
+const BATTLE_STORAGE_KEY = "battle";
 
 
 export const BattleProvider = ({ children }: { children: ReactNode }) => {
@@ -17,14 +17,14 @@ export const BattleProvider = ({ children }: { children: ReactNode }) => {
   const [opponentPokemon, setOpponentPokemon] = useState<Pokemon | null>(null);
 
   useEffect(() => {
-    const stored = localStorage.getItem(STORAGE_KEY);
+    const stored = localStorage.getItem(BATTLE_STORAGE_KEY);
     if (stored) {
       try {
         const { user, opponent } = JSON.parse(stored) as { user: Pokemon; opponent: Pokemon };
         setUserPokemon(user);
         setOpponentPokemon(opponent);
       } catch {
-        localStorage.removeItem(STORAGE_KEY);
+        localStorage.removeItem(BATTLE_STORAGE_KEY);
       }
     }
   }, []);
@@ -32,13 +32,13 @@ export const BattleProvider = ({ children }: { children: ReactNode }) => {
   const setBattle = (user: Pokemon, opponent: Pokemon) => {
     setUserPokemon(user);
     setOpponentPokemon(opponent);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({ user, opponent }));
+    localStorage.setItem(BATTLE_STORAGE_KEY, JSON.stringify({ user, opponent }));
   };
 
   const clearBattle = () => {
     setUserPokemon(null);
     setOpponentPokemon(null);
-    localStorage.removeItem(STORAGE_KEY);
+    localStorage.removeItem(BATTLE_STORAGE_KEY);
   };
 
   return (

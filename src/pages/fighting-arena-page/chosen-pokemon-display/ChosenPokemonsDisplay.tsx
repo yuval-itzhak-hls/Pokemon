@@ -1,7 +1,7 @@
 import baseBg from "@/assets/chosen-pokemons.png";
 import type { Pokemon } from "@/hooks/usePokemonsData";
 
-export interface ChosenPokemonDisplayProps {
+export type ChosenPokemonDisplayProps = {
   userPokemon: Pokemon;
   opponentPokemon: Pokemon;
 }

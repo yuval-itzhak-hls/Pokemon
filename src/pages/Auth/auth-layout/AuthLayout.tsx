@@ -1,11 +1,9 @@
-import React from "react";
 import { Outlet } from "react-router-dom";
-
 
 const bgPattern = 'src/assets/login-bg.jpg';
 const logo = 'src/assets/logo.png';
 
-const AuthLayout: React.FC = () => {
+const AuthLayout = () => {
   return (
     <div className="fixed inset-0 flex">
       {/* Left */}

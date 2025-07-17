@@ -1,7 +1,6 @@
-import React from "react";
 import { Dialog, DialogContent, DialogOverlay } from "@/components/ui/dialog";
 
-export interface PokemonDetails {
+export type PokemonDetails = {
   id: string;
   name: string;
   image: string;
@@ -12,17 +11,17 @@ export interface PokemonDetails {
   abilities: string[];
 }
 
-interface PokemonDetailsPanelProps {
+type PokemonDetailsPanelProps = {
   pokemon: PokemonDetails;
   isOpen: boolean;
   onClose: () => void;
 }
 
-export const PokemonDetailsPanel: React.FC<PokemonDetailsPanelProps> = ({
+export const PokemonDetailsPanel = ({
   pokemon,
   isOpen,
   onClose,
-}) => {
+}:PokemonDetailsPanelProps) => {
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogOverlay className="fixed inset-0  bg-opacity-5" />

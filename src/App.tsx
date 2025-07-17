@@ -3,7 +3,7 @@ import AuthPage from './pages/Auth/auth-page/AuthPage';
 import AuthLayout from './pages/Auth/auth-layout/AuthLayout';
 import { Route, BrowserRouter, Routes, Navigate } from 'react-router-dom'; // Keep BrowserRouter and Routes
 import { AppLayout } from './pages/AppLayout';
-import { HomePage } from './pages/home-page/HomePage';
+import { HomePage } from './pages/home-page/home/HomePage';
 import { FightArenaPage } from './pages/fighting-arena-page/FightArenaPage';
 import { BattleProvider } from "@/context/BattleContext";
 

@@ -1,8 +1,9 @@
 import  { useState } from "react";
 import logo from "@/assets/logo.png";
 import { GenericButton } from "@/design-system/generic-componenets/button/GenericButton";
-import { GenericTab, type TabItem } from "@/design-system/generic-componenets/tab/GenericTab";
+import { GenericTab} from "@/design-system/generic-componenets/tab/GenericTab";
 import { usePokemonsData } from "@/hooks/usePokemonsData";
+import type { TabItem } from "@/design-system/generic-componenets/tab/types";
 import { ChoosePokemonBattlePanel } from "./home-page/choose-pokemon-panel/ChoosePokemonBattlePanel";
 
 const headerTabs: TabItem[] = [
@@ -10,7 +11,7 @@ const headerTabs: TabItem[] = [
   { label: "My Pokemons", value: "my pokemons" },
 ];
 
-export interface AppHeaderProps {
+export type AppHeaderProps = {
   activeTab: string;
   onTabChange: (val: string) => void;
 }

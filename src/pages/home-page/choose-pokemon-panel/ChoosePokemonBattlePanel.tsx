@@ -1,43 +1,30 @@
 import  { useState } from "react";
 import { Dialog, DialogOverlay, DialogContent, DialogTitle } from "@/components/ui/dialog";
-import { useNavigate } from "react-router-dom";
-import { useBattle } from "@/context/BattleContext";
 import type { Pokemon } from "@/hooks/usePokemonsData"; 
 import { BattlePokemonSelection } from "./BattlePokemonSelection";
 import { BattlePanelFooter } from "./BattlePanelFooter";
+import { useLifePoints } from "@/hooks/useLifePoints"; 
 
-interface ChoosePokemonBattlePanelProps {
+
+type ChoosePokemonBattlePanelProps = {
   myPokemons: Pokemon[];
   allPokemons: Pokemon[];
   isOpen: boolean;
   onClose: () => void;
 }
 
-export const ChoosePokemonBattlePanel = ({
-  myPokemons,
-  allPokemons,
-  isOpen,
-  onClose,
-}: ChoosePokemonBattlePanelProps) => {
+export const ChoosePokemonBattlePanel = (props: ChoosePokemonBattlePanelProps) => {
+  const { myPokemons, isOpen, onClose } = props;
+
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const navigate = useNavigate();
-  const { setBattle } = useBattle();
+  const { startNewBattle } = useLifePoints();
 
   const handleSelect = (p: Pokemon) => setSelectedId(p.id);
 
   const handleStart = () => {
-    if (!selectedId) return; 
-
-    const user = myPokemons.find(p => p.id === selectedId)!; 
-    const optionalOpponents = allPokemons.filter(
-      p => p.id !== selectedId && !myPokemons.some(mp => mp.id === p.id)
-    );
-    
-    const opponent = optionalOpponents[Math.floor(Math.random() * optionalOpponents.length)];
-
-    setBattle(user, opponent);
-    onClose();
-    navigate("/fighting-arena-page");
+    if (selectedId) {
+      startNewBattle(selectedId, onClose); 
+    }
   };
 
   return (

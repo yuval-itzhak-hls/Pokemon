@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { motion, useAnimation } from "framer-motion";
 import closePokemon from "@/assets/close-pokemon.png";
 
-interface CatchButtonProps {
+type CatchButtonProps = {
   onClick: () => void;
   isAbleCatch?: boolean;
 }
