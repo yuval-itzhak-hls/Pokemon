@@ -10,7 +10,11 @@ export type UserPayload = {
   password: string;
 };
 
-
+export type AuthResponse = {
+  AccessToken: string;
+  IdToken?: string;
+  RefreshToken?: string;
+};
 
 
   
