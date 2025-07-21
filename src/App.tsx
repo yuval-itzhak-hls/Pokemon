@@ -6,6 +6,7 @@ import { AppLayout } from './pages/AppLayout';
 import { HomePage } from './pages/home-page/home/HomePage';
 import { FightArenaPage } from './pages/fighting-arena-page/FightArenaPage';
 import { BattleProvider } from "@/context/BattleContext";
+import { ConfirmPage } from './pages/Auth/confirm-page/ConfirmPage';
 
 function App() {
 
@@ -18,6 +19,7 @@ function App() {
             <Route element={<AuthLayout />}>
               <Route path="/login" element={<AuthPage mode="login" />} />
               <Route path="/signup" element={<AuthPage mode="signup" />} />
+              <Route path='/confirm' element={<ConfirmPage />} />
             </Route>
 
             <Route element={<AppLayout />}>
