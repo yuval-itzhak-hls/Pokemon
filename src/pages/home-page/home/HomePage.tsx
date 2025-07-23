@@ -8,6 +8,7 @@ import {HomePageTitles} from "./consts";
 import type { HomePageProps, ActiveTabType } from "./types";
 import { HomePageHeader } from "./HomePageHeader";
 
+
 export const HomePage = (props: HomePageProps) => {
   const { mode } = props;
 
@@ -29,7 +30,7 @@ export const HomePage = (props: HomePageProps) => {
     });
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-3" key={mode}>
       <HomePageHeader
         modeTitle={pageTitle}
         searchTerm={searchTerm}
