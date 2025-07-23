@@ -1,34 +1,12 @@
 // src/hooks/usePokemonsData.ts
 import { useState, useEffect, useMemo } from "react";
-import rawPokemons from "../data/pokemon.json";
-
-type RawPokemon = {
-  id: number;
-  name: { english: string };
-  description: string;
-  species: string;
-  profile: {
-    height: string;
-    weight: string;
-    ability: string[][];
-  };
-  image: { hires?: string; sprite: string };
-  base: {
-    HP: number;
-    Attack: number;
-    Defense: number;
-    "Sp. Attack": number;
-    "Sp. Defense": number;
-    Speed: number;
-  };
-  type: string[];
-}
+import axios from "axios";
 
 export type Pokemon = {
   id: string;
   name: string;
   description: string;
-  powerLevel: number; //attackPower
+  powerLevel: number;
   hpLevel: number;
   image: string;
   isMyPokemon: boolean;
@@ -37,11 +15,11 @@ export type Pokemon = {
   category: string;
   abilities: string[];
   defensePower: number;
-  spAttack:number;
+  spAttack: number;
   spDefense: number;
   speed: number;
   type: string[];
-}
+};
 
 export type SortOption =
   | 'alpha-asc'
@@ -51,8 +29,6 @@ export type SortOption =
   | 'hp-asc'
   | 'hp-desc';
 
-const STORAGE_KEY = 'myPokemons';
-
 export const usePokemonsData = (opts: {
   showMyPokemons: boolean;
   searchTerm: string;
@@ -60,108 +36,72 @@ export const usePokemonsData = (opts: {
   rowsPerPage: number;
 }) => {
   const { showMyPokemons, searchTerm, sortOption, rowsPerPage } = opts;
-  const [myIds, setMyIds] = useState<string[]>([]);
+  const [allPokemons, setAllPokemons] = useState<Pokemon[]>([]);
+  const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(rowsPerPage);
 
-  // load/init, and reload 
   useEffect(() => {
-    const load = () => {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      if (stored) {
-        try {
-          setMyIds(JSON.parse(stored));
-        } catch {
-          localStorage.removeItem(STORAGE_KEY);
-          setMyIds([]);
+    const fetchPokemons = async () => {
+      try {
+        setLoading(true);
+
+        const token = localStorage.getItem('accessToken'); 
+        const params: any = {};
+
+        console.log("my pokemons ? ",showMyPokemons);
+
+        if (showMyPokemons) params.mine = 'true';
+        if (searchTerm) params.search = searchTerm;
+        
+        if (sortOption.includes('alpha')) {
+          params.sortBy = 'name';
+        } else if (sortOption.includes('power')) {
+          params.sortBy = 'powerLevel';
+        } else if (sortOption.includes('hp')) {
+          params.sortBy = 'hpLevel';
         }
-      } else {
-        const all = (rawPokemons as RawPokemon[]).map((p) =>
-          p.id.toString().padStart(4, "0")
-        );
-        const pick = [...all].sort(() => Math.random() - 0.5).slice(0, 5);
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(pick));
-        setMyIds(pick);
+
+        if (sortOption.endsWith('asc')) {
+          params.order = 'asc';
+        } else if (sortOption.endsWith('desc')) {
+          params.order = 'desc';
+        }
+
+        const res = await axios.get('http://localhost:3000/pokemons', {
+          params,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        setAllPokemons(res.data);
+        setPage(1); // reset page if data changes
+      } catch (error) {
+        console.error('Error fetching pokemons:', error);
+      } finally {
+        setLoading(false);
       }
     };
 
-    load();
-    window.addEventListener("focus", load);
-    window.addEventListener("myPokemonsUpdated", load);
-    return () => {
-      window.removeEventListener("focus", load);
-      window.removeEventListener("myPokemonsUpdated", load);
-    };
-  }, []);
+    fetchPokemons();
+  }, [showMyPokemons, searchTerm, sortOption]);
 
-
-  const baseList = useMemo<Pokemon[]>(() => {
-    return (rawPokemons as RawPokemon[]).map(p => {
-      const id = p.id.toString().padStart(4, '0');
-      return {
-        id,
-        name: p.name.english,
-        description: p.description,
-        powerLevel: p.base?.Attack,
-        hpLevel: p.base?.HP,
-        image: p.image.hires ?? p.image.sprite,
-        isMyPokemon: myIds.includes(id),
-        height: p.profile?.height,
-        weight: p.profile?.weight,
-        category: p.species,
-        abilities: p.profile?.ability.map((a) => a[0]),
-        defensePower: p.base?.Defense,
-        spAttack: p.base?.["Sp. Attack"],
-        spDefense: p.base?.["Sp. Defense"],
-        speed: p.base?.Speed,
-        type: p.type,
-
-      };
-    });
-  }, [myIds]);
-
-  let filtered = showMyPokemons
-    ? baseList.filter(p => p.isMyPokemon)
-    : baseList;
-
-  if (searchTerm.trim()) {
-    const t = searchTerm.trim().toLowerCase();
-    filtered = filtered.filter(p =>
-      p.name.toLowerCase().includes(t)
-    );
-  }
-
-  const sorted = useMemo(() => {
-    const out = [...filtered];
-    switch (sortOption) {
-      case 'alpha-desc':
-        return out.sort((a, b) => b.name.localeCompare(a.name));
-      case 'power-asc':
-        return out.sort((a, b) => a.powerLevel - b.powerLevel);
-      case 'power-desc':
-        return out.sort((a, b) => b.powerLevel - a.powerLevel);
-      case 'hp-asc':
-        return out.sort((a, b) => a.hpLevel - b.hpLevel);
-      case 'hp-desc':
-        return out.sort((a, b) => b.hpLevel - a.hpLevel);
-      case 'alpha-asc':
-      default:
-        return out.sort((a, b) => a.name.localeCompare(b.name));
-    }
-  }, [filtered, sortOption]);
-
-  const pageCount = Math.ceil(sorted.length / perPage);
-  const slice = useMemo(() => {
+  
+  const paginated = useMemo(() => {
     const start = (page - 1) * perPage;
-    return sorted.slice(start, start + perPage);
-  }, [sorted, page, perPage]);
+    return allPokemons.slice(start, start + perPage);
+  }, [allPokemons, page, perPage]);
+
+  const pageCount = Math.ceil(allPokemons.length / perPage);
 
   return {
-    pokemons: slice,
+    pokemons: paginated,
     page,
     pageCount,
     perPage,
     setPage,
     setPerPage,
+    loading,
   };
-}
+};

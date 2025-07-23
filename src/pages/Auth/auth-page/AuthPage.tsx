@@ -31,6 +31,7 @@ export const AuthPage = ({ mode }: AuthPageProps) => {
         }),
       });
 
+
       if (!response.ok) {        
         if (mode === "login") {
           setErrorMessage(AuthErrorMessages.UserNotFound);
@@ -45,7 +46,7 @@ export const AuthPage = ({ mode }: AuthPageProps) => {
       const data = await response.json();
 
       if (isLoginMode) {
-        localStorage.setItem("accessToken", data.AccessToken);
+        localStorage.setItem("accessToken", data.IdToken);
         navigate(AuthPaths.AllPokemons);
       } else {
         localStorage.setItem("pendingConfirmationEmail", userEmail);
