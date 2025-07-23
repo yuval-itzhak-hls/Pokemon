@@ -1,5 +1,5 @@
-
-import  { useState } from "react";
+// src/components/pokemons-list/PokemonsList.tsx
+import { useState } from "react";
 import {
   Table,
   TableBody,
@@ -16,12 +16,10 @@ import type { PokemonDetails } from "../pokemon-details-panel/PokemonDetailsPane
 import { PokemonTableHeaders } from "./consts";
 import type { PokemonsListProps } from "./types";
 
-import rawPokemons from "../../../data/pokemon.json";
-
 
 export const PokemonsList = (props: PokemonsListProps) => {
   
-  const { pokemons, page, pageCount, perPage, onPageChange, onPerPageChange } = props;
+  const { pokemons, page, pageCount, perPage, onPageChange, onPerPageChange, totalItemsCount } = props;
 
   const [selectedPokemonDetails, setSelectedPokemonDetails] = useState<PokemonDetails | null>(null);
 
@@ -54,7 +52,7 @@ export const PokemonsList = (props: PokemonsListProps) => {
           </TableHeader>
           <TooltipProvider delayDuration={0}>
             <TableBody>
-              {pokemons.length === 0 ? (
+              {pokemons.length === 0 && !totalItemsCount ? ( 
                 <PokemonTableEmptyState colSpan={5} />
               ) : (
                 pokemons.map((pokemon) => (
@@ -69,14 +67,17 @@ export const PokemonsList = (props: PokemonsListProps) => {
           </TooltipProvider>
         </Table>
 
-        <PokemonTablePagination
-          currentPage={page}
-          pageCount={pageCount}
-          itemsPerPage={perPage}
-          totalItems={rawPokemons.length} // Still using rawPokemons.length for total count
-          onPageChange={onPageChange}
-          onItemsPerPageChange={onPerPageChange}
-        />
+        {/* Only render pagination if there are items to show or pages to navigate */}
+        {(pageCount > 0 || totalItemsCount > 0) && (
+          <PokemonTablePagination
+            currentPage={page}
+            pageCount={pageCount}
+            itemsPerPage={perPage}
+            totalItems={totalItemsCount} 
+            onPageChange={onPageChange}
+            onItemsPerPageChange={onPerPageChange}
+          />
+        )}
       </div>
 
       {selectedPokemonDetails && (

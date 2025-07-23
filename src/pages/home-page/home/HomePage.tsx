@@ -15,30 +15,55 @@ export const HomePage = (props: HomePageProps) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [sortOption, setSortOption] = useState<SortOption>("alpha-asc");
   const [activeTab, setActiveTab] = useState<ActiveTabType>("list"); 
+  const [rowsPerPage, setRowsPerPage] = useState<number>(10); 
 
   const showMyPokemons: boolean = mode === "my"; 
   const pageTitle: string = showMyPokemons
     ? HomePageTitles.MyPokemons
     : HomePageTitles.AllPokemons;
 
-  const { pokemons, page, pageCount, perPage, setPage, setPerPage } =
-    usePokemonsData({
-      showMyPokemons,
-      searchTerm,
-      sortOption,
-      rowsPerPage: 10,
-    });
+  const { 
+    pokemons, 
+    page, 
+    pageCount, 
+    perPage, 
+    setPage, 
+    setPerPage, 
+    totalItemsCount 
+  } = usePokemonsData({
+    showMyPokemons,
+    searchTerm,
+    sortOption,
+    rowsPerPage: rowsPerPage, 
+  });
+
+
+  const handleSearchTermChange = (newSearchTerm: string) => {
+    setSearchTerm(newSearchTerm);
+    setPage(1); 
+  };
+
+  const handleSortOptionChange = (newSortOption: SortOption) => {
+    setSortOption(newSortOption);
+    setPage(1);
+  };
+
+  const handleActiveTabChange = (newActiveTab: ActiveTabType) => {
+    setActiveTab(newActiveTab);
+  };
+  
+
 
   return (
     <div className="space-y-3" key={mode}>
       <HomePageHeader
         modeTitle={pageTitle}
         searchTerm={searchTerm}
-        onSearchTermChange={setSearchTerm}
+        onSearchTermChange={handleSearchTermChange} 
         activeTab={activeTab}
-        onActiveTabChange={setActiveTab}
+        onActiveTabChange={handleActiveTabChange} 
         sortOption={sortOption}
-        onSortOptionChange={setSortOption}
+        onSortOptionChange={handleSortOptionChange}
       />
 
       <div className="px-4">
@@ -48,8 +73,9 @@ export const HomePage = (props: HomePageProps) => {
             page={page}
             pageCount={pageCount}
             perPage={perPage}
-            onPageChange={setPage}
-            onPerPageChange={setPerPage}
+            onPageChange={setPage}  
+            onPerPageChange={setPerPage} 
+            totalItemsCount={totalItemsCount} 
           />
         ) : (
           <PokemonCards

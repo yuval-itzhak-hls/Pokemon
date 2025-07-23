@@ -19,6 +19,7 @@ export const PokemonTablePagination = (props: PokemonTablePaginationProps) => {
     totalItems,
     onPageChange,
     onItemsPerPageChange,
+    
   } = props;
 
   const currentRangeStart: number = (currentPage - 1) * itemsPerPage + 1;

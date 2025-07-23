@@ -1,5 +1,5 @@
 // src/hooks/usePokemonsData.ts
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 
 export type Pokemon = {
@@ -33,27 +33,36 @@ export const usePokemonsData = (opts: {
   showMyPokemons: boolean;
   searchTerm: string;
   sortOption: SortOption;
-  rowsPerPage: number;
+  rowsPerPage: number; 
 }) => {
   const { showMyPokemons, searchTerm, sortOption, rowsPerPage } = opts;
   const [allPokemons, setAllPokemons] = useState<Pokemon[]>([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(rowsPerPage);
+  const [totalItemsCount, setTotalItemsCount] = useState(0); 
+
+  useEffect(() => {
+    setPerPage(rowsPerPage);
+    setPage(1); 
+  }, [rowsPerPage]);
 
   useEffect(() => {
     const fetchPokemons = async () => {
       try {
         setLoading(true);
 
-        const token = localStorage.getItem('accessToken'); 
-        const params: any = {};
+        const token = localStorage.getItem('accessToken');
+        const params: any = {
+          page: page,
+          limit: perPage,
+        };
 
-        console.log("my pokemons ? ",showMyPokemons);
+        console.log("my pokemons ? ", showMyPokemons);
 
         if (showMyPokemons) params.mine = 'true';
         if (searchTerm) params.search = searchTerm;
-        
+
         if (sortOption.includes('alpha')) {
           params.sortBy = 'name';
         } else if (sortOption.includes('power')) {
@@ -75,33 +84,30 @@ export const usePokemonsData = (opts: {
           },
         });
 
-        setAllPokemons(res.data);
-        setPage(1); // reset page if data changes
+        setAllPokemons(res.data.data);
+        setTotalItemsCount(res.data.totalCount);
       } catch (error) {
         console.error('Error fetching pokemons:', error);
+        setAllPokemons([]);
+        setTotalItemsCount(0);
       } finally {
         setLoading(false);
       }
     };
 
     fetchPokemons();
-  }, [showMyPokemons, searchTerm, sortOption]);
+  }, [showMyPokemons, searchTerm, sortOption, page, perPage]);
 
-  
-  const paginated = useMemo(() => {
-    const start = (page - 1) * perPage;
-    return allPokemons.slice(start, start + perPage);
-  }, [allPokemons, page, perPage]);
-
-  const pageCount = Math.ceil(allPokemons.length / perPage);
+  const pageCount = Math.ceil(totalItemsCount / perPage);
 
   return {
-    pokemons: paginated,
+    pokemons: allPokemons,
     page,
     pageCount,
     perPage,
     setPage,
     setPerPage,
     loading,
+    totalItemsCount,
   };
 };

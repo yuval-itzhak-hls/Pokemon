@@ -1,3 +1,4 @@
+// src/components/pokemons-list/types.ts
 import type { Pokemon } from "@/hooks/usePokemonsData";
 import type { PokemonDetails } from "../pokemon-details-panel/PokemonDetailsPanel";
 
@@ -9,6 +10,7 @@ export type PokemonsListProps = {
   perPage: number;
   onPageChange: (newPage: number) => void;
   onPerPageChange: (newPerPage: number) => void;
+  totalItemsCount: number; 
 };
 
 
@@ -31,5 +33,3 @@ export type PokemonTablePaginationProps = {
   onPageChange: (newPage: number) => void;
   onItemsPerPageChange: (newItemsPerPage: number) => void;
 };
-
-
