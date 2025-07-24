@@ -50,6 +50,7 @@ export const AuthPage = ({ mode }: AuthPageProps) => {
         navigate(AuthPaths.AllPokemons);
       } else {
         localStorage.setItem("pendingConfirmationEmail", userEmail);
+        localStorage.setItem("pendingPassword", userPassword);
         navigate("/confirm");
       }
     } catch (error) {

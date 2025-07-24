@@ -17,6 +17,7 @@ export const ConfirmPage = () => {
     setIsLoading(true);
     setErrorMessage(null);
 
+    const password = localStorage.getItem("pendingPassword") || "";
     try {
       const response = await fetch(`${import.meta.env.VITE_API_URL}/users/confirm`, {
         method: "POST",
@@ -31,16 +32,29 @@ export const ConfirmPage = () => {
         return;
       }
 
-      const data = await response.json();
-      localStorage.setItem("accessToken", data.IdToken);
-      localStorage.removeItem("pendingConfirmationEmail");
-      navigate(AuthPaths.AllPokemons);
+      const signinResponse = await fetch(`${import.meta.env.VITE_API_URL}/users/signin`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
 
-    } catch (error) {
-      setErrorMessage("Something went wrong. Please try again.");
-    } finally {
+    if (!signinResponse.ok) {
+      setErrorMessage("Confirmation succeeded but login failed");
       setIsLoading(false);
+      return;
     }
+
+    const data = await signinResponse.json();
+    localStorage.setItem("accessToken", data.IdToken);
+    localStorage.removeItem("pendingConfirmationEmail");
+    localStorage.removeItem("pendingPassword");
+    navigate(AuthPaths.AllPokemons);
+
+  } catch (error) {
+    setErrorMessage("Something went wrong. Please try again.");
+  } finally {
+    setIsLoading(false);
+  }
   };
 
   return (
