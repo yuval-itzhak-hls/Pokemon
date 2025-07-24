@@ -1,6 +1,6 @@
 // src/hooks/usePokemonsData.ts
 import { useState, useEffect } from "react";
-import axios from "axios";
+import { getPokemons } from "@/api/getPokemons";
 
 export type Pokemon = {
   id: string;
@@ -77,12 +77,8 @@ export const usePokemonsData = (opts: {
           params.order = 'desc';
         }
 
-        const res = await axios.get('http://localhost:3000/pokemons', {
-          params,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+
+        const res = await getPokemons(params, token!);
 
         setAllPokemons(res.data.data);
         setTotalItemsCount(res.data.totalCount);

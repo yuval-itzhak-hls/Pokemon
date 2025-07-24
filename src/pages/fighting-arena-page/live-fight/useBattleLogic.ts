@@ -6,14 +6,18 @@ import { useBattle } from "@/context/BattleContext";
 import { useLifePoints } from "@/hooks/useLifePoints";
 import { usePokemonsData, type Pokemon } from "@/hooks/usePokemonsData"; 
 import { Status } from "../messages/FightMessage";
+import { catchPokemon } from "@/api/catchPokemon";
 
 import {
-  LOCAL_STORAGE_MY_POKEMONS_KEY,
   MY_POKEMONS_UPDATED_EVENT,
   BattleConfig,
   DefaultValues,
   type BattleResult,
 } from "./consts";
+import { useRef } from "react";
+
+
+
 
 type UseBattleLogicProps = {
   initialUserPokemon: Pokemon;
@@ -70,6 +74,12 @@ export const useBattleLogic = (props: UseBattleLogicProps) => {
   const isBattleLost: boolean =
     userLife <= 0 ||
     (!canAttemptCatch && catchAttemptCount >= BattleConfig.CatchTriesLimit);
+
+const canAttemptCatchRef = useRef(canAttemptCatch);
+  
+  useEffect(() => {
+    canAttemptCatchRef.current = canAttemptCatch;
+  }, [canAttemptCatch]);
 
   const { pokemons: allPokemons } = usePokemonsData({
     showMyPokemons: false,
@@ -129,47 +139,48 @@ export const useBattleLogic = (props: UseBattleLogicProps) => {
   }, [initialUserPokemon]); 
 
 
-
-  // Logic for enabling catch button and updating fight status
   useEffect(() => {
     if (isPokemonCaught) {
       setCurrentFightStatus(Status.caught);
       setShowCatchPanel(true);
       return;
     }
+
     if (isBattleWon && !isPokemonCaught) {
       setShowBattleResultPanel(true);
       setCurrentFightStatus(Status.critical);
       return;
     }
 
-    if (!isBattleWon && !isBattleLost) {
-      if (isUserTurn) {
-        const catchRate: number =
-          opponentLife <= opponentLowHpThreshold
-            ? BattleConfig.LowHpCatchRate
-            : BattleConfig.HighHpCatchRate;
-        const canCatch: boolean = Math.random() < catchRate;
-        setCanAttemptCatch(canCatch);
+    if (!isBattleWon && !isBattleLost && isUserTurn) {
+      const catchRate = opponentLife <= opponentLowHpThreshold
+        ? BattleConfig.LowHpCatchRate
+        : BattleConfig.HighHpCatchRate;
 
-        if (currentFightStatus !== Status.start && currentFightStatus !== Status.switch) {
-          setCurrentFightStatus(Status.yourTurn);
-        }
-      } else {
-        if (currentFightStatus !== Status.start && currentFightStatus !== Status.switch) {
-          setCurrentFightStatus(Status.attack);
-        }
+      const canCatch = Math.random() < catchRate;
+      console.log("🎲 [canAttemptCatch] Calculated:", canCatch, "@ HP:", opponentLife);
+      setCanAttemptCatch(canCatch);
+
+      if (currentFightStatus !== Status.start && currentFightStatus !== Status.switch && currentFightStatus !== Status.disCatchable) {
+        setCurrentFightStatus(Status.yourTurn);
       }
     }
-  }, [
-    isUserTurn,
-    opponentLife,
-    opponentLowHpThreshold,
-    currentFightStatus,
-    isPokemonCaught,
-    isBattleWon,
-    isBattleLost,
-  ]);
+
+  if (!isBattleWon && !isBattleLost && !isUserTurn) {
+    if (currentFightStatus !== Status.start && currentFightStatus !== Status.switch ) {
+      setCurrentFightStatus(Status.attack);
+    }
+  }
+}, [
+  isUserTurn,
+  opponentLife,
+  isPokemonCaught,
+  isBattleWon,
+  isBattleLost,
+  opponentLowHpThreshold,
+  currentFightStatus
+]);
+
 
   // Handle showing battle result panel with delay
   useEffect(() => {
@@ -202,29 +213,40 @@ export const useBattleLogic = (props: UseBattleLogicProps) => {
 
 
 
-  const handleCatchPokemon = useCallback((): void => {
-    setCatchAttemptCount((prevCount) => prevCount + 1);
 
-    if (canAttemptCatch) {
-      setIsPokemonCaught(true);
-      setCurrentFightStatus(Status.caught);
-      setShowCatchPanel(true);
+const handleCatchPokemon = useCallback(async (): Promise<void> => {
+  setIsUserAttacked(false);
+  setIsOpponentAttacked(false);
+  setCatchAttemptCount((prev) => prev + 1);
 
-      const storedPokemonIds: string[] = JSON.parse(
-        localStorage.getItem(LOCAL_STORAGE_MY_POKEMONS_KEY) || "[]"
-      );
-      const updatedPokemonIds = [...storedPokemonIds, initialOpponentPokemon.id];
-      localStorage.setItem(
-        LOCAL_STORAGE_MY_POKEMONS_KEY,
-        JSON.stringify(updatedPokemonIds)
-      );
+  const canCatchNow = canAttemptCatchRef.current;
 
-      window.dispatchEvent(new Event(MY_POKEMONS_UPDATED_EVENT));
-    } else {
-      setCurrentFightStatus(Status.disCatchable);
-      setIsUserTurn(false); 
-    }
-  }, [canAttemptCatch, initialOpponentPokemon.id]);
+  if (!canCatchNow) {
+    setCurrentFightStatus(Status.disCatchable);
+    return;
+  }
+
+  const token =  localStorage.getItem("accessToken");
+  if (!token) {
+    console.error("❌ No token. User is probably not signed in.");
+    alert("No token. User is probably not signed in");
+    return;
+  }
+
+  try {
+    await catchPokemon(initialOpponentPokemon.id, token);
+    console.log("✅ Catch success!");
+
+    setIsPokemonCaught(true);
+    setCurrentFightStatus(Status.caught);
+    setShowCatchPanel(true);
+    window.dispatchEvent(new Event(MY_POKEMONS_UPDATED_EVENT));
+  } catch (error) {
+    console.error("❌ Catch error:", error);
+  }
+}, [initialOpponentPokemon.id]);
+
+
 
 
   const handleEndMatch = useCallback((): void => {

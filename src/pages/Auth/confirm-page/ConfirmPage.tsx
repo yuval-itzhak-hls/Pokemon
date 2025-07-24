@@ -31,6 +31,8 @@ export const ConfirmPage = () => {
         return;
       }
 
+      const data = await response.json();
+      localStorage.setItem("accessToken", data.IdToken);
       localStorage.removeItem("pendingConfirmationEmail");
       navigate(AuthPaths.AllPokemons);
 

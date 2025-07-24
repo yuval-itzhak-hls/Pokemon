@@ -121,21 +121,22 @@ export const LiveFightScreen = (props: LiveFightScreenProps) => {
           className="absolute right-[25%] top-[30%] w-1/3 md:w-1/4 lg:w-[20%] h-[30%] object-contain transform -translate-y-3/4"
         />
 
-        <div
-          className={`absolute bottom-4 right-[14%] ${
-            !isUserTurn ? "pointer-events-none opacity-50" : ""
-          }`}
-        >
+      {isUserTurn && (
+        <div className="absolute bottom-4 right-[14%]">
           <AttackButton
             onClick={handleAttack}
             hover={isUserTurn}
             visible={isUserTurn}
           />
         </div>
+      )}
 
         {isUserTurn && (
           <div className="absolute bottom-4 right-[3%]">
-            <CatchButton onClick={handleCatchPokemon} isAbleCatch={canAttemptCatch} />
+            <CatchButton
+              onClick={handleCatchPokemon}
+              isAbleCatch={canAttemptCatch}
+            />
           </div>
         )}
 
