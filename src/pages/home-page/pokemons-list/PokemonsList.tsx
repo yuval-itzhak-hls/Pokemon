@@ -15,16 +15,14 @@ import { PokemonTablePagination } from "./PokemonTablePagination";
 import type { PokemonDetails } from "../pokemon-details-panel/PokemonDetailsPanel";
 import { PokemonTableHeaders } from "./consts";
 import type { PokemonsListProps } from "./types";
-
+import { Skeleton } from "@/components/ui/skeleton";
 
 export const PokemonsList = (props: PokemonsListProps) => {
-  
-  const { pokemons, page, pageCount, perPage, onPageChange, onPerPageChange, totalItemsCount } = props;
+  const { pokemons, page, pageCount, perPage, onPageChange, onPerPageChange, totalItemsCount, loading } = props;
 
   const [selectedPokemonDetails, setSelectedPokemonDetails] = useState<PokemonDetails | null>(null);
 
   const handleCloseDetailsPanel = (): void => setSelectedPokemonDetails(null);
-
   const handleSelectPokemon = (details: PokemonDetails): void => setSelectedPokemonDetails(details);
 
   return (
@@ -52,22 +50,39 @@ export const PokemonsList = (props: PokemonsListProps) => {
           </TableHeader>
           <TooltipProvider delayDuration={0}>
             <TableBody>
-              {pokemons.length === 0 && !totalItemsCount ? ( 
-                <PokemonTableEmptyState colSpan={5} />
-              ) : (
-                pokemons.map((pokemon) => (
-                  <PokemonTableRow
-                    key={pokemon.id}
-                    pokemon={pokemon}
-                    onSelectPokemon={handleSelectPokemon}
-                  />
-                ))
-              )}
+              {loading
+                ? Array.from({ length: 8 }).map((_, i) => (
+                    <TableRow key={i}>
+                      <TableHead>
+                        <Skeleton className="h-8 w-8 rounded-full" /> {/* Avatar */}
+                      </TableHead>
+                      <TableHead>
+                        <Skeleton className="h-4 w-16" /> {/* ID */}
+                      </TableHead>
+                      <TableHead>
+                        <Skeleton className="h-4 w-48" /> {/* Description */}
+                      </TableHead>
+                      <TableHead>
+                        <Skeleton className="h-4 w-12" /> {/* PowerLevel */}
+                      </TableHead>
+                      <TableHead>
+                        <Skeleton className="h-4 w-12" /> {/* HpLevel */}
+                      </TableHead>
+                    </TableRow>
+                  ))
+                : pokemons.length === 0 && !totalItemsCount
+                ? <PokemonTableEmptyState colSpan={5} />
+                : pokemons.map((pokemon) => (
+                    <PokemonTableRow
+                      key={pokemon.id}
+                      pokemon={pokemon}
+                      onSelectPokemon={handleSelectPokemon}
+                    />
+                  ))
+              }
             </TableBody>
           </TooltipProvider>
         </Table>
-
-        {/* Only render pagination if there are items to show or pages to navigate */}
         {(pageCount > 0 || totalItemsCount > 0) && (
           <PokemonTablePagination
             currentPage={page}

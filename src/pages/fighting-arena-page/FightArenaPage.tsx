@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import  { useState, useEffect } from "react";
 import { ChosenPokemonDisplay } from "./chosen-pokemon-display/ChosenPokemonsDisplay";
 import { useBattle } from "@/context/BattleContext";
 import { LiveFightScreen } from "./live-fight/LiveFightScreen";

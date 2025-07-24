@@ -10,6 +10,7 @@ export type PokemonsListProps = {
   perPage: number;
   onPageChange: (newPage: number) => void;
   onPerPageChange: (newPerPage: number) => void;
+  loading: boolean; 
   totalItemsCount: number; 
 };
 

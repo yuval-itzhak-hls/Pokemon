@@ -29,7 +29,8 @@ export const HomePage = (props: HomePageProps) => {
     perPage, 
     setPage, 
     setPerPage, 
-    totalItemsCount 
+    loading,
+    totalItemsCount
   } = usePokemonsData({
     showMyPokemons,
     searchTerm,
@@ -75,7 +76,8 @@ export const HomePage = (props: HomePageProps) => {
             perPage={perPage}
             onPageChange={setPage}  
             onPerPageChange={setPerPage} 
-            totalItemsCount={totalItemsCount} 
+            totalItemsCount={totalItemsCount}
+            loading={loading} 
           />
         ) : (
           <PokemonCards
