@@ -41,11 +41,11 @@ export const PokemonDetailsPanel = ({
         </div>
 
         {/* Description and Details */}
-        <div className="bg-primary-50 p-6 ">
+        <div className="bg-primary-50 p-5 ">
           <p className="text-gray-700 mb-6">
             {pokemon.description}
           </p>
-          <div className="border-t border-gray-400 pt-4 grid grid-cols-2 md:grid-cols-4 gap-y-4">
+          <div className="border-t border-gray-400 pt-4 grid grid-cols-2 md:grid-cols-4 gap-y-4 gap-x-4">
             <div className="text-center">
               <div className="text-body-regular text-gray-500">Height</div>
               <div className="mt-1 text-subheading-regular text-gray-800">{pokemon.height}</div>

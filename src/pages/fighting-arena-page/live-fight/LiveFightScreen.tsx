@@ -36,8 +36,6 @@ export const LiveFightScreen = (props: LiveFightScreenProps) => {
     isSwitchingPokemon,
     currentUserPokemon,
     isBattleLost,
-    allPokemons,
-    myPokemons,
     pokemonSwitchOptions,
     currentBattleResult,
     catchRewards,

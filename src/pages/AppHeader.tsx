@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import logo from "@/assets/logo.png";
 import { GenericButton } from "@/design-system/generic-componenets/button/GenericButton";
 import { GenericTab } from "@/design-system/generic-componenets/tab/GenericTab";
-import { usePokemonsData } from "@/hooks/usePokemonsData";
 import type { TabItem } from "@/design-system/generic-componenets/tab/types";
 import { ChoosePokemonBattlePanel } from "./home-page/choose-pokemon-panel/ChoosePokemonBattlePanel";
 import { signOut } from "@/api/signOut";
@@ -21,21 +20,6 @@ export type AppHeaderProps = {
 export const AppHeader = ({ activeTab, onTabChange }: AppHeaderProps) => {
   const [isBattleOpen, setBattleOpen] = useState(false);
   const navigate = useNavigate();
-
-  const { pokemons: myPokemons } = usePokemonsData({
-    showMyPokemons: true,
-    searchTerm: "",
-    sortOption: "alpha-asc",
-    rowsPerPage: 1000,
-  });
-
-    const { pokemons: allPokemons } = usePokemonsData({
-    showMyPokemons: true,
-    searchTerm: "",
-    sortOption: "alpha-asc",
-    rowsPerPage: 1000,
-  });
-
 
   const handleTabChange = (val: string) => {
     onTabChange(val);
