@@ -226,7 +226,7 @@ const handleCatchPokemon = useCallback(async (): Promise<void> => {
     return;
   }
 
-  const token =  localStorage.getItem("accessToken");
+  const token =  localStorage.getItem("idToken");
   if (!token) {
     console.error("❌ No token. User is probably not signed in.");
     alert("No token. User is probably not signed in");

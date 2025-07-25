@@ -6,6 +6,7 @@ import { GenericTab } from "@/design-system/generic-componenets/tab/GenericTab";
 import { usePokemonsData } from "@/hooks/usePokemonsData";
 import type { TabItem } from "@/design-system/generic-componenets/tab/types";
 import { ChoosePokemonBattlePanel } from "./home-page/choose-pokemon-panel/ChoosePokemonBattlePanel";
+import { signOut } from "@/api/signOut";
 
 const headerTabs: TabItem[] = [
   { label: "All Pokemons", value: "all pokemons" },
@@ -28,26 +29,22 @@ export const AppHeader = ({ activeTab, onTabChange }: AppHeaderProps) => {
     rowsPerPage: 1000,
   });
 
+    const { pokemons: allPokemons } = usePokemonsData({
+    showMyPokemons: true,
+    searchTerm: "",
+    sortOption: "alpha-asc",
+    rowsPerPage: 1000,
+  });
+
+
   const handleTabChange = (val: string) => {
     onTabChange(val);
   };
 
   const handleSignOut = async () => {
-    const accessToken = localStorage.getItem("accessToken");
-    if (!accessToken) {
-      alert("No access token found.");
-      return;
-    }
-    try {
-      await fetch("http://localhost:3000/users/signout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ accessToken }),
-      });
-      localStorage.removeItem("accessToken");
-      navigate("/login"); 
-    } catch (err) {
-      alert("Sign out failed.");
+    const success = await signOut();
+    if (success) {
+      navigate("/login");
     }
   };
 
@@ -88,6 +85,7 @@ export const AppHeader = ({ activeTab, onTabChange }: AppHeaderProps) => {
 
       <ChoosePokemonBattlePanel
         myPokemons={myPokemons}
+        allPokemons={allPokemons}
         isOpen={isBattleOpen}
         onClose={() => setBattleOpen(false)}
       />

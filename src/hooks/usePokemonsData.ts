@@ -52,7 +52,7 @@ export const usePokemonsData = (opts: {
       try {
         setLoading(true);
 
-        const token = localStorage.getItem('accessToken');
+        const token = localStorage.getItem('idToken');
         const params: any = {
           page: page,
           limit: perPage,

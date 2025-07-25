@@ -46,7 +46,8 @@ export const AuthPage = ({ mode }: AuthPageProps) => {
       const data = await response.json();
 
       if (isLoginMode) {
-        localStorage.setItem("accessToken", data.IdToken);
+        localStorage.setItem("idToken", data.IdToken);
+        localStorage.setItem("accessToken", data.AccessToken);
         navigate(AuthPaths.AllPokemons);
       } else {
         localStorage.setItem("pendingConfirmationEmail", userEmail);
