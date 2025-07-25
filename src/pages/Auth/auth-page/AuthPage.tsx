@@ -31,14 +31,18 @@ export const AuthPage = ({ mode }: AuthPageProps) => {
         }),
       });
 
-
-      if (!response.ok) {        
-        if (mode === "login") {
-          setErrorMessage(AuthErrorMessages.UserNotFound);
-        } else {
-          setErrorMessage(AuthErrorMessages.EmailAlreadyRegistered);
+      if (!response.ok) {
+        // Try to parse the error message from the backend
+        let errorMsg = "An error occurred. Please try again.";
+        try {
+          const errorData = await response.json();
+          if (errorData?.message) {
+            errorMsg = errorData.message;
+          }
+        } catch {
+          // fallback to default error message
         }
-
+        setErrorMessage(errorMsg);
         setIsLoading(false);
         return;
       }
@@ -55,7 +59,7 @@ export const AuthPage = ({ mode }: AuthPageProps) => {
         navigate("/confirm");
       }
     } catch (error) {
-      setErrorMessage(AuthErrorMessages.UserNotFound);
+      setErrorMessage("Network error. Please try again.");
     } finally {
       setIsLoading(false);
     }
