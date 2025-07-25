@@ -23,8 +23,8 @@ function App() {
             </Route>
 
             <Route element={<AppLayout />}>
-              <Route path="/all-pokemons" element={<HomePage  mode="all" />} />
-              <Route path="/my-pokemons" element={<HomePage  mode="my" />} />
+              <Route path="/all-pokemons" element={<HomePage key="all" mode="all" />} />
+              <Route path="/my-pokemons" element={<HomePage key="my" mode="my" />} />
               <Route path="/fighting-arena-page" element={<FightArenaPage />} />
             </Route>
 
