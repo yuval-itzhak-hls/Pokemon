@@ -29,12 +29,12 @@ export const PokemonTableRow = (props: PokemonTableRowProps) => {
       >
         <TableCell>
           <div className="flex items-center gap-3 truncate px-1">
-            <div className="relative h-11 w-11">
+            <div className="relative h-11 w-11 bg-slate-100 rounded-full overflow-hidden">
               {!imgLoaded && <Skeleton className="absolute h-11 w-11 rounded-full" />}
               <img
                 src={p.image}
                 alt={p.name}
-                className={`h-11 w-11 rounded-full object-cover transition-opacity duration-300 ${imgLoaded ? "opacity-100" : "opacity-0"}`}
+                className={`h-11 w-11 rounded-full object-cover bg-slate-100 transition-opacity duration-300 ${imgLoaded ? "opacity-100" : "opacity-0"}`}
                 onLoad={() => setImgLoaded(true)}
               />
             </div>
