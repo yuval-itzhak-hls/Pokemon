@@ -51,7 +51,7 @@ export const PokemonsList = (props: PokemonsListProps) => {
           <TooltipProvider delayDuration={0}>
             <TableBody>
               {loading
-                ? Array.from({ length: 8 }).map((_, i) => (
+                ? Array.from({ length: 14 }).map((_, i) => (
                     <TableRow key={i}>
                       <TableHead>
                         <Skeleton className="h-8 w-8 rounded-full" /> {/* Avatar */}
