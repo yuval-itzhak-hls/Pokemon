@@ -8,7 +8,6 @@ import { useLifePoints } from "@/hooks/useLifePoints";
 
 type ChoosePokemonBattlePanelProps = {
   myPokemons: Pokemon[];
-  allPokemons: Pokemon[];
   isOpen: boolean;
   onClose: () => void;
 }
