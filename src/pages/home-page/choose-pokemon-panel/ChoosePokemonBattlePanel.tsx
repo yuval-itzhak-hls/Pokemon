@@ -1,5 +1,6 @@
-import  { useState } from "react";
+import { useState } from "react";
 import { Dialog, DialogOverlay, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { usePokemonsData } from "@/hooks/usePokemonsData";
 import type { Pokemon } from "@/hooks/usePokemonsData"; 
 import { BattlePokemonSelection } from "./BattlePokemonSelection";
 import { BattlePanelFooter } from "./BattlePanelFooter";
@@ -7,14 +8,20 @@ import { useLifePoints } from "@/hooks/useLifePoints";
 
 
 type ChoosePokemonBattlePanelProps = {
-  myPokemons: Pokemon[];
-  allPokemons: Pokemon[];
   isOpen: boolean;
   onClose: () => void;
-}
+};
 
 export const ChoosePokemonBattlePanel = (props: ChoosePokemonBattlePanelProps) => {
-  const { myPokemons, isOpen, onClose } = props;
+  const { isOpen, onClose } = props;
+
+  // Always get the latest list of my pokemons
+  const { pokemons: myPokemons, loading } = usePokemonsData({
+    showMyPokemons: true,
+    searchTerm: "",
+    sortOption: "alpha-asc",
+    rowsPerPage: 1000,
+  });
 
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const { startNewBattle } = useLifePoints();
@@ -46,6 +53,7 @@ export const ChoosePokemonBattlePanel = (props: ChoosePokemonBattlePanelProps) =
           pokemons={myPokemons}
           selectedId={selectedId}
           onSelect={handleSelect}
+          loading={loading}
         />
 
         <BattlePanelFooter

@@ -84,8 +84,6 @@ export const AppHeader = ({ activeTab, onTabChange }: AppHeaderProps) => {
       </header>
 
       <ChoosePokemonBattlePanel
-        myPokemons={myPokemons}
-        allPokemons={allPokemons}
         isOpen={isBattleOpen}
         onClose={() => setBattleOpen(false)}
       />

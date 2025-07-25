@@ -51,39 +51,23 @@ export const usePokemonsData = (opts: {
     const fetchPokemons = async () => {
       try {
         setLoading(true);
-
         const token = localStorage.getItem('idToken');
         const params: any = {
           page: page,
           limit: perPage,
         };
-
-        console.log("my pokemons ? ", showMyPokemons);
-
         if (showMyPokemons) params.mine = 'true';
         if (searchTerm) params.search = searchTerm;
-
-        if (sortOption.includes('alpha')) {
-          params.sortBy = 'name';
-        } else if (sortOption.includes('power')) {
-          params.sortBy = 'powerLevel';
-        } else if (sortOption.includes('hp')) {
-          params.sortBy = 'hpLevel';
-        }
-
-        if (sortOption.endsWith('asc')) {
-          params.order = 'asc';
-        } else if (sortOption.endsWith('desc')) {
-          params.order = 'desc';
-        }
-
+        if (sortOption.includes('alpha')) params.sortBy = 'name';
+        else if (sortOption.includes('power')) params.sortBy = 'powerLevel';
+        else if (sortOption.includes('hp')) params.sortBy = 'hpLevel';
+        if (sortOption.endsWith('asc')) params.order = 'asc';
+        else if (sortOption.endsWith('desc')) params.order = 'desc';
 
         const res = await getPokemons(params, token!);
-
         setAllPokemons(res.data.data);
         setTotalItemsCount(res.data.totalCount);
       } catch (error) {
-        console.error('Error fetching pokemons:', error);
         setAllPokemons([]);
         setTotalItemsCount(0);
       } finally {
@@ -91,7 +75,18 @@ export const usePokemonsData = (opts: {
       }
     };
 
+    // Existing fetch on dependency change
     fetchPokemons();
+
+    const handler = () => {
+      fetchPokemons();
+    };
+    
+    window.addEventListener("MY_POKEMONS_UPDATED_EVENT", handler);
+
+    return () => {
+      window.removeEventListener("MY_POKEMONS_UPDATED_EVENT", handler);
+    };
   }, [showMyPokemons, searchTerm, sortOption, page, perPage]);
 
   const pageCount = Math.ceil(totalItemsCount / perPage);

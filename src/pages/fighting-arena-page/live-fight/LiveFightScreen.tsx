@@ -62,8 +62,6 @@ export const LiveFightScreen = (props: LiveFightScreenProps) => {
   if (showChoosePokemonPanel) {
     return (
       <ChoosePokemonBattlePanel
-        myPokemons={myPokemons}
-        allPokemons={allPokemons}
         isOpen={true}
         onClose={() => setShowChoosePokemonPanel(false)}
       />

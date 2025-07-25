@@ -236,6 +236,7 @@ const handleCatchPokemon = useCallback(async (): Promise<void> => {
   try {
     await catchPokemon(initialOpponentPokemon.id, token);
     console.log("✅ Catch success!");
+    window.dispatchEvent(new Event("MY_POKEMONS_UPDATED_EVENT"));
 
     setIsPokemonCaught(true);
     setCurrentFightStatus(Status.caught);
