@@ -8,7 +8,7 @@ export const MY_POKEMONS_UPDATED_EVENT = "myPokemonsUpdated";
 
 export const BattleConfig = {
   OpponentAttackDelayMs: 3000,
-  ResultPanelDelayMs: 1500,
+  ResultPanelDelayMs: 1200,
   CatchTriesLimit: 3,
   LowHpCatchRate: 0.4,
   HighHpCatchRate: 0.1,

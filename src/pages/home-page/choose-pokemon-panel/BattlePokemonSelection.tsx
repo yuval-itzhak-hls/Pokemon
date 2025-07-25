@@ -12,7 +12,7 @@ export const BattlePokemonSelection = ({
   onSelect,
 } : BattlePokemonSelectionProps ) => {
   return (
-    <div className="grid grid-cols-3 border-b border-gray-200 pb-4 gap-8 justify-items-center ">
+    <div className="grid grid-cols-3 border-b border-gray-200 py-4 gap-8 justify-items-center overflow-y-auto">
       {pokemons.map(p => (
         <div
           key={p.id}
