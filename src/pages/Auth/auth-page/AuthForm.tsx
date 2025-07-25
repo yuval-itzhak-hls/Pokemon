@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { GenericButton } from "@/design-system/generic-componenets/button/GenericButton";
 import { AuthPaths } from "./consts";
-
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"; // <-- Add this import
 
 type AuthFormProps = {
   isLoginMode: boolean;
@@ -17,9 +17,7 @@ type AuthFormProps = {
   onSubmit: (e: React.FormEvent) => void;
 };
 
-
 export const AuthForm = (props: AuthFormProps) => {
-
   return (
     <form onSubmit={props.onSubmit} className="flex flex-col h-full">
       <CardContent className="space-y-6 flex-1">
@@ -46,14 +44,32 @@ export const AuthForm = (props: AuthFormProps) => {
           >
             Password
           </Label>
-          <Input
-            id="password"
-            name="password"
-            type="password"
-            value={props.userPassword}
-            onChange={(e) => props.setUserPassword(e.target.value)}
-            required
-          />
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Input
+                  id="password"
+                  name="password"
+                  type="password"
+                  value={props.userPassword}
+                  onChange={(e) => props.setUserPassword(e.target.value)}
+                  required
+                />
+              </TooltipTrigger>
+              {/** Show tooltip only in signup mode */}
+              {props.isLoginMode ? null : (
+                <TooltipContent side="right" className="max-w-xs">
+                  <div className="text-xs text-left whitespace-pre-line">
+                    Password requirements:
+                    <br />- Minimum 6 characters
+                    <br />- Contains at least 1 number
+                    <br />- Contains at least 1 uppercase letter
+                    <br />- Contains at least 1 lowercase letter
+                  </div>
+                </TooltipContent>
+              )}
+            </Tooltip>
+          </TooltipProvider>
         </div>
 
         {props.errorMessage && (
@@ -67,12 +83,12 @@ export const AuthForm = (props: AuthFormProps) => {
         <GenericButton
           text={
             props.isLoading
-                ? props.isLoginMode
-                    ? "Signing in..." 
-                    : "Signing up..." 
-                : props.isLoginMode
-                    ? "Sign in" 
-                    : "Sign up"
+              ? props.isLoginMode
+                ? "Signing in..."
+                : "Signing up..."
+              : props.isLoginMode
+              ? "Sign in"
+              : "Sign up"
           }
           type="primary"
           size="wide"
