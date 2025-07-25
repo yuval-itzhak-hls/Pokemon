@@ -1,3 +1,4 @@
+
 export const LOCAL_STORAGE_USERS_KEY = "users";
 
 export const LOCAL_STORAGE_CURRENT_USER_KEY = "currentUser";
@@ -11,6 +12,6 @@ export const AuthPaths = {
 
 
 export const AuthErrorMessages = {
-   UserNotFound : "User not exist or invalid details, check details again",
-   EmailAlreadyRegistered: "Email already registered",
+   ErrorOccurred : "An error occurred. Please try again.",
+   NetworkError: "Network error. Please try again.",
 }

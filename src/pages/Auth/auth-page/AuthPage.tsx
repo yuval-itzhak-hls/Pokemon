@@ -33,7 +33,7 @@ export const AuthPage = ({ mode }: AuthPageProps) => {
 
       if (!response.ok) {
         // Try to parse the error message from the backend
-        let errorMsg = "An error occurred. Please try again.";
+        let errorMsg = AuthErrorMessages.ErrorOccurred;
         try {
           const errorData = await response.json();
           if (errorData?.message) {
@@ -59,7 +59,7 @@ export const AuthPage = ({ mode }: AuthPageProps) => {
         navigate("/confirm");
       }
     } catch (error) {
-      setErrorMessage("Network error. Please try again.");
+      setErrorMessage(AuthErrorMessages.NetworkError);
     } finally {
       setIsLoading(false);
     }
