@@ -4,8 +4,8 @@ import  { useState, type ReactNode } from "react";
 
 type DropdownTooltipProps = {
   children: ReactNode;
-  disabled: boolean;
-  disabledMessage: string;
+  disabled?: boolean;
+  disabledMessage?: string;
 };
 
 export const DropdownTooltip = ({ children, disabled, disabledMessage }: DropdownTooltipProps) => {

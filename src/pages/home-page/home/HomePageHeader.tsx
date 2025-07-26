@@ -7,7 +7,6 @@ import {
   HeaderTabsConfig,
   PokemonSortOptions,
   SearchBarPlaceholder,
-  DropdownPlaceholder,
 } from "./consts"; 
 import type { ActiveTabType } from "./types";
 
@@ -59,7 +58,7 @@ export const HomePageHeader = (props: HomePageHeaderProps) => {
 
         <div className="ml-auto">
           <GenericDropDown
-            placeholder={DropdownPlaceholder}
+            placeholder=""
             options={PokemonSortOptions}
             value={sortOption}
             onValueChange={(value) => onSortOptionChange(value as SortOption)}

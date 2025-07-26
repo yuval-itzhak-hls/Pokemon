@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Select, SelectContent } from "@/components/ui/select";
+import { Select, SelectContent, SelectItem } from "@/components/ui/select";
 import { DropdownTrigger } from "./DropdownTrigger";
 import { DropdownSearch } from "./DropdownSearch";
 import { DropdownItem } from "./DropdownItem";
@@ -19,7 +19,7 @@ export type GenericDropDownProps = {
 };
 
 export const GenericDropDown = ({
-  placeholder = "Choose…",
+  placeholder = "",
   options,
   value,
   defaultValue,
@@ -42,13 +42,19 @@ export const GenericDropDown = ({
         onValueChange={onValueChange}
         disabled={disabled}
       >
+    
         <DropdownTrigger placeholder={placeholder} />
 
         <SelectContent className={className}>
-          {isSearch && <DropdownSearch search={search} onSearchChange={setSearch} />}
-
+          {isSearch &&
+            <DropdownSearch search={search} onSearchChange={setSearch} />}
+          {value && placeholder !== "" &&
+            <SelectItem 
+              value={value}>
+              {placeholder}
+            </SelectItem>}
           {filtered.map((option) => (
-            <DropdownItem key={option.value} option={option} disabled={disabled} />
+            <DropdownItem key={option.value} option={option} disabled={false} />
           ))}
         </SelectContent>
       </Select>

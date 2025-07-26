@@ -4,8 +4,8 @@ import { usePokemonsData, type Pokemon } from "@/hooks/usePokemonsData";
 import { useNavigate } from "react-router-dom";
 
 
-const DAMAGE_MULTIPLIER_MIN = 0.7;
-const DAMAGE_MULTIPLIER_MAX = 1.2;
+const DAMAGE_MULTIPLIER_MIN = 0.6;
+const DAMAGE_MULTIPLIER_MAX = 1.1;
 
 export const useLifePoints = () => {
   const { userPokemon, opponentPokemon, setBattle } = useBattle();

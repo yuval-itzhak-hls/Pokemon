@@ -94,9 +94,9 @@ const canAttemptCatchRef = useRef(canAttemptCatch);
     rowsPerPage: 999,
   });
 
+  // TODO : Filter out the current user pokemon from the switch options WITH API
   const pokemonSwitchOptions = myPokemons
     .filter((p) => p.id.toString() !== currentUserPokemon.id.toString())
-    .filter((p) => p.hpLevel !== null)
     .map((p) => ({
       value: p.id.toString(),
       label: p.name,
