@@ -295,7 +295,7 @@ const handleCatchPokemon = useCallback(async (): Promise<void> => {
       setIsSwitchingPokemon(true);
 
       //TODO : i need to check if the hp of the opponent pokemon needs to be initialize
-      setBattle(chosen, initialOpponentPokemon); 
+      setBattle(chosen); 
       setCurrentFightStatus(Status.switch);
       setShowChoosePokemonPanel(false);
     },

@@ -36,8 +36,11 @@ export const useLifePoints = () => {
   // whenever userPokemon/opponentPokemon change, reset their life bars
   useEffect(() => {
     setUserLife(userPokemon?.hpLevel ?? 0);
+  }, [userPokemon]);
+  
+  useEffect(() => {
     setOpponentLife(opponentPokemon?.hpLevel ?? 0);
-  }, [userPokemon, opponentPokemon]); 
+  }, [opponentPokemon]); 
 
 
   const applyAttack = useCallback(

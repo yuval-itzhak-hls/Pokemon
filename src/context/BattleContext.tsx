@@ -4,7 +4,7 @@ import type { Pokemon } from "@/hooks/usePokemonsData";
 type BattleContextValue = {
   userPokemon: Pokemon | null;
   opponentPokemon: Pokemon | null;
-  setBattle: (user: Pokemon, opponent: Pokemon) => void;
+  setBattle: (user?: Pokemon, opponent?: Pokemon) => void;
   clearBattle: () => void;
 }
 
@@ -29,12 +29,17 @@ export const BattleProvider = ({ children }: { children: ReactNode }) => {
     }
   }, []);
 
-  const setBattle = (user: Pokemon, opponent: Pokemon) => {
-    setUserPokemon(user);
-    setOpponentPokemon(opponent);
+  const setBattle = (user?: Pokemon, opponent?: Pokemon) => {
+    if (user){
+      setUserPokemon(user);
+    }
+    if (opponent){
+      setOpponentPokemon(opponent);
+    }
     localStorage.setItem(BATTLE_STORAGE_KEY, JSON.stringify({ user, opponent }));
   };
 
+  
   const clearBattle = () => {
     setUserPokemon(null);
     setOpponentPokemon(null);
