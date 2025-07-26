@@ -173,12 +173,7 @@ const canAttemptCatchRef = useRef(canAttemptCatch);
   }
 }, [
   isUserTurn,
-  opponentLife,
   isPokemonCaught,
-  isBattleWon,
-  isBattleLost,
-  opponentLowHpThreshold,
-  currentFightStatus
 ]);
 
 

@@ -11,7 +11,7 @@ export const BattleConfig = {
   ResultPanelDelayMs: 1200,
   CatchTriesLimit: 3,
   LowHpCatchRate: 0.4,
-  HighHpCatchRate: 0.1,
+  HighHpCatchRate: 0.2,
 } as const;
 
 
