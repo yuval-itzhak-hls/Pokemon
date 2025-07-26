@@ -5,7 +5,7 @@ import type { Pokemon } from "@/hooks/usePokemonsData";
 import { BattlePokemonSelection } from "./BattlePokemonSelection";
 import { BattlePanelFooter } from "./BattlePanelFooter";
 import { useLifePoints } from "@/hooks/useLifePoints"; 
-import { filterMyPokemons } from "./filterMyPokemons";
+import { getDisabledBattlePokemonIds } from "./getDisabledBattlePokemonIds";
 
 
 type ChoosePokemonBattlePanelProps = {
@@ -24,7 +24,6 @@ export const ChoosePokemonBattlePanel = (props: ChoosePokemonBattlePanelProps) =
     rowsPerPage: 1000,
   });
 
-  const filteredPokemons = filterMyPokemons(myPokemons);
 
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const { startNewBattle } = useLifePoints();
@@ -43,6 +42,8 @@ export const ChoosePokemonBattlePanel = (props: ChoosePokemonBattlePanelProps) =
     }
   };
 
+  const disabledIds = getDisabledBattlePokemonIds();
+
   return (
     <Dialog open={isOpen} onOpenChange={open => !open && handleOnClose()}>
       <DialogOverlay className="fixed inset-0 bg-opacity-50" />
@@ -53,10 +54,11 @@ export const ChoosePokemonBattlePanel = (props: ChoosePokemonBattlePanelProps) =
         </div>
 
         <BattlePokemonSelection
-          pokemons={filteredPokemons}
+          pokemons={myPokemons}
           selectedId={selectedId}
           onSelect={handleSelect}
           loading={loading}
+          disabledIds={disabledIds} // <-- pass the disabled ids
         />
 
         <BattlePanelFooter

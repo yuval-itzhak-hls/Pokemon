@@ -6,6 +6,7 @@ type BattlePokemonSelectionProps = {
   selectedId: string | null;
   onSelect: (pokemon: Pokemon) => void;
   loading?: boolean;
+  disabledIds?: string[];
 }
 
 export const BattlePokemonSelection = ({
@@ -13,6 +14,7 @@ export const BattlePokemonSelection = ({
   selectedId,
   onSelect,
   loading = false,
+  disabledIds = [],
 } : BattlePokemonSelectionProps ) => {
   if (loading) {
     // Show 6 skeletons as placeholders
@@ -29,24 +31,30 @@ export const BattlePokemonSelection = ({
 
   return (
     <div className="grid grid-cols-3 border-b border-gray-200 py-4 gap-8 justify-items-center overflow-y-auto">
-      {pokemons.map(p => (
-        <div
-          key={p.id}
-          onClick={() => onSelect(p)}
-          className="rounded-full cursor-pointer transition bg-gray-100 w-[100px] h-[100px]"
-        >
-          <img
-            src={p.image}
-            alt={p.name}
-            className={
-              `rounded-full object-cover ring-2 transition ` +
-              (selectedId === p.id
-                ? "ring-blue-600"
-                : "ring-transparent hover:ring-gray-300")
-            }
-          />
-        </div>
-      ))}
+      {pokemons.map(p => {
+        const isDisabled = disabledIds.includes(p.id);
+        return (
+          <div
+            key={p.id}
+            onClick={() => !isDisabled && onSelect(p)}
+            className={`rounded-full transition bg-gray-100 w-[100px] h-[100px] flex items-center justify-center
+              ${isDisabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
+            aria-disabled={isDisabled}
+            tabIndex={isDisabled ? -1 : 0}
+          >
+            <img
+              src={p.image}
+              alt={p.name}
+              className={
+                `rounded-full object-cover ring-2 transition ` +
+                (selectedId === p.id
+                  ? "ring-blue-600"
+                  : "ring-transparent hover:ring-gray-300")
+              }
+            />
+          </div>
+        );
+      })}
     </div>
   );
 };
