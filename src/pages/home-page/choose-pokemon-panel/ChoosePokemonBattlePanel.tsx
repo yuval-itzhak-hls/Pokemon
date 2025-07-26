@@ -5,6 +5,7 @@ import type { Pokemon } from "@/hooks/usePokemonsData";
 import { BattlePokemonSelection } from "./BattlePokemonSelection";
 import { BattlePanelFooter } from "./BattlePanelFooter";
 import { useLifePoints } from "@/hooks/useLifePoints"; 
+import { filterMyPokemons } from "./filterMyPokemons";
 
 
 type ChoosePokemonBattlePanelProps = {
@@ -22,6 +23,8 @@ export const ChoosePokemonBattlePanel = (props: ChoosePokemonBattlePanelProps) =
     sortOption: "alpha-asc",
     rowsPerPage: 1000,
   });
+
+  const filteredPokemons = filterMyPokemons(myPokemons);
 
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const { startNewBattle } = useLifePoints();
@@ -50,7 +53,7 @@ export const ChoosePokemonBattlePanel = (props: ChoosePokemonBattlePanelProps) =
         </div>
 
         <BattlePokemonSelection
-          pokemons={myPokemons}
+          pokemons={filteredPokemons}
           selectedId={selectedId}
           onSelect={handleSelect}
           loading={loading}
