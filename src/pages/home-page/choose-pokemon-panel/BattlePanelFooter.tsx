@@ -1,7 +1,7 @@
 import { GenericButton } from "@/design-system/generic-componenets/button/GenericButton"; 
 
 type BattlePanelFooterProps = {
-  isDisabled: boolean;
+  isDisabled?: boolean;
   onStart: () => void;
 }
 

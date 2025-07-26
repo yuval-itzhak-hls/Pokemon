@@ -38,7 +38,7 @@ export const BattlePokemonSelection = ({
             key={p.id}
             onClick={() => !isDisabled && onSelect(p)}
             className={`rounded-full transition bg-gray-100 w-[100px] h-[100px] flex items-center justify-center
-              ${isDisabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
+              ${isDisabled ? "opacity-40 cursor-not-allowed" : "cursor-pointer"}`}
             aria-disabled={isDisabled}
             tabIndex={isDisabled ? -1 : 0}
           >
