@@ -3,8 +3,7 @@ import { usePokemonsData } from "@/hooks/usePokemonsData";
 import type { SortOption } from "@/hooks/usePokemonsData";
 import { PokemonsList } from "../pokemons-list/PokemonsList"; 
 import { PokemonCards } from "../pokemons-card/PokemonCards";
-
-import {HomePageTitles} from "./consts";
+import { HomePageTitles } from "./consts";
 import type { HomePageProps, ActiveTabType } from "./types";
 import { HomePageHeader } from "./HomePageHeader";
 
@@ -15,21 +14,22 @@ export const HomePage = (props: HomePageProps) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [sortOption, setSortOption] = useState<SortOption>("alpha-asc");
   const [activeTab, setActiveTab] = useState<ActiveTabType>("list"); 
-  const [rowsPerPage, setRowsPerPage] = useState<number>(10); 
+  const [rowsPerPage] = useState<number>(10); 
 
   const showMyPokemons: boolean = mode === "my"; 
   const pageTitle: string = showMyPokemons
     ? HomePageTitles.MyPokemons
     : HomePageTitles.AllPokemons;
 
+  // For list tab: paginated
   const { 
-    pokemons, 
+    pokemons: paginatedPokemons, 
     page, 
     pageCount, 
     perPage, 
     setPage, 
     setPerPage, 
-    loading,
+    loading: listLoading,
     totalItemsCount
   } = usePokemonsData({
     showMyPokemons,
@@ -38,6 +38,16 @@ export const HomePage = (props: HomePageProps) => {
     rowsPerPage: rowsPerPage, 
   });
 
+  // For card tab: all pokemons
+  const { 
+    pokemons: allPokemons, 
+    loading: cardsLoading 
+  } = usePokemonsData({
+    showMyPokemons,
+    searchTerm,
+    sortOption,
+    rowsPerPage: 9999, // or a very high number to get all
+  });
 
   const handleSearchTermChange = (newSearchTerm: string) => {
     setSearchTerm(newSearchTerm);
@@ -52,7 +62,6 @@ export const HomePage = (props: HomePageProps) => {
   const handleActiveTabChange = (newActiveTab: ActiveTabType) => {
     setActiveTab(newActiveTab);
   };
-  
 
 
   return (
@@ -70,20 +79,19 @@ export const HomePage = (props: HomePageProps) => {
       <div className="px-4">
         {activeTab === "list" ? (
           <PokemonsList
-            pokemons={pokemons}
+            pokemons={paginatedPokemons}
             page={page}
             pageCount={pageCount}
             perPage={perPage}
             onPageChange={setPage}  
             onPerPageChange={setPerPage} 
             totalItemsCount={totalItemsCount}
-            loading={loading} 
+            loading={listLoading} 
           />
         ) : (
           <PokemonCards
-            showMyPokemons={showMyPokemons}
-            searchTerm={searchTerm}
-            sortOption={sortOption}
+            pokemons={allPokemons}
+            loading={cardsLoading}
           />
         )}
       </div>

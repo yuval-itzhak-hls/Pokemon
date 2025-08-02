@@ -1,25 +1,18 @@
 import { useState, useRef } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { usePokemonsData } from "@/hooks/usePokemonsData";
-import type { SortOption, Pokemon } from "@/hooks/usePokemonsData";
-import rawPokemons from "../../../data/pokemon.json";
+import type { Pokemon } from "@/hooks/usePokemonsData";
 import { PokemonDetailsPanel } from "../pokemon-details-panel/PokemonDetailsPanel";
 import type { PokemonDetails } from "../pokemon-details-panel/PokemonDetailsPanel";
 
 type PokemonCardsProps = {
-  showMyPokemons: boolean;
-  searchTerm: string;
-  sortOption: SortOption;
+  pokemons: Pokemon[];
+  loading: boolean;
 };
 
 export const PokemonCards = ({
-  showMyPokemons,
-  searchTerm,
-  sortOption,
+  pokemons,
+  loading,
 }: PokemonCardsProps) => {
-  const totalRaw = rawPokemons.length;
-  const { pokemons, loading } = usePokemonsData({ showMyPokemons, searchTerm, sortOption, rowsPerPage: totalRaw });
-
   const BATCH = 20;
   const [visibleCount, setVisibleCount] = useState<number>(BATCH);
   const [selected, setSelected] = useState<PokemonDetails | null>(null);
