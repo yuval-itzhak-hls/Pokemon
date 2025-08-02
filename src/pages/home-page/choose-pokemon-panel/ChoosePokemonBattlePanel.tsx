@@ -47,7 +47,7 @@ export const ChoosePokemonBattlePanel = (props: ChoosePokemonBattlePanelProps) =
   return (
     <Dialog open={isOpen} onOpenChange={open => !open && handleOnClose()}>
       <DialogOverlay className="fixed inset-0 bg-opacity-50" />
-      <DialogContent className="fixed top-1/2 left-1/2 w-[500px] max-w-[600px] h-[500px] max-h-[500px] bg-white pb-3">
+      <DialogContent className="fixed top-1/2 left-1/2 w-[500px] max-w-[550px] h-[420px] max-h-[500px] bg-white pb-3">
 
         <div className="flex justify-between items-center mb-1">
           <DialogTitle className="text-heading-lg-regular">Choose the Pokemon to battle with</DialogTitle>
