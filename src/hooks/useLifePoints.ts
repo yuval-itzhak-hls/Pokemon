@@ -68,7 +68,7 @@ export const useLifePoints = () => {
     if (!userPokemon) return;
 
     const potentialOpponents = allPokemons.filter(
-      (pokemon) => pokemon.id !== userPokemon.id
+      (pokemon: Pokemon) => pokemon.id !== userPokemon.id
     );
     const newOpponent =
       potentialOpponents[Math.floor(Math.random() * potentialOpponents.length)];
@@ -84,13 +84,13 @@ export const useLifePoints = () => {
     (selectedUserPokemonId: string, onPanelClose: () => void): void => {
       if (!selectedUserPokemonId) return;
 
-      const user = myPokemons.find((p) => p.id === selectedUserPokemonId);
+      const user = myPokemons.find((p : Pokemon) => p.id === selectedUserPokemonId);
       if (!user) {
         return;
       }
 
       const availableOpponents = allPokemons.filter(
-        (p) => p.id !== selectedUserPokemonId && !myPokemons.some((mp) => mp.id === p.id)
+        (p : Pokemon) => p.id !== selectedUserPokemonId && !myPokemons.some((mp : Pokemon) => mp.id === p.id)
       );
 
       const opponent =

@@ -96,8 +96,8 @@ const canAttemptCatchRef = useRef(canAttemptCatch);
 
   // TODO : Filter out the current user pokemon from the switch options WITH API
   const pokemonSwitchOptions = myPokemons
-    .filter((p) => p.id.toString() !== currentUserPokemon.id.toString())
-    .map((p) => ({
+    .filter((p : Pokemon) => p.id.toString() !== currentUserPokemon.id.toString())
+    .map((p : Pokemon) => ({
       value: p.id.toString(),
       label: p.name,
       subLabel: p.speed,
@@ -280,7 +280,7 @@ const handleCatchPokemon = useCallback(async (): Promise<void> => {
   const handleSwitchPokemonSelection = useCallback(
     (newId: string): void => {
       setSelectedSwitchPokemonId(newId);
-      const chosen = myPokemons.find((p) => p.id.toString() === newId);
+      const chosen = myPokemons.find((p : Pokemon) => p.id.toString() === newId);
       if (!chosen) return;
 
       setCurrentUserPokemon(chosen);
