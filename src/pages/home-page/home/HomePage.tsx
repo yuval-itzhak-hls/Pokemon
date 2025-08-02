@@ -15,7 +15,7 @@ export const HomePage = (props: HomePageProps) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [sortOption, setSortOption] = useState<SortOption>("alpha-asc");
   const [activeTab, setActiveTab] = useState<ActiveTabType>("list"); 
-  const [rowsPerPage, setRowsPerPage] = useState<number>(10); 
+  const [rowsPerPage] = useState<number>(10); 
 
   const showMyPokemons: boolean = mode === "my"; 
   const pageTitle: string = showMyPokemons
@@ -81,9 +81,8 @@ export const HomePage = (props: HomePageProps) => {
           />
         ) : (
           <PokemonCards
-            showMyPokemons={showMyPokemons}
-            searchTerm={searchTerm}
-            sortOption={sortOption}
+            pokemons={pokemons}
+            loading={loading}
           />
         )}
       </div>
