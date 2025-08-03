@@ -4,8 +4,8 @@ import { usePokemonsData, type Pokemon } from "@/hooks/usePokemonsData";
 import { useNavigate } from "react-router-dom";
 
 
-const DAMAGE_MULTIPLIER_MIN = 0.6;
-const DAMAGE_MULTIPLIER_MAX = 1.1;
+const DAMAGE_MULTIPLIER_MIN = 0.7;
+const DAMAGE_MULTIPLIER_MAX = 1.2;
 
 export const useLifePoints = () => {
   const { userPokemon, opponentPokemon, setBattle } = useBattle();
@@ -51,10 +51,15 @@ export const useLifePoints = () => {
       const defender: Pokemon = isUserTurn ? opponentPokemon : userPokemon;
       const setDefenderLife = isUserTurn ? setOpponentLife : setUserLife;
 
-      const baseDamage = Math.abs(attacker.powerLevel - defender.defensePower);
       const randomMultiplier =
         Math.random() * (DAMAGE_MULTIPLIER_MAX - DAMAGE_MULTIPLIER_MIN) +
         DAMAGE_MULTIPLIER_MIN;
+
+
+      const randomAttack = Math.round(attacker.powerLevel * randomMultiplier);  
+
+      const baseDamage = Math.abs(randomAttack - defender.defensePower);
+      
       const finalDamage = Math.round(baseDamage * randomMultiplier);
 
       setDefenderLife((prevLife) => Math.max(prevLife - finalDamage, 0));
