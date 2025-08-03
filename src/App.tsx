@@ -11,7 +11,7 @@ import { ProtectedRoute } from './pages/utils/ProtectedRoute';
 import { useState, useEffect } from 'react';
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(Boolean(localStorage.getItem('token')));
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(Boolean(localStorage.getItem('accessToken')));
 
   useEffect(() => {
     const handleLogin = () => setIsAuthenticated(true);
