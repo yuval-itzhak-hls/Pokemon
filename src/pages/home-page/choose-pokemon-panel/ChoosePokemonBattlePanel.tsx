@@ -5,16 +5,16 @@ import type { Pokemon } from "@/hooks/usePokemonsData";
 import { BattlePokemonSelection } from "./BattlePokemonSelection";
 import { BattlePanelFooter } from "./BattlePanelFooter";
 import { useLifePoints } from "@/hooks/useLifePoints"; 
-import { getDisabledBattlePokemonIds } from "./getDisabledBattlePokemonIds";
 
 
 type ChoosePokemonBattlePanelProps = {
+  userPokemon?: Pokemon; 
   isOpen: boolean;
   onClose: () => void;
 };
 
 export const ChoosePokemonBattlePanel = (props: ChoosePokemonBattlePanelProps) => {
-  const { isOpen, onClose } = props;
+  const { userPokemon, isOpen, onClose } = props;
 
   // Always get the latest list of my pokemons
   const { pokemons: myPokemons, loading } = usePokemonsData({
@@ -42,7 +42,7 @@ export const ChoosePokemonBattlePanel = (props: ChoosePokemonBattlePanelProps) =
     }
   };
 
-  const disabledIds = getDisabledBattlePokemonIds();
+  const disabledId = userPokemon?.id;
 
   return (
     <Dialog open={isOpen} onOpenChange={open => !open && handleOnClose()}>
@@ -58,7 +58,7 @@ export const ChoosePokemonBattlePanel = (props: ChoosePokemonBattlePanelProps) =
           selectedId={selectedId}
           onSelect={handleSelect}
           loading={loading}
-          disabledIds={disabledIds} // <-- pass the disabled ids
+          disabledId={disabledId} // <-- pass the disabled ids
         />
 
         <BattlePanelFooter

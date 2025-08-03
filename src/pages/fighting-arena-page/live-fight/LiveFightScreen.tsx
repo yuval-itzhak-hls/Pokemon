@@ -56,10 +56,12 @@ export const LiveFightScreen = (props: LiveFightScreenProps) => {
     return null;
   }
 
-  // Early exit for Choose Pokemon Panel (if triggered)
+  // Become true when the user lost the battle
   if (showChoosePokemonPanel) {
+    console.log("user lost");
     return (
       <ChoosePokemonBattlePanel
+        userPokemon={userPokemon}
         isOpen={true}
         onClose={() => setShowChoosePokemonPanel(false)}
       />

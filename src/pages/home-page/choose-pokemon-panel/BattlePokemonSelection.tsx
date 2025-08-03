@@ -6,7 +6,7 @@ type BattlePokemonSelectionProps = {
   selectedId: string | null;
   onSelect: (pokemon: Pokemon) => void;
   loading?: boolean;
-  disabledIds?: string[];
+  disabledId?: string;
 }
 
 export const BattlePokemonSelection = ({
@@ -14,7 +14,7 @@ export const BattlePokemonSelection = ({
   selectedId,
   onSelect,
   loading = false,
-  disabledIds = [],
+  disabledId, 
 } : BattlePokemonSelectionProps ) => {
   if (loading) {
     // Show 6 skeletons as placeholders
@@ -32,7 +32,7 @@ export const BattlePokemonSelection = ({
   return (
     <div className="grid grid-cols-3 border-b border-gray-200 py-4 gap-8 justify-items-center overflow-y-auto">
       {pokemons.map(p => {
-        const isDisabled = disabledIds.includes(p.id);
+        const isDisabled = disabledId?.includes(p.id);
         return (
           <div
             key={p.id}
