@@ -30,6 +30,15 @@ export type SortOption =
   | 'hp-asc'
   | 'hp-desc';
 
+export type params = {
+  page?: number;
+  limit?: number;
+  mine?: string;
+  search?: string;
+  sortBy?: string;
+  order?: string;
+};
+
 export const usePokemonsData = (opts: {
   showMyPokemons: boolean;
   searchTerm: string;
@@ -41,10 +50,11 @@ export const usePokemonsData = (opts: {
   const [perPage, setPerPage] = useState(rowsPerPage);
 
   // Build params for API
-  const params: any = {
+  const params: params = {
     page,
     limit: perPage,
   };
+  
   if (showMyPokemons) params.mine = 'true';
   if (searchTerm) params.search = searchTerm;
   if (sortOption.includes('alpha')) params.sortBy = 'name';
