@@ -1,39 +1,52 @@
 import './App.css';
 import AuthPage from './pages/Auth/auth-page/AuthPage';
 import AuthLayout from './pages/Auth/auth-layout/AuthLayout';
-import { Route, BrowserRouter, Routes, Navigate } from 'react-router-dom'; // Keep BrowserRouter and Routes
+import { Route, BrowserRouter, Routes, Navigate } from 'react-router-dom';
 import { AppLayout } from './pages/AppLayout';
 import { HomePage } from './pages/home-page/home/HomePage';
 import { FightArenaPage } from './pages/fighting-arena-page/FightArenaPage';
 import { BattleProvider } from "@/context/BattleContext";
 import { ConfirmPage } from './pages/Auth/confirm-page/ConfirmPage';
+import { ProtectedRoute } from './pages/utils/ProtectedRoute';
+import { useState, useEffect } from 'react';
 
 function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(Boolean(localStorage.getItem('token')));
+
+  useEffect(() => {
+    const handleLogin = () => setIsAuthenticated(true);
+    window.addEventListener('login', handleLogin);
+
+    return () => {
+      window.removeEventListener('login', handleLogin);
+    };
+  }, []);
 
   return (
-    <>
-      <BrowserRouter>
-        <BattleProvider>
-          <Routes>
+    <BrowserRouter>
+      <BattleProvider>
+        <Routes>
+          {/* Public routes */}
+          <Route element={<AuthLayout />}>
+            <Route path="/login" element={<AuthPage mode="login" />} />
+            <Route path="/signup" element={<AuthPage mode="signup" />} />
+            <Route path='/confirm' element={<ConfirmPage />} />
+          </Route>
 
-            <Route element={<AuthLayout />}>
-              <Route path="/login" element={<AuthPage mode="login" />} />
-              <Route path="/signup" element={<AuthPage mode="signup" />} />
-              <Route path='/confirm' element={<ConfirmPage />} />
-            </Route>
-
-            <Route element={<AppLayout />}>
+          {/* Protected routes */}
+          <Route element={<AppLayout />}>
+            <Route element={<ProtectedRoute isAuthenticated={isAuthenticated} />}>
               <Route path="/all-pokemons" element={<HomePage key="all" mode="all" />} />
               <Route path="/my-pokemons" element={<HomePage key="my" mode="my" />} />
               <Route path="/fighting-arena-page" element={<FightArenaPage />} />
             </Route>
+          </Route>
 
-            <Route path="/" element={<Navigate to="/login" replace />} />
-
-          </Routes>
-        </BattleProvider>
-      </BrowserRouter>
-    </>
+          {/* Default redirect */}
+          <Route path="/" element={<Navigate to="/login" replace />} />
+        </Routes>
+      </BattleProvider>
+    </BrowserRouter>
   );
 }
 

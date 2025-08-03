@@ -49,6 +49,9 @@ export const ConfirmPage = () => {
     localStorage.setItem("accessToken", data.AccessToken);
     localStorage.removeItem("pendingConfirmationEmail");
     localStorage.removeItem("pendingPassword");
+    
+    window.dispatchEvent(new Event("login"));
+
     navigate(AuthPaths.AllPokemons);
 
   } catch (error) {
