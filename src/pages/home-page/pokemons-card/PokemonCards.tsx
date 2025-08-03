@@ -40,7 +40,7 @@ export const PokemonCards = ({
   const renderCard = (p: Pokemon) => (
     <div
       key={p.id}
-      className="bg-white p-4 flex flex-col text-left h-[308px] w-[322px] rounded-md cursor-pointer lg:w-auto"
+      className="bg-white py-5 px-6 flex flex-col text-left h-[315px] w-[322px] rounded-md cursor-pointer lg:w-auto"
       onClick={() =>
         setSelected({
           id: p.id,
@@ -54,14 +54,14 @@ export const PokemonCards = ({
         })
       }
     >
-      <div className="relative bg-gray-50 overflow-hidden mb-4 items-center w-full h-[195px] flex justify-center">
+      <div className="relative bg-gray-100 overflow-hidden mt-1 mb-4 items-center w-full h-[195px] flex justify-center">
         {!imgLoadedMap[p.id] && (
           <Skeleton className="absolute h-[200px] w-full rounded-md" />
         )}
         <img
           src={p.image}
           alt={p.name}
-          className={`w-full h-[200px] object-contain items-center transition-opacity duration-300 ${imgLoadedMap[p.id] ? "opacity-100" : "opacity-0"}`}
+          className={`w-full h-[160px] object-contain items-center transition-opacity duration-300 ${imgLoadedMap[p.id] ? "opacity-100" : "opacity-0"}`}
           onLoad={() => handleImgLoad(p.id)}
         />
       </div>
