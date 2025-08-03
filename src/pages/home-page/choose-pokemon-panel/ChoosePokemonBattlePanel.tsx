@@ -62,7 +62,7 @@ export const ChoosePokemonBattlePanel = (props: ChoosePokemonBattlePanelProps) =
         />
 
         <BattlePanelFooter
-          // isDisabled={!selectedId}
+          isDisabled={!selectedId}
           onStart={handleStart}
         />
       </DialogContent>
