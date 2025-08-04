@@ -4,19 +4,21 @@ import { usePokemonsData } from "@/hooks/usePokemonsData";
 import type { Pokemon } from "@/hooks/usePokemonsData"; 
 import { BattlePokemonSelection } from "./BattlePokemonSelection";
 import { BattlePanelFooter } from "./BattlePanelFooter";
-import { useLifePoints } from "@/hooks/useLifePoints"; 
+
 
 
 type ChoosePokemonBattlePanelProps = {
   userPokemon?: Pokemon; 
+  isBattleFight?: boolean;
+  onStartBattleClick: (selectedUserPokemonId: string, onPanelClose: () => void) => void;
   isOpen: boolean;
   onClose: () => void;
 };
 
 export const ChoosePokemonBattlePanel = (props: ChoosePokemonBattlePanelProps) => {
-  const { userPokemon, isOpen, onClose } = props;
+  const { onStartBattleClick, userPokemon, isOpen, onClose } = props;
 
-  // Always get the latest list of my pokemons
+
   const { pokemons: myPokemons, loading } = usePokemonsData({
     showMyPokemons: true,
     searchTerm: "",
@@ -24,20 +26,20 @@ export const ChoosePokemonBattlePanel = (props: ChoosePokemonBattlePanelProps) =
     rowsPerPage: 1000,
   });
 
+    
 
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const { startNewBattle } = useLifePoints();
 
   const handleSelect = (p: Pokemon) => setSelectedId(p.id);
 
   const handleOnClose = () => {
     onClose();
     setSelectedId(null); 
-   }
+  }
 
   const handleStart = () => {
     if (selectedId) {
-      startNewBattle(selectedId, handleOnClose);
+      onStartBattleClick(selectedId, handleOnClose);
       setSelectedId(null); 
     }
   };
@@ -58,7 +60,7 @@ export const ChoosePokemonBattlePanel = (props: ChoosePokemonBattlePanelProps) =
           selectedId={selectedId}
           onSelect={handleSelect}
           loading={loading}
-          disabledId={disabledId} // <-- pass the disabled ids
+          disabledId={disabledId}
         />
 
         <BattlePanelFooter

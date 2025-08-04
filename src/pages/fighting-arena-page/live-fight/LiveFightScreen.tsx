@@ -1,4 +1,3 @@
-
 import { LifeBarCard } from "../life-bar/LifeBarCard";
 import { AttackButton } from "../attack-button/AttackButton";
 import { CatchButton } from "../catch-button/CatchButton";
@@ -62,6 +61,8 @@ export const LiveFightScreen = (props: LiveFightScreenProps) => {
     return (
       <ChoosePokemonBattlePanel
         userPokemon={userPokemon}
+        onStartBattleClick={handleSwitchPokemonSelection}
+        isBattleFight={true}
         isOpen={true}
         onClose={() => setShowChoosePokemonPanel(false)}
       />

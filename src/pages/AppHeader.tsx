@@ -6,6 +6,7 @@ import { GenericTab } from "@/design-system/generic-componenets/tab/GenericTab";
 import type { TabItem } from "@/design-system/generic-componenets/tab/types";
 import { ChoosePokemonBattlePanel } from "./home-page/choose-pokemon-panel/ChoosePokemonBattlePanel";
 import { signOut } from "@/api/signOut";
+import { useLifePoints } from "@/hooks/useLifePoints";
 
 const headerTabs: TabItem[] = [
   { label: "All Pokemons", value: "all pokemons" },
@@ -31,6 +32,9 @@ export const AppHeader = ({ activeTab, onTabChange }: AppHeaderProps) => {
       navigate("/login");
     }
   };
+
+   const { startNewBattle } = useLifePoints();
+
 
   return (
     <>
@@ -69,6 +73,7 @@ export const AppHeader = ({ activeTab, onTabChange }: AppHeaderProps) => {
 
       <ChoosePokemonBattlePanel
         isOpen={isBattleOpen}
+        onStartBattleClick={startNewBattle}
         onClose={() => setBattleOpen(false)}
       />
     </>
