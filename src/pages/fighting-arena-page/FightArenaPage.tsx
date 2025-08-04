@@ -1,12 +1,22 @@
-import  { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { ChosenPokemonDisplay } from "./chosen-pokemon-display/ChosenPokemonsDisplay";
 import { useBattle } from "@/context/BattleContext";
 import { LiveFightScreen } from "./live-fight/LiveFightScreen";
 import { AnimatePresence, motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
+
+// Simple loader spinner component
+const LoaderSpinner = () => (
+  <div className="flex flex-col items-center justify-center h-[60vh]">
+    <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-400 mb-4"></div>
+    <span className="text-blue-600 text-lg font-semibold">Loading...</span>
+  </div>
+);
 
 export const FightArenaPage = () => {
   const { userPokemon, opponentPokemon } = useBattle();
   const [showChosen, setShowChosen] = useState(true);
+  const navigate = useNavigate();
 
   //after mount, wait and then hide the chosen display screen
   useEffect(() => {
@@ -16,8 +26,14 @@ export const FightArenaPage = () => {
     return () => clearTimeout(timer);
   }, []);
 
+  useEffect(() => {
+    if (!userPokemon || !opponentPokemon) {
+      navigate("/all-pokemons");
+    }
+  }, [userPokemon, opponentPokemon, navigate]);
+
   if (!userPokemon || !opponentPokemon) {
-    return null;
+    return <LoaderSpinner />;
   }
 
   return (
