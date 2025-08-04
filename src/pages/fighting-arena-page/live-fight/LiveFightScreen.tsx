@@ -58,15 +58,6 @@ export const LiveFightScreen = (props: LiveFightScreenProps) => {
   // Become true when the user lost the battle
   if (showChoosePokemonPanel) {
     console.log("user lost");
-    return (
-      <ChoosePokemonBattlePanel
-        userPokemon={userPokemon}
-        onStartBattleClick={handleSwitchPokemonSelection}
-        isBattleFight={true}
-        isOpen={true}
-        onClose={() => setShowChoosePokemonPanel(false)}
-      />
-    );
   }
 
   return (
@@ -86,6 +77,16 @@ export const LiveFightScreen = (props: LiveFightScreenProps) => {
 
       {/* Main Fight Arena Layout */}
       <FightArenaLayout>
+      {/* Show ChoosePokemonBattlePanel as a modal/panel on top of the arena */}
+      {showChoosePokemonPanel && (
+        <ChoosePokemonBattlePanel
+          userPokemon={userPokemon}
+          onStartBattleClick={handleSwitchPokemonSelection}
+          isBattleFight={true}
+          isOpen={true}
+          onClose={() => setShowChoosePokemonPanel(false)}
+        />
+      )}
 
         {/* Opponent life bar */}
         <LifeBarCard
